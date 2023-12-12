@@ -1,0 +1,86 @@
+.navigation-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+
+  .profile-section {
+    font-family: "Chillax", sans-serif;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; // Aligns items to the end of the container
+    padding-left: 20px;
+
+    .logo {
+      width: 3%;
+      height: auto;
+    }
+  }
+
+  .nav-links {
+    font-family: "Chillax", sans-serif;
+    flex-grow: 1; // Allows it to grow and take up available space
+    display: flex;
+
+    justify-content: flex-end; // Aligns items to the end of the container
+
+    ul {
+      display: flex;
+      list-style-type: none;
+      align-items: center;
+      text-decoration: none;
+      .nav-item {
+        margin-left: 10px; // Spacing between the links
+        padding-right: 25px;
+        font-size: 15px;
+
+        a {
+          color: black; // Set your desired color
+          text-decoration: none; // Removes the default underline
+          position: relative;
+          display: inline-block; // Allows the pseudo-element to position correctly
+
+          // Underline animation
+          &::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px; // Adjust thickness of the underline
+            bottom: 0;
+            left: 0;
+            background-color: #505a5b; // Color of the underline
+            transition: width 0.3s ease; // Smooth transition for the underline
+            // Adjust 'ease' and duration as per your preference
+          }
+
+          &:hover::after {
+            width: 100%; // Full width on hover
+          }
+        }
+      }
+      padding-right: 20px;
+    }
+  }
+
+  .contact-button {
+    a {
+      font-size: 15px;
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #505a5b; // Background color of the button
+      color: white; // Change to your desired font color
+      border-radius: 20px;
+      text-decoration: none; // Prevents underline
+
+      // Prevents the underline animation
+      &::after {
+        content: none;
+      }
+
+      // Additional styling as needed...
+    }
+  }
+}
