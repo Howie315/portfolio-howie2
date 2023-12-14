@@ -34,6 +34,23 @@ const About = () => {
       observer.observe(aboutRef.current);
     }
 
+    gsap.fromTo(imageRef.current, {
+      scale: 1,
+      filter: 'brightness(100%)',
+    }, {
+      scale: 1.05,
+      filter: 'brightness(70%)',
+      paused: true,
+      ease: 'power1.easeOut',
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+    });
+
+
+
+
+
     return () => observer.disconnect();
   }, []);
 
@@ -51,7 +68,7 @@ const About = () => {
             <img src={Profile} alt="About Me" />
           </div> */}
 
-  <div className="about-image">
+  <div className="about-image" ref={imageRef}>
     <img src={Profile} alt="Your Description" />
     <div className="overlay">
       

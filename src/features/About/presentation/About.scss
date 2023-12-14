@@ -27,12 +27,39 @@
       align-items: flex-start; // Align items to the start of the cross axis
       gap: 40px;
       .about-image {
-        flex: 1; // Adjust this as needed
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+        cursor: pointer; /* Optional: Changes cursor on hover */
 
         img {
           width: 100%; // Adjust image width
           //   max-width: 700px; // Prevents the image from being too large
           height: auto; // Keeps the aspect ratio
+          transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        &:hover img {
+          transform: scale(1.05);
+          filter: brightness(70%);
+        }
+
+        &:hover .overlay {
+          opacity: 1;
         }
       }
 
