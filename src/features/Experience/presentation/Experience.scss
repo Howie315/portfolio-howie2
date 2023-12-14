@@ -6,13 +6,19 @@
   align-items: center;
   justify-content: center;
 
-
   .experience-content {
     text-align: center;
 
     h2 {
-      font-size: 2rem; // Adjust as needed
+      justify-content: center;
+      align-items: center; // Align items to the start of the cross axis
+
+      font-size: 100px; // Adjust font size as needed
+      // font-family: "Zodiak", sans-serif;
+      font-family: "Clash Display", sans-serif;
+      font-weight: bolder;
       margin-bottom: 20px;
+      color: #a7c4b5;
     }
 
     p {

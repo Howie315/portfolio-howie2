@@ -8,7 +8,7 @@ const Experience = () => {
   return (
     <div className="experience-panel" id="experience" >
       <div className="experience-content">
-        <h2>My Experience</h2>
+        <h2>EXPERIENCE</h2>
         {/* Add your experience content here */}
         <p>Detail your professional experiences, achievements, skills, etc.</p>
       </div>
