@@ -2,8 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import './About.scss';
 import anime from 'animejs';
 import Profile from "../../../imgs/profile.JPG";
+import Lottie from 'react-lottie-player';
+import Tennis from "../../../tennis.json";
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
 const About = () => {
   const aboutRef = useRef(null);
+  const imageRef = useRef(null); // Reference for the image container
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -41,21 +47,37 @@ const About = () => {
         <div className="about-layout">
           
 
-          <div className="about-image">
+          {/* <div className="about-image">
             <img src={Profile} alt="About Me" />
-          </div>
+          </div> */}
+
+  <div className="about-image">
+    <img src={Profile} alt="Your Description" />
+    <div className="overlay">
+      
+    </div>
+  </div>
           <div className="about-text">
             <h3>Intro</h3>
-            <p>I'm a software engineer based in the city of Riverside, California. Originally, I was from Cincinnati Ohio.</p>
+            <p>I'm a software engineer based in the city of Riverside, California. Originally, I was from Cincinnati, Ohio.</p>
             <br />
             <br />
             <p>I focus on creating sophisticated, user-friendly, and minimalist designs tailored for startups and small enterprises, aiming to elevate their presence in the digital realm with a significant and striking impact.</p>
             <br />
             <br />
-            <p>In my downtime, I enjoy playing sports such as pickleball and tennis. In addition, I like to workout everday espically lifting.</p>
+            <p>In my downtime, I enjoy playing sports such as pickleball and tennis. In addition, I like to workout everday espically lifting. Reading manga and watching anime from time to time when I get the chance.</p>
+             <Lottie 
+        loop
+        animationData={Tennis}
+        play
+        className="lottie-animation3"
+      />
           </div>
-        </div>
 
+
+     
+        </div>
+    
       </div>
     </div>
   );
