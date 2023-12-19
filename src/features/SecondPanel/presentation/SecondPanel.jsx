@@ -1,29 +1,3 @@
-// import React from 'react';
-// import './SecondPanel.scss'; // Make sure to create a corresponding SCSS file
-// import Lottie from 'react-lottie-player';
-// import Space from "../../../spaceShip.json";
-// import anime from 'animejs';
-
-
-// const SecondPanel = () => {
-
-//   return (
-//     <div className="second-panel">
-//       <h1 className = "panel2-title">My passion for innovative 
-//       technologies and efficient coding practices has led me to create digital experiences</h1>
-  
-//       <Lottie 
-//         loop
-//         animationData={Space}
-//         play
-//         className="lottie-animation2"
-//       />
-//     </div>
-//   );
-// };
-
-// export default SecondPanel;
-
 import React, { useEffect, useRef } from 'react';
 import './SecondPanel.scss';
 import Lottie from 'react-lottie-player';
@@ -61,17 +35,18 @@ const SecondPanel = () => {
       char === " " ? `<span class="whitespace">&nbsp;</span>` : `<span class="char">${char}</span>`).join("");
     titleRef.current.innerHTML = splitText;
 
-    // Anime.js animation
+    // Anime.js animation with adjusted duration and delay
     anime.timeline({ loop: false })
       .add({
         targets: '.second-panel .char',
         translateY: [-100, 0],
         opacity: [0, 1],
         easing: "easeOutExpo",
-        duration: 1500,
-        delay: (el, i) => 30 * i
+        duration: 800, // Reduced duration for faster animation
+        delay: (el, i) => 15 * i // Reduced delay for faster sequential start
       });
-  };
+};
+
 
   return (
     <div className="second-panel" ref={panelRef}>

@@ -38,7 +38,8 @@
     opacity: 0;
     animation: fadeIn 2s ease-out 1s forwards;
     font-size: 30px;
-    color: #878e99;
+    color: black;
+    z-index: 2;
     @keyframes fadeIn {
       0% {
         opacity: 0;

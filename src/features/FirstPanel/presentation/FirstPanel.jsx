@@ -12,8 +12,8 @@ const FirstPanel = () => {
         play
         className="lottie-animation"
       />
-      <h1 className="greeting">Hi There, it's Howie :)</h1>
-      <h2 className="service-message">At Your Service</h2>
+      <h1 className="greeting">Howie(Hau) Nguyen</h1>
+      <h2 className="service-message">Experienced Front-End Engineer</h2>
     </div>
   );
 };

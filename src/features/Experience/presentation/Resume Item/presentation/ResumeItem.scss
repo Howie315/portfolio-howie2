@@ -1,0 +1,104 @@
+.resume-item {
+  padding: 20px; // Adjust this value to your preference
+  cursor: pointer; // Changes cursor to pointer to indicate it's clickable
+  transition: box-shadow 0.3s ease; // Smooth transition for the hover effect
+  margin-bottom: 30px; // Adds space between resume items
+  text-decoration: none; // Removes underline
+  color: inherit; // Inherits the color from parent, or set a specific color
+
+  transition: box-shadow 0.3s ease, transform 0.3s ease; // Smooth transition for hover effects
+  display: block; // Ensures the link takes up the entire space of its content
+
+  &:hover {
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); // Enhanced shadow for depth
+    transform: translateY(-5px); // Slightly raises the item
+  }
+
+  .title-container {
+    display: flex;
+    align-items: center;
+
+    .resume-title {
+      // Ensure the title and icon are aligned
+
+      font-family: "Clash Display", sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+    }
+
+    .arrow-icon {
+      // Style for the arrow icon
+      transition: transform 0.3s ease;
+      margin-left: 10px;
+    }
+  }
+
+  &:hover .arrow-icon {
+    // Rotate or move the icon on hover for a dynamic effect
+    transform: rotate(90deg); // Example: rotate the arrow
+  }
+
+  .duration {
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+  }
+
+  &:hover .description-container {
+    max-height: 1000px; // Enough height to show all descriptions
+    transition: max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1); // Smooth transition
+  }
+
+  .description-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1); // Smooth transition
+  }
+
+  .description {
+    opacity: 0; // Start with descriptions hidden
+    transform: translateY(20px); // Start lower for the move-up effect
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); // Smoother transition
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-size: 20px;
+    width: 900px; // Adjust the width as needed
+    margin-bottom: 20px;
+  }
+
+  //   .description-dots {
+  //     display: flex;
+  //     justify-content: center;
+  //     margin-top: 10px;
+
+  //     .dot {
+  //       height: 10px;
+  //       width: 10px;
+  //       border-radius: 50%;
+  //       background-color: grey;
+  //       margin: 0 5px;
+  //       margin-bottom: 15px;
+  //       cursor: pointer;
+  //       transition: background-color 0.3s ease;
+
+  //       &.active {
+  //         background-color: black; // or any color to indicate active state
+  //       }
+  //     }
+  //   }
+
+  .technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; // Adjust the gap between technology tags
+    font-family: "Cabinet Grotesk", sans-serif;
+
+    .tech {
+      background-color: #9db5b2; // Example background color
+      padding: 5px 10px; // Adjust padding as needed
+      border-radius: 20px; // Adjust border-radius as needed
+      font-size: 20px; // Text size for each technology
+      color: white; // Text color
+    }
+  }
+}
