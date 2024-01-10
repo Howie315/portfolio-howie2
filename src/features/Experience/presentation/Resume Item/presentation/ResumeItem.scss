@@ -26,14 +26,14 @@
       font-weight: 500;
     }
 
-    .arrow-icon {
+    .arrowIcon1 {
       // Style for the arrow icon
       transition: transform 0.3s ease;
       margin-left: 10px;
     }
   }
 
-  &:hover .arrow-icon {
+  &:hover .arrowIcon1 {
     // Rotate or move the icon on hover for a dynamic effect
     transform: rotate(90deg); // Example: rotate the arrow
   }
@@ -66,27 +66,6 @@
     width: 900px; // Adjust the width as needed
     margin-bottom: 20px;
   }
-
-  //   .description-dots {
-  //     display: flex;
-  //     justify-content: center;
-  //     margin-top: 10px;
-
-  //     .dot {
-  //       height: 10px;
-  //       width: 10px;
-  //       border-radius: 50%;
-  //       background-color: grey;
-  //       margin: 0 5px;
-  //       margin-bottom: 15px;
-  //       cursor: pointer;
-  //       transition: background-color 0.3s ease;
-
-  //       &.active {
-  //         background-color: black; // or any color to indicate active state
-  //       }
-  //     }
-  //   }
 
   .technologies {
     display: flex;

@@ -7,6 +7,7 @@ import FirstPanel from "./features/FirstPanel/presentation/FirstPanel";
 import SecondPanel from "./features/SecondPanel/presentation/SecondPanel";
 import About from "./features/About/presentation/About";
 import Experience from "./features/Experience/presentation/Experience";
+import Projects from "./features/Projects/presentation/Projects";
 import { ResumeProvider } from "./features/Experience/presentation/Resume Item/presentation/ResumeProvider";
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <SecondPanel />
           <About />
           <Experience />
+          <Projects />
         </div>
       </Router>
     </ResumeProvider>

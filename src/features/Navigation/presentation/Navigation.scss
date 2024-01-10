@@ -79,13 +79,13 @@
       color: white; // Change to your desired font color
       border-radius: 20px;
       text-decoration: none; // Prevents underline
+      min-width: 100px;
 
       // Prevents the underline animation
       &::after {
         content: none;
       }
 
-      // Additional styling as needed...
     }
   }
 }
