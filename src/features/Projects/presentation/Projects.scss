@@ -1,5 +1,5 @@
 .projects-panel {
-  min-height: 80vh;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -18,6 +18,11 @@
       gap: 20px;
       flex-direction: row;
     }
+    .linkDesc {
+      display: flex;
+
+      flex-direction: row;
+    }
 
     .project-title {
       justify-content: center;
@@ -32,17 +37,18 @@
     }
 
     .technologiesItem {
+      text-align: left;
       margin-top: 20px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px; // Adjust the gap between technology tags
       font-family: "Cabinet Grotesk", sans-serif;
-      justify-content: center;
+
       .techItem {
         background-color: #9db5b2; // Example background color
         padding: 5px 10px; // Adjust padding as needed
         border-radius: 20px; // Adjust border-radius as needed
-        font-size: 25px; // Text size for each technology
+        font-size: 18px; // Text size for each technology
         color: white; // Text color
       }
     }
@@ -52,40 +58,55 @@
       margin-top: 20px;
       font-size: 25px;
       text-decoration: none;
-      display: inline-flex; // Use flex to align text and icon
-      align-items: center; // Center items vertically
+      display: inline-flex;
+      align-items: center; // Align items vertically in the middle
       padding: 5px 10px;
-      transition: color 0.3s ease-out; // Smooth transition for text color
-      border-bottom: 2px solid transparent; // Invisible border for a hover effect
+      cursor: pointer; // Change cursor to indicate it's clickable
+      color: black; // Initial color
+      transition: transform 0.3s ease-out; // Transition for the link scaling
+      align-items: right;
 
       &:hover {
-        transform: scale(1.1); // Slightly scale up the link text on hover
+        transform: scale(1.05); // Slightly scale up the link on hover
 
         .arrow-icon2 {
           transform: translateX(
-            10px
-          ); // Move the arrow icon to the right on hover
+            5px
+          ); // Move the arrow icon slightly to the right on hover
         }
       }
 
       a {
         color: black;
         text-decoration: none;
-        transition: color 0.3s ease-out; // Ensure smooth color transition
+        transition: color 0.3s ease-out; // Smooth color transition
       }
 
       .arrow-icon2 {
-        height: auto;
-        width: 20px; // Adjust the width as needed
-        margin-left: 10px;
-        transition: transform 0.3s ease-out; // Smooth transition for the icon
+        width: 5%;
+        margin-left: 10px; // Space between text and icon
+        transition: transform 0.3s ease-out; // Smooth transition for the icon movement
       }
+    }
+
+    .projectDesc {
+      width: 50%;
+      font-family: "Cabinet Grotesk", sans-serif;
+      font-size: 18px; // Adjust the font size as needed
+      color: #333; // Dark grey for modern look, adjust as needed
+
+      display: flex; // Use flexbox for alignment
+      flex-direction: column; // Stack children vertically
+
+      text-align: left;
     }
 
     .project1 {
       font-family: "Clash Display", sans-serif;
       font-size: 40px;
       font-weight: 500;
+
+      text-align: left;
     }
     .project-tile {
       margin-bottom: 50px;
