@@ -25,7 +25,7 @@ export const ResumeProvider = ({ children }) => {
     },
     {
       title: "IOS Engineer - SIZZLE",
-      duration: "Sep 2022 - May",
+      duration: "Sep 2022 - May 2023",
       description: [
         "Collaborated in a cross-functional team of 4 to create a versatile, cross-platform app facilitating communication between dietitians and patients for gut health and weight management.",
         " Utilized Kotlin multiplatform technology for native app development across Android, iOS, and web platforms, enhancingaccessibility and scalability.",

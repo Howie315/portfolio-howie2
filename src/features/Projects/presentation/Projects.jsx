@@ -82,6 +82,7 @@ const Projects = () => {
             <div className="techItem">Netlify</div>
           </div>
         </div>
+        <div className="calendar-project"></div>
       </div>
     </div>
   );
