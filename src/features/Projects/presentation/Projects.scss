@@ -11,6 +11,9 @@
 
   .projects-content {
     text-align: center;
+    .chat-application {
+      margin-bottom: 150px;
+    }
 
     .project-row {
       display: flex;
@@ -48,7 +51,7 @@
         background-color: #9db5b2; // Example background color
         padding: 5px 10px; // Adjust padding as needed
         border-radius: 20px; // Adjust border-radius as needed
-        font-size: 18px; // Text size for each technology
+        font-size: 20px; // Text size for each technology
         color: white; // Text color
       }
     }
@@ -92,7 +95,7 @@
     .projectDesc {
       width: 50%;
       font-family: "Cabinet Grotesk", sans-serif;
-      font-size: 18px; // Adjust the font size as needed
+      font-size: 20px; // Adjust the font size as needed
       color: #333; // Dark grey for modern look, adjust as needed
 
       display: flex; // Use flexbox for alignment
@@ -108,6 +111,23 @@
 
       text-align: left;
     }
+    .third-tile {
+      margin-bottom: 50px;
+      position: relative;
+      display: flex; // Use flexbox for alignment
+      justify-content: center; // Horizontally center the content
+      align-items: center; // Vertically center the content
+      height: 100%; // Set a specific height if needed
+
+      .project-overlay {
+        width: 70%; // Adjust to cover the desired portion of the tile
+        height: auto; // Adjust height to maintain aspect ratio
+        object-fit: contain; // Keeps the image aspect ratio
+        box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
+        // No need for flex styles here since the container is already a flexbox
+      }
+    }
+
     .project-tile {
       margin-bottom: 50px;
       position: relative;
@@ -120,11 +140,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        img {
-          width: 100%;
-          height: auto;
-          object-fit: cover; // Ensure the image covers the overlay
-        }
       }
     }
   }

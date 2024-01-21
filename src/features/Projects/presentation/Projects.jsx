@@ -8,6 +8,16 @@ import chatAppBackground from "../../../imgs/project2 background.png";
 import chatLogin from "../../../imgs/chatLogin.png";
 import chatLobby from "../../../imgs/chatLobby.svg";
 import arrowDiagonal from "../../../imgs/arrowDiagonal.svg";
+import loginScreen from "../../../imgs/GymBois/login-screen.png";
+import homeScreen from "../../../imgs/GymBois/home-screen.png";
+import workouts from "../../../imgs/GymBois/workouts.png";
+import searchWorkouts from "../../../imgs/GymBois/search-workouts.png";
+import timer from "../../../imgs/GymBois/timer.png";
+import calendar from "../../../imgs/GymBois/calendar.png";
+import settings from "../../../imgs/GymBois/settings.png";
+import vacation from "../../../imgs/GymBois/vacation.png";
+import GymBoisProj from "../GymboisProj/presentation/GymboisProj";
+
 import anime from "animejs";
 
 const Projects = () => {
@@ -46,7 +56,7 @@ const Projects = () => {
             </div>
           </div>
 
-          <div className="project-tile">
+          <div className="third-tile">
             <img src={chatMessage} alt="Chat App" className="project-overlay" />
           </div>
 
@@ -82,7 +92,7 @@ const Projects = () => {
             <div className="techItem">Netlify</div>
           </div>
         </div>
-        <div className="calendar-project"></div>
+        <GymBoisProj />
       </div>
     </div>
   );

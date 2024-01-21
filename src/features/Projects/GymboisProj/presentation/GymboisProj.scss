@@ -1,0 +1,28 @@
+.gymbois-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px; // Adjust the space between images
+  margin-bottom: 40px;
+  .gymbois-tile {
+    img.project-gymbois {
+      box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
+      width: 100%; // Adjust to control the size
+      height: auto; // Maintain aspect ratio
+      border-radius: 10px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .gymbois-row {
+    flex-direction: column;
+    align-items: center; // Center-align items in the column
+
+    .gymbois-tile {
+      img.project-gymbois {
+        max-width: 60%; // Adjust as needed for mobile screens
+        border-radius: 20px;
+      }
+    }
+  }
+}
