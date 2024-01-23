@@ -93,21 +93,21 @@
     }
     .title-container {
       .resume-title {
-        font-size: 30px; // Smaller font size for mobile screens
+        font-size: 25px; // Smaller font size for mobile screens
       }
     }
 
     .duration {
-      font-size: 25px; // Smaller font size for mobile screens
+      font-size: 20px; // Smaller font size for mobile screens
     }
 
     .description {
-      font-size: 20px; // Smaller font size for mobile screens
+      font-size: 15px; // Smaller font size for mobile screens
       width: auto; // Auto width for better fitting
     }
 
     .technologies .tech {
-      font-size: 20px; // Smaller font size for technology tags
+      font-size: 15px; // Smaller font size for technology tags
     }
   }
 }

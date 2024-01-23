@@ -54,11 +54,13 @@
   }
 
   @media (max-width: 767px) {
+    align-items: center;
+    justify-content: center;
     .greeting {
-      font-size: 45px; // Smaller font size for mobile screens
+      font-size: 35px; // Smaller font size for mobile screens
     }
     .service-message {
-      font-size: 25px; // Smaller font size for mobile screens
+      font-size: 20px; // Smaller font size for mobile screens
     }
   }
 }
