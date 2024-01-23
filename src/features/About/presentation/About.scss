@@ -20,12 +20,39 @@
     margin-bottom: 20px;
     color: #a7c4b5;
   }
+
+  @media (max-width: 767px) {
+    .about-me {
+      font-size: 70px;
+    }
+  }
   .about-content {
     .about-layout {
       display: flex;
       justify-content: flex-start;
       align-items: flex-start; // Align items to the start of the cross axis
       gap: 40px;
+
+      @media (max-width: 767px) {
+        flex-direction: column; // Stack items vertically on smaller screens
+        align-items: center; // Center-align items
+
+        .about-text {
+          width: 80%;
+          text-align: center;
+        }
+
+        .about-image {
+          width: 70%; // Adjust the width as needed for mobile screens
+          margin-bottom: 20px; // Space between image and text
+        }
+
+        .lottie-animation3 {
+          width: 100%; // Adjust the width for mobile screens
+          height: auto; // Maintain aspect ratio
+        }
+      }
+
       .about-image {
         position: relative;
         flex: 1;
@@ -64,20 +91,21 @@
       }
 
       .about-text {
-        margin-top: -60px;
         display: flex;
         flex-direction: column;
         flex: 1;
-        h3 {
+        margin-top: -10px;
+        .intro {
           font-family: "Clash Display", sans-serif;
           font-weight: bolder;
           font-size: 55px;
           color: black;
+          margin-bottom: 40px;
         }
-        p {
+        .paragraph {
           // font-family: "Supreme", sans-serif;
           font-family: "Cabinet Grotesk", sans-serif;
-          font-size: 24px;
+          font-size: 25px;
           font-weight: 100;
           margin-top: -30px;
         }
@@ -85,6 +113,14 @@
           width: 100%; // Adjust the width as needed
           max-width: 500px; // Set a max-width if necessary
           align-self: stretch; // Stretch to match the width of the about-text
+        }
+        @media (max-width: 767px) {
+          .intro {
+            font-size: 40px;
+          }
+          .paragraph {
+            font-size: 20px;
+          }
         }
       }
     }

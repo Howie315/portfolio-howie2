@@ -71,27 +71,27 @@ const About = () => {
             <div className="overlay"></div>
           </div>
           <div className="about-text">
-            <h3>Intro</h3>
-            <p>
+            <div className="intro">Intro</div>
+            <div className="paragraph">
               I'm a software engineer based in the city of Riverside,
               California. Originally, I was from Cincinnati, Ohio.
-            </p>
+            </div>
             <br />
             <br />
-            <p>
+            <div className="paragraph">
               I focus on creating sophisticated, user-friendly, and minimalist
               designs tailored for startups and small enterprises, aiming to
               elevate their presence in the digital realm with a significant and
               striking impact.
-            </p>
+            </div>
             <br />
             <br />
-            <p>
+            <div className="paragraph">
               In my downtime, I enjoy playing sports such as pickleball and
               tennis. In addition, I like to workout everday espically lifting.
               Reading manga and watching anime from time to time when I get the
               chance.
-            </p>
+            </div>
             <Lottie
               loop
               animationData={Tennis}

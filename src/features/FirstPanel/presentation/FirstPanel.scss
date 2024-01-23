@@ -14,6 +14,7 @@
     font-size: 50px;
     color: #a9d8b8;
     z-index: 10;
+    font-weight: 700;
 
     @keyframes fadeInUp {
       0% {
@@ -38,8 +39,10 @@
     opacity: 0;
     animation: fadeIn 2s ease-out 1s forwards;
     font-size: 30px;
+    font-weight: 700;
     color: black;
     z-index: 2;
+    margin-top: 20px;
     @keyframes fadeIn {
       0% {
         opacity: 0;
@@ -47,6 +50,15 @@
       100% {
         opacity: 1;
       }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .greeting {
+      font-size: 45px; // Smaller font size for mobile screens
+    }
+    .service-message {
+      font-size: 25px; // Smaller font size for mobile screens
     }
   }
 }

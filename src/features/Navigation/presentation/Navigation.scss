@@ -85,7 +85,24 @@
       &::after {
         content: none;
       }
+    }
+  }
 
+  @media (max-width: 767px) {
+    .nav-links {
+      a {
+        font-size: 15px;
+      }
+    }
+
+    .contact-button {
+      width: 100%; // Full width button for better mobile interaction
+      text-align: center; // Center-align the button text
+      a {
+        font-size: 15px;
+        width: 100%; // Make the link take the full width of the button
+        padding: 10px; // Adjust padding as needed
+      }
     }
   }
 }

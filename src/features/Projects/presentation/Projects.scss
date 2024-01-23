@@ -11,6 +11,7 @@
 
   .projects-content {
     text-align: center;
+
     .chat-application {
       margin-bottom: 150px;
     }
@@ -28,11 +29,6 @@
           border-radius: 10px;
         }
       }
-    }
-    .linkDesc {
-      display: flex;
-
-      flex-direction: row;
     }
 
     .project-title {
@@ -99,6 +95,10 @@
         transition: transform 0.3s ease-out; // Smooth transition for the icon movement
       }
     }
+    .linkDesc {
+      display: flex;
+      flex-direction: row;
+    }
 
     .projectDesc {
       width: 50%;
@@ -119,6 +119,37 @@
 
       text-align: left;
     }
+    @media (max-width: 767px) {
+      .projectDesc {
+        font-size: 20px;
+      }
+      .project-title {
+        font-size: 80px;
+      }
+      .project1 {
+        font-size: 30px;
+      }
+      .projectDesc {
+        width: 100%;
+        font-size: 20px;
+      }
+      .project-link {
+        margin-left: -10px;
+        font-size: 20px;
+        .arrow-icon2 {
+          width: 3%;
+        }
+      }
+      .linkDesc {
+        display: flex;
+        flex-direction: column;
+      }
+      .technologiesItem {
+        .techItem {
+          font-size: 20px;
+        }
+      }
+    }
   }
 }
 
@@ -132,22 +163,6 @@
         max-width: 100%; // Adjust as needed for mobile screens
         border-radius: 20px;
       }
-    }
-  }
-
-  .third-tile {
-    margin-bottom: 50px;
-    position: relative;
-    display: flex; // Use flexbox for alignment
-    justify-content: center; // Horizontally center the content
-    align-items: center; // Vertically center the content
-    height: 100%; // Set a specific height if needed
-
-    .project-overlay {
-      width: 100%; // Adjust to cover the desired portion of the tile
-      height: auto; // Adjust height to maintain aspect ratio
-      object-fit: contain; // Keeps the image aspect ratio
-      box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
     }
   }
 }

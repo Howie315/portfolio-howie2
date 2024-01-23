@@ -57,10 +57,10 @@ const SecondPanel = () => {
 
   return (
     <div className="second-panel" ref={panelRef}>
-      <h1 className="panel2-title" ref={titleRef}>
+      <div className="panel2-title" ref={titleRef}>
         My passion for innovative technologies and efficient coding practices
         has led me to create digital experiences
-      </h1>
+      </div>
 
       <Lottie loop animationData={Space} play className="lottie-animation2" />
     </div>

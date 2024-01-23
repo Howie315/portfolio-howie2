@@ -39,7 +39,7 @@ const Experience = () => {
   return (
     <div className="experience-panel" ref={panelRef} id="experience">
       <div className="experience-content">
-        <h2>EXPERIENCE</h2>
+        <div className="experience-title">EXPERIENCE</div>
       </div>
 
       <div className="resume-list">

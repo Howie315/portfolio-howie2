@@ -7,8 +7,8 @@ const FirstPanel = () => {
   return (
     <div className="first-panel">
       <Lottie loop animationData={Space} play className="lottie-animation" />
-      <h1 className="greeting">Howie(Hau) Nguyen</h1>
-      <h2 className="service-message">Experienced Front-End Engineer</h2>
+      <div className="greeting">Howie(Hau) Nguyen</div>
+      <div className="service-message">Experienced Front-End Engineer</div>
     </div>
   );
 };

@@ -19,17 +19,17 @@
     align-items: center;
 
     .resume-title {
-      // Ensure the title and icon are aligned
-
       font-family: "Clash Display", sans-serif;
       font-size: 40px;
       font-weight: 500;
+      line-height: 2;
     }
 
     .arrowIcon1 {
       // Style for the arrow icon
       transition: transform 0.3s ease;
       margin-left: 10px;
+      align-self: center; // Explicitly align the icon in the center vertically
     }
   }
 
@@ -42,7 +42,8 @@
     font-family: "Cabinet Grotesk", sans-serif;
     font-size: 30px;
     font-weight: 400;
-    margin-top: -20px;
+
+    line-height: 2;
   }
 
   &:hover .description-container {
@@ -79,6 +80,34 @@
       border-radius: 20px; // Adjust border-radius as needed
       font-size: 20px; // Text size for each technology
       color: white; // Text color
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 15px; // Smaller padding for mobile screens
+    margin-bottom: 20px; // Reduced space between items
+
+    &:hover {
+      box-shadow: none; // Removes the box-shadow on hover
+      transform: none; // Removes the transform effect on hover
+    }
+    .title-container {
+      .resume-title {
+        font-size: 30px; // Smaller font size for mobile screens
+      }
+    }
+
+    .duration {
+      font-size: 25px; // Smaller font size for mobile screens
+    }
+
+    .description {
+      font-size: 20px; // Smaller font size for mobile screens
+      width: auto; // Auto width for better fitting
+    }
+
+    .technologies .tech {
+      font-size: 20px; // Smaller font size for technology tags
     }
   }
 }

@@ -102,7 +102,7 @@ const ResumeItem = ({ title, duration, description, technologies, link }) => {
     >
       {/* <h2 className="resume-title">{title}</h2> */}
       <div className="title-container">
-        <h2 className="resume-title">{title}</h2>
+        <div className="resume-title">{title}</div>
         <svg
           className="arrowIcon1"
           xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ const ResumeItem = ({ title, duration, description, technologies, link }) => {
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>{" "}
       </div>
-      <p className="duration">{duration}</p>
+      <div className="duration">{duration}</div>
       <div ref={descriptionContainerRef} className="description-container">
         {description.map((desc, index) => (
           <div key={index} className="description">
