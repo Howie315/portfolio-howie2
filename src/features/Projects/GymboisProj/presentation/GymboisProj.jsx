@@ -74,6 +74,7 @@ const GymBoisProj = () => {
 
       <div className="technologiesItem">
         <div className="techItem">React Native</div>
+        <div className="techItem">CSS</div>
         <div className="techItem">Firebase</div>
         <div className="techItem">Javascript</div>
         <div className="techItem">Expo Go</div>

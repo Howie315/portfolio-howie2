@@ -32,7 +32,7 @@ export const ResumeProvider = ({ children }) => {
         " Built a secure messaging feature with MongoDB, handling login, registration, and messaging interfaces. Implemented backend logic for API calls and WebSocket integration, ensuring efficient data flow.",
         " Generated weekly documentation (20+ documents) on database structure, software, and network issues, ensuring project organization and accessibility for the team.",
       ],
-      technologies: ["Swift", "MongoDB", "Kotlin Multiplatform"],
+      technologies: ["Swift", "Android", "MongoDB", "Kotlin Multiplatform"],
       //   link: 'https://getsizzle.app/'
     },
   ]);

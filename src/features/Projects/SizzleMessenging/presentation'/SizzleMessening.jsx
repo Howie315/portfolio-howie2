@@ -59,6 +59,9 @@ const SizzleMessenging = () => {
 
       <div className="technologiesItem">
         <div className="techItem">Swift</div>
+        <div className="techItem">Android</div>
+        <div className="techItem">React</div>
+        <div className="techItem">CSS</div>
         <div className="techItem">MongoDB</div>
         <div className="techItem">Kotlin Multiplatform</div>
       </div>

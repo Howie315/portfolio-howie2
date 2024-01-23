@@ -8,14 +8,7 @@ import chatAppBackground from "../../../imgs/project2 background.png";
 import chatLogin from "../../../imgs/chatLogin.png";
 import chatLobby from "../../../imgs/chatLobby.svg";
 import arrowDiagonal from "../../../imgs/arrowDiagonal.svg";
-import loginScreen from "../../../imgs/GymBois/login-screen.png";
-import homeScreen from "../../../imgs/GymBois/home-screen.png";
-import workouts from "../../../imgs/GymBois/workouts.png";
-import searchWorkouts from "../../../imgs/GymBois/search-workouts.png";
-import timer from "../../../imgs/GymBois/timer.png";
-import calendar from "../../../imgs/GymBois/calendar.png";
-import settings from "../../../imgs/GymBois/settings.png";
-import vacation from "../../../imgs/GymBois/vacation.png";
+import register from "../../../imgs/register.svg";
 import GymBoisProj from "../GymboisProj/presentation/GymboisProj";
 import SizzleMessenging from "../SizzleMessenging/presentation'/SizzleMessening";
 
@@ -47,7 +40,19 @@ const Projects = () => {
                 className="project-overlay"
               />
             </div>
+            <div className="project-tile">
+              <img src={register} alt="Register" className="project-overlay" />
+            </div>
+          </div>
 
+          <div className="project-row">
+            <div className="project-tile">
+              <img
+                src={chatMessage}
+                alt="Chat App"
+                className="project-overlay"
+              />
+            </div>
             <div className="project-tile">
               <img
                 src={chatLobby}
@@ -55,10 +60,6 @@ const Projects = () => {
                 className="project-overlay"
               />
             </div>
-          </div>
-
-          <div className="third-tile">
-            <img src={chatMessage} alt="Chat App" className="project-overlay" />
           </div>
 
           <div className="project1">Real-time Chat Application</div>

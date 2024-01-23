@@ -18,8 +18,16 @@
     .project-row {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      flex-direction: row;
+      gap: 30px; // Adjust the space between images
+      margin-bottom: 40px;
+      .project-tile {
+        img.project-overlay {
+          box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
+          width: 100%; // Adjust to control the size
+          height: auto; // Maintain aspect ratio
+          border-radius: 10px;
+        }
+      }
     }
     .linkDesc {
       display: flex;
@@ -111,35 +119,35 @@
 
       text-align: left;
     }
-    .third-tile {
-      margin-bottom: 50px;
-      position: relative;
-      display: flex; // Use flexbox for alignment
-      justify-content: center; // Horizontally center the content
-      align-items: center; // Vertically center the content
-      height: 100%; // Set a specific height if needed
+  }
+}
 
-      .project-overlay {
-        width: 60%; // Adjust to cover the desired portion of the tile
-        height: auto; // Adjust height to maintain aspect ratio
-        object-fit: contain; // Keeps the image aspect ratio
-        box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
-      }
-    }
+@media (max-width: 767px) {
+  .project-row {
+    flex-direction: column;
+    align-items: center; // Center-align items in the column
 
     .project-tile {
-      margin-bottom: 50px;
-      position: relative;
-
-      .project-overlay {
-        width: 100%; // Adjust to cover the entire tile
-        height: 100%; // Adjust to cover the entire tile
-        object-fit: contain;
-        box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      img.project-overlay {
+        max-width: 100%; // Adjust as needed for mobile screens
+        border-radius: 20px;
       }
+    }
+  }
+
+  .third-tile {
+    margin-bottom: 50px;
+    position: relative;
+    display: flex; // Use flexbox for alignment
+    justify-content: center; // Horizontally center the content
+    align-items: center; // Vertically center the content
+    height: 100%; // Set a specific height if needed
+
+    .project-overlay {
+      width: 100%; // Adjust to cover the desired portion of the tile
+      height: auto; // Adjust height to maintain aspect ratio
+      object-fit: contain; // Keeps the image aspect ratio
+      box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
     }
   }
 }
