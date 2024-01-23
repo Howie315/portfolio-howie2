@@ -1,0 +1,14 @@
+.sizzle-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px; // Adjust the space between images
+  margin-bottom: 40px;
+  .sizzle-tile {
+    img.project-sizzle {
+      box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
+      width: 100%; // Adjust to control the size
+      height: auto; // Maintain aspect ratio
+      border-radius: 10px;
+    }
+  }
+}

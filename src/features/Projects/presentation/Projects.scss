@@ -120,11 +120,10 @@
       height: 100%; // Set a specific height if needed
 
       .project-overlay {
-        width: 70%; // Adjust to cover the desired portion of the tile
+        width: 60%; // Adjust to cover the desired portion of the tile
         height: auto; // Adjust height to maintain aspect ratio
         object-fit: contain; // Keeps the image aspect ratio
         box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.35);
-        // No need for flex styles here since the container is already a flexbox
       }
     }
 

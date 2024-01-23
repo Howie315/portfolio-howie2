@@ -17,6 +17,7 @@ import calendar from "../../../imgs/GymBois/calendar.png";
 import settings from "../../../imgs/GymBois/settings.png";
 import vacation from "../../../imgs/GymBois/vacation.png";
 import GymBoisProj from "../GymboisProj/presentation/GymboisProj";
+import SizzleMessenging from "../SizzleMessenging/presentation'/SizzleMessening";
 
 import anime from "animejs";
 
@@ -93,6 +94,7 @@ const Projects = () => {
           </div>
         </div>
         <GymBoisProj />
+        <SizzleMessenging />
       </div>
     </div>
   );
