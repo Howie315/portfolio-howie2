@@ -28,7 +28,7 @@ export const ResumeProvider = ({ children }) => {
       duration: "Sep 2022 - May 2023",
       description: [
         "Collaborated in a cross-functional team of 4 to create a versatile, cross-platform app facilitating communication between dietitians and patients for gut health and weight management.",
-        " Utilized Kotlin multiplatform technology for native app development across Android, iOS, and web platforms, enhancingaccessibility and scalability.",
+        " Utilized Kotlin multiplatform technology for native app development across Android, iOS, and web platforms, enhancing accessibility and scalability.",
         " Built a secure messaging feature with MongoDB, handling login, registration, and messaging interfaces. Implemented backend logic for API calls and WebSocket integration, ensuring efficient data flow.",
         " Generated weekly documentation (20+ documents) on database structure, software, and network issues, ensuring project organization and accessibility for the team.",
       ],

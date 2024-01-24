@@ -1,0 +1,17 @@
+.contact-panel {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .contact-title {
+    justify-content: center;
+    align-items: center;
+
+    font-size: 100px;
+    font-family: "Clash Display", sans-serif;
+    font-weight: bolder;
+    margin-bottom: 20px;
+    color: #a7c4b5;
+  }
+}

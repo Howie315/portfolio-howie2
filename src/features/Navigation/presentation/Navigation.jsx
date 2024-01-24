@@ -43,7 +43,9 @@ const Navigation = () => {
             </a>
           </li>
           <li className="contact-button">
-            <a href="mailto:nguyen.howie2010@gmail.com">Let's Contact</a>
+            <a href="#contact" onClick={(e) => handleClick(e, "#contact")}>
+              Let's Contact
+            </a>
           </li>
         </ul>
       </nav>
