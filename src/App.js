@@ -21,7 +21,7 @@ function App() {
           <About />
           <Experience />
           <Projects />
-          {/* <Contact /> */}
+          <Contact />
         </div>
       </Router>
     </ResumeProvider>
