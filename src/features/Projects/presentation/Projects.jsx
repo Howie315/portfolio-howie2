@@ -14,9 +14,27 @@ import SizzleMessenging from "../SizzleMessenging/presentation'/SizzleMessening"
 import anime from "animejs";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
+
 const Projects = () => {
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const triggerAnimations = () => {
+      anime({
+        targets: ".project-tile, .gymbois-tile, .sizzle-tile",
+        translateX: [0],
+        opacity: [1],
+        delay: anime.stagger(100), // Adjust delay as needed
+        easing: "easeOutExpo",
+        duration: 500, // Adjust duration as needed
+      });
+    };
+
+    ScrollTrigger.create({
+      trigger: ".projects-content",
+      start: "top center", // Adjust as needed
+      onEnter: triggerAnimations,
+    });
+
     anime({
       targets: ".arrow-icon2",
       translateX: [0, 5],
