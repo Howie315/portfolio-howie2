@@ -153,7 +153,6 @@
     @media (max-width: 767px) {
       flex-direction: column; // Change to column layout on smaller screens
       align-items: center; // Center align items for a cleaner look
-      gap: 40px; // Adjust gap as needed
 
       .form-input,
       .form-textarea {
