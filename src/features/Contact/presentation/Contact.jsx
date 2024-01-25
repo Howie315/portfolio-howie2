@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Contact.scss";
 import gsap from "gsap";
 
@@ -32,13 +32,39 @@ const applyHoverEffect = () => {
 };
 
 const Contact = () => {
+  const [submissionMessage, setSubmissionMessage] = useState("");
+
   useEffect(() => {
     applyHoverEffect();
   }, []);
+
+  const validateForm = (formData) => {
+    let errors = [];
+    const fieldNames = {
+      name: "name",
+      email: "email",
+      message: "message",
+    };
+
+    for (let [key, value] of formData.entries()) {
+      if (!value.trim()) {
+        errors.push(`${fieldNames[key] || key} is required.`);
+      }
+    }
+
+    return errors.join(" "); // Join all error messages into a single string
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    // Validate form data
+    const errorMessage = validateForm(formData);
+    if (errorMessage) {
+      setSubmissionMessage(errorMessage);
+      return; // Exit the function if there's an error
+    }
 
     // Post the form data to Formspree
     const response = await fetch("https://formspree.io/f/xnqejzjk", {
@@ -52,11 +78,16 @@ const Contact = () => {
     if (response.ok) {
       // Handle success (show success message, clear form, etc.)
       console.log("Form successfully submitted");
+      setSubmissionMessage("Thank you! Your message has been sent.");
     } else {
       // Handle error (show error message)
       console.log("Error submitting form");
+      setSubmissionMessage(
+        "An error occurred while sending your message. Please try again later."
+      );
     }
   };
+
   return (
     <div className="contact-panel" id="contact">
       <div className="contact-title">CONTACT</div>
@@ -87,6 +118,9 @@ const Contact = () => {
           <button type="submit" className="form-button">
             Let's Connect
           </button>
+          {submissionMessage && (
+            <div className="submission-message">{submissionMessage}</div>
+          )}
         </form>
 
         <div className="contact-column">
