@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./Projects.scss"; // Make sure to create a corresponding SCSS file
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+
 import chatApp from "../../../imgs/chatApp.svg";
 import chatMessage from "../../../imgs/chatMessage.svg";
 import chatAppBackground from "../../../imgs/project2 background.png";
@@ -13,16 +12,59 @@ import GymBoisProj from "../GymboisProj/presentation/GymboisProj";
 import SizzleMessenging from "../SizzleMessenging/presentation'/SizzleMessening";
 
 import anime from "animejs";
-
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 const Projects = () => {
   useEffect(() => {
     anime({
       targets: ".arrow-icon2",
-      translateX: [0, 5], // Arrow moves from 0 to 5px
+      translateX: [0, 5],
       duration: 500,
       easing: "easeOutQuad",
-      loop: true, // Loop the animation
-      direction: "alternate", // Move back and forth
+      loop: true,
+      direction: "alternate",
+    });
+
+    anime({
+      targets: ".project-tile",
+      translateX: [-100, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100), // Delay each tile slightly
+      easing: "easeOutExpo",
+    });
+
+    anime({
+      targets: ".gymbois-tile",
+      translateX: [-100, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100), // Delay each tile slightly
+      easing: "easeOutExpo",
+    });
+
+    anime({
+      targets: ".sizzle-tile",
+      translateX: [-100, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100), // Delay each tile slightly
+      easing: "easeOutExpo",
+    });
+
+    anime({
+      targets: [".projectDesc", ".project-link"],
+      translateY: [50, 0],
+      opacity: [0, 1],
+      delay: (el, i) => 200 + 50 * i, // Reduced initial delay and decreased incremental delay
+      duration: 300, // Reduced duration for a quicker animation
+      easing: "easeOutExpo",
+    });
+
+    anime({
+      targets: ".techItem",
+      scale: [0.5, 1],
+      opacity: [0, 1],
+      delay: anime.stagger(100, { start: 1000 }),
+      easing: "spring(1, 80, 10, 0)",
     });
   }, []);
 
@@ -30,7 +72,6 @@ const Projects = () => {
     <div className="projects-panel" id="projects">
       <div className="projects-content">
         <div className="project-title">PROJECTS</div>
-
         <div className="chat-application">
           <div className="project-row">
             <div className="project-tile">

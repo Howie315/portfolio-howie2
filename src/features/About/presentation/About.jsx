@@ -62,10 +62,6 @@ const About = () => {
       <div className="about-me">ABOUT ME</div>
       <div className="about-content">
         <div className="about-layout">
-          {/* <div className="about-image">
-            <img src={Profile} alt="About Me" />
-          </div> */}
-
           <div className="about-image" ref={imageRef}>
             <img src={Profile} alt="Your Description" />
             <div className="overlay"></div>
