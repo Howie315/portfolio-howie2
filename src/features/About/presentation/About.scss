@@ -43,13 +43,8 @@
         }
 
         .about-image {
-          width: 70%; // Adjust the width as needed for mobile screens
+          width: 80%; // Adjust the width as needed for mobile screens
           margin-bottom: 20px; // Space between image and text
-        }
-
-        .lottie-animation3 {
-          width: 100%; // Adjust the width for mobile screens
-          height: auto; // Maintain aspect ratio
         }
       }
 
@@ -120,6 +115,11 @@
           }
           .paragraph {
             font-size: 20px;
+          }
+          .lottie-animation3 {
+            width: 100%; // Adjust the width for mobile screens
+            height: auto; // Maintain aspect ratio
+            align-self: center;
           }
         }
       }
