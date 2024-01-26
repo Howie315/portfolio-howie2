@@ -5,9 +5,20 @@ import "./Navigation.scss";
 import gsap from "gsap";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 import navIcon from "../../../imgs/icons8-hamburger-menu.svg";
+import MobileMenu from "../MobileMenu/presentation/MobileMenu";
 gsap.registerPlugin(ScrollToPlugin);
 
 const Navigation = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    gsap.to(".mobile-menu", {
+      duration: 0.5,
+      xPercent: isMobileMenuOpen ? -100 : 0,
+    });
+  };
+
   const handleClick = (e, target) => {
     e.preventDefault(); // Prevent default anchor behavior
     gsap.to(window, { duration: 1, scrollTo: target }); // Smooth scroll to target
@@ -19,6 +30,10 @@ const Navigation = () => {
         <img src={NameLogo} alt="Your Name" className="logo" />
       </div>
 
+      <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
+        <img src={navIcon} alt="Menu" />
+      </div>
+      {isMobileMenuOpen && <MobileMenu closeMenu={toggleMobileMenu} />}
       <nav className="nav-links">
         <ul>
           <li className="nav-item">

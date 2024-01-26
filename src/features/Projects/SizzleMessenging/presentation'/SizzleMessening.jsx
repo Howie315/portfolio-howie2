@@ -33,7 +33,7 @@ const SizzleMessenging = () => {
         </div>
       </div>
 
-      <div className="project1">Sizzle Messenging App</div>
+      <div className="project1">Sizzle Messaging App</div>
 
       <div className="linkDesc">
         <div className="projectDesc">

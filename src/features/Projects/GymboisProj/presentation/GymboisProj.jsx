@@ -48,7 +48,7 @@ const GymBoisProj = () => {
         </div>
       </div>
 
-      <div className="project1">GymBois Fitness App</div>
+      <div className="project1">JymBois Fitness App</div>
 
       <div className="linkDesc">
         <div className="projectDesc">
