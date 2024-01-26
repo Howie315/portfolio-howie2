@@ -32,26 +32,22 @@ const SecondPanel = () => {
 
   const animeText = () => {
     panelRef.current.style.opacity = 1;
-    // Split text into characters
+    // Split text into words instead of characters
     const text = titleRef.current.textContent;
     const splitText = text
-      .split("")
-      .map((char) =>
-        char === " "
-          ? `<span class="whitespace">&nbsp;</span>`
-          : `<span class="char">${char}</span>`
-      )
+      .split(" ")
+      .map((word) => `<span class="word">${word} </span>`)
       .join("");
     titleRef.current.innerHTML = splitText;
 
-    // Anime.js animation with adjusted duration and delay
+    // Anime.js animation targeting words
     anime.timeline({ loop: false }).add({
-      targets: ".second-panel .char",
+      targets: ".second-panel .word",
       translateY: [-100, 0],
       opacity: [0, 1],
       easing: "easeOutExpo",
-      duration: 800, // Reduced duration for faster animation
-      delay: (el, i) => 15 * i, // Reduced delay for faster sequential start
+      duration: 1000,
+      delay: (el, i) => 50 * i,
     });
   };
 

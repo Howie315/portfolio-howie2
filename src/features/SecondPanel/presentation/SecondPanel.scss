@@ -11,9 +11,10 @@
     font-family: "Cabinet Grotesk", sans-serif;
     padding-left: 20px;
     font-weight: bolder;
-    font-size: 70px;
+    font-size: clamp(25px, 5vw, 70px); // Responsive font size
     margin-right: 20px; // Add some space between the title and the animation
-
+    white-space: normal; // Allow text wrapping
+    hyphens: auto;
     .char,
     .whitespace {
       display: inline-block;
@@ -35,6 +36,7 @@
       font-size: 25px;
       padding-left: 0;
       margin-bottom: 20px; // Space between title and animation on smaller screens
+      hyphens: auto;
     }
 
     .lottie-animation2 {
