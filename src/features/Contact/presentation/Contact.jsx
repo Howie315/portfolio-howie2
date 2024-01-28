@@ -127,23 +127,23 @@ const Contact = () => {
           <div className="email-number">MORE ENQUIRES</div>
           <div className="basic-contact">GENERAL CONTACT</div>
 
-          <a href="mailto:nguyen.howie2010@gmail.com" class="email-link">
-            <div class="email">nguyen.howie2010@gmail.com</div>
+          <a href="mailto:nguyen.howie2010@gmail.com" className="email-link">
+            <div className="email">nguyen.howie2010@gmail.com</div>
           </a>
-          <a href="tel:+15132825266" class="number-link">
-            <div class="number">+1 513 282-5266</div>
+          <a href="tel:+15132825266" className="number-link">
+            <div className="number">+1 513 282-5266</div>
           </a>
           <div className="socials">SOCIALS</div>
 
           <a
             href="https://www.linkedin.com/in/howie-nguyen-491587216/"
-            class="social-media-link"
+            className="social-media-link"
           >
-            <div class="social-link">LinkedIn</div>
+            <div className="social-link">LinkedIn</div>
           </a>
 
-          <a href="https://github.com/Howie315" class="social-media-link">
-            <div class="social-link">Github</div>
+          <a href="https://github.com/Howie315" className="social-media-link">
+            <div className="social-link">Github</div>
           </a>
         </div>
       </div>
