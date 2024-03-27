@@ -32,8 +32,8 @@ export const ResumeProvider = ({ children }) => {
       description: [
         "Collaborated in a cross-functional team of 4 to create a versatile, cross-platform app facilitating communication between dietitians and patients for gut health and weight management.",
         "Led the UX/UI design of secure login, sign-up, and messaging interfaces using Swift.",
-        " Built APIs for registration, chat, and notifications with WebSockets and MongoDB, enhancing application development",
-        " Implemented MVC architecture in Swift for a well-structured UI",
+        " Built APIs for registration, chat, and notifications with WebSockets and MongoDB, enhancing application development.",
+        " Implemented MVC architecture in Swift for a well-structured UI.",
         "Generated detailed weekly reports on database and software architecture for strategic insights in scrum meetings.",
       ],
       technologies: ["Swift", "Android", "MongoDB", "Kotlin Multiplatform"],
