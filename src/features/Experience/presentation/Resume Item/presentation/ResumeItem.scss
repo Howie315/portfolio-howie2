@@ -61,7 +61,7 @@
     opacity: 0; // Start with descriptions hidden
     transform: translateY(20px); // Start lower for the move-up effect
     transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); // Smoother transition
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); // Smoother transition
     font-family: "Cabinet Grotesk", sans-serif;
     font-size: 20px;
     width: 900px; // Adjust the width as needed

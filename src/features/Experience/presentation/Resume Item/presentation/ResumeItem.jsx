@@ -26,7 +26,7 @@ const ResumeItem = ({ title, duration, description, technologies, link }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => {}}
     >
-      {/* <h2 className="resume-title">{title}</h2> */}
+
       <div className="title-container">
         <div className="resume-title">{title}</div>
         <svg

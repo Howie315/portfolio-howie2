@@ -83,10 +83,10 @@ const About = () => {
             <br />
             <br />
             <div className="paragraph">
-              In my downtime, I enjoy playing sports such as pickleball and
-              tennis. In addition, I like to workout everday espically lifting.
-              Reading manga and watching anime from time to time when I get the
-              chance.
+              In my downtime, I enjoy playing sports like pickleball and tennis,
+              and I make it a point to work out every day, especially lifting
+              weights. When time permits, I also indulge in reading manga and
+              watching anime.
             </div>
             <Lottie
               loop
