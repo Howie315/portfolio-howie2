@@ -1,38 +1,30 @@
-import {
-  aboutHighlights,
-  aboutParagraphs,
-  contactMethods,
-  experienceEntries,
-  heroStats,
-  navItems,
-  profile,
-  projects,
-} from "../../data/portfolio";
+import { Suspense, lazy } from "react";
 
-import AboutSection from "../organisms/AboutSection";
-import ContactSection from "../organisms/ContactSection";
-import ExperienceSection from "../organisms/ExperienceSection";
 import HeroSection from "../organisms/HeroSection";
-import ProjectsSection from "../organisms/ProjectsSection";
+import SectionFallback from "../molecules/SectionFallback";
 import PortfolioLayout from "../templates/PortfolioLayout";
+
+const AboutSection = lazy(() => import("../organisms/AboutSection"));
+const ExperienceSection = lazy(() => import("../organisms/ExperienceSection"));
+const ProjectsSection = lazy(() => import("../organisms/ProjectsSection"));
+const ContactSection = lazy(() => import("../organisms/ContactSection"));
 
 const PortfolioPage = (): JSX.Element => {
   return (
-    <PortfolioLayout navItems={navItems}>
-      <HeroSection
-        profileAlt={profile.alt}
-        profileImage={profile.image}
-        stats={heroStats}
-      />
-      <AboutSection
-        highlights={aboutHighlights}
-        imageAlt={profile.alt}
-        imageSrc={profile.image}
-        paragraphs={aboutParagraphs}
-      />
-      <ExperienceSection entries={experienceEntries} />
-      <ProjectsSection projects={projects} />
-      <ContactSection methods={contactMethods} />
+    <PortfolioLayout>
+      <HeroSection />
+      <Suspense fallback={<SectionFallback />}>
+        <AboutSection />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <ExperienceSection />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <ProjectsSection />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <ContactSection />
+      </Suspense>
     </PortfolioLayout>
   );
 };

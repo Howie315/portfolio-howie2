@@ -1,20 +1,10 @@
-import type { Stat } from "../../data/portfolio";
+import { heroStats, profile } from "../../data/site";
 
 import Badge from "../atoms/Badge";
 import ButtonLink from "../atoms/ButtonLink";
 import StatCard from "../molecules/StatCard";
 
-type HeroSectionProps = {
-  profileImage: string;
-  profileAlt: string;
-  stats: Stat[];
-};
-
-const HeroSection = ({
-  profileAlt,
-  profileImage,
-  stats,
-}: HeroSectionProps): JSX.Element => {
+const HeroSection = (): JSX.Element => {
   return (
     <section
       className="relative overflow-hidden px-4 pt-28 pb-8 sm:px-6 lg:px-8"
@@ -45,7 +35,7 @@ const HeroSection = ({
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            {stats.map((stat) => (
+            {heroStats.map((stat) => (
               <StatCard key={stat.label} stat={stat} />
             ))}
           </div>
@@ -55,9 +45,9 @@ const HeroSection = ({
           <div className="absolute inset-0 rounded-[2.5rem] bg-linear-to-br from-brand-400/20 via-transparent to-mint-300/10 blur-3xl" />
           <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/6 p-4 shadow-[0_30px_100px_rgba(4,10,24,0.38)] backdrop-blur-xl">
             <img
-              alt={profileAlt}
+              alt={profile.alt}
               className="aspect-4/5 w-full rounded-4xl object-cover"
-              src={profileImage}
+              src={profile.image}
             />
             <div className="mt-4 rounded-[1.75rem] border border-white/10 bg-slate-950/55 p-5">
               <p className="text-xs uppercase tracking-[0.24em] text-slate-500">

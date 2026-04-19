@@ -1,4 +1,4 @@
-import type { Project } from "../../data/portfolio";
+import { projects } from "../../data/projects";
 
 import Badge from "../atoms/Badge";
 import ButtonLink from "../atoms/ButtonLink";
@@ -6,13 +6,16 @@ import IconArrowUpRight from "../atoms/IconArrowUpRight";
 import ProjectPreviewGrid from "../molecules/ProjectPreviewGrid";
 import SectionHeading from "../molecules/SectionHeading";
 
-type ProjectsSectionProps = {
-  projects: Project[];
-};
-
-const ProjectsSection = ({ projects }: ProjectsSectionProps): JSX.Element => {
+const ProjectsSection = (): JSX.Element => {
   return (
-    <section className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8" id="projects">
+    <section
+      className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8"
+      id="projects"
+      style={{
+        containIntrinsicSize: "1px 1800px",
+        contentVisibility: "auto",
+      }}
+    >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           description="Selected work focused on product interfaces, communication flows, and mobile-first experiences."

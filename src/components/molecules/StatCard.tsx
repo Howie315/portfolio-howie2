@@ -1,4 +1,4 @@
-import type { Stat } from "../../data/portfolio";
+import type { Stat } from "../../data/site";
 
 type StatCardProps = {
   stat: Stat;

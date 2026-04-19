@@ -1,4 +1,4 @@
-import type { ContactMethod } from "../../data/portfolio";
+import type { ContactMethod } from "../../data/site";
 
 import IconArrowUpRight from "../atoms/IconArrowUpRight";
 

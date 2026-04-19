@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { startTransition, useState } from "react";
 
-import type { ContactMethod } from "../../data/portfolio";
+import { contactMethods } from "../../data/site";
 
 import ContactField from "../molecules/ContactField";
 import ContactMethodCard from "../molecules/ContactMethodCard";
@@ -12,11 +12,7 @@ type SubmissionState =
   | { status: "success"; message: string }
   | { status: "error"; message: string };
 
-type ContactSectionProps = {
-  methods: ContactMethod[];
-};
-
-const ContactSection = ({ methods }: ContactSectionProps): JSX.Element => {
+const ContactSection = (): JSX.Element => {
   const [submission, setSubmission] = useState<SubmissionState>({
     status: "idle",
   });
@@ -29,31 +25,45 @@ const ContactSection = ({ methods }: ContactSectionProps): JSX.Element => {
     const formData = new FormData(event.currentTarget);
     setSubmission({ status: "submitting" });
 
-    const response = await fetch("https://formspree.io/f/xnqejzjk", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (response.ok) {
-      event.currentTarget.reset();
-      setSubmission({
-        status: "success",
-        message: "Thanks, your message has been sent.",
+    try {
+      const response = await fetch("https://formspree.io/f/xnqejzjk", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
       });
-      return;
-    }
 
-    setSubmission({
-      status: "error",
-      message: "Something went wrong while sending your message.",
-    });
+      if (!response.ok) {
+        throw new Error(`form submission failed: ${response.status}`);
+      }
+
+      event.currentTarget.reset();
+      startTransition(() => {
+        setSubmission({
+          status: "success",
+          message: "Thanks, your message has been sent.",
+        });
+      });
+    } catch {
+      startTransition(() => {
+        setSubmission({
+          status: "error",
+          message: "Something went wrong while sending your message.",
+        });
+      });
+    }
   };
 
   return (
-    <section className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8" id="contact">
+    <section
+      className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8"
+      id="contact"
+      style={{
+        containIntrinsicSize: "1px 960px",
+        contentVisibility: "auto",
+      }}
+    >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           description="If you’re building a product and want a frontend partner who cares about both implementation quality and interface feel, I’d love to talk."
@@ -111,7 +121,7 @@ const ContactSection = ({ methods }: ContactSectionProps): JSX.Element => {
 
           <div className="grid gap-6">
             <div className="grid gap-4">
-              {methods.map((method) => (
+              {contactMethods.map((method) => (
                 <ContactMethodCard key={method.label} method={method} />
               ))}
             </div>

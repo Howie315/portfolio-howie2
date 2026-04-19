@@ -1,14 +1,9 @@
 import { useState } from "react";
 
-import type { NavItem } from "../../data/portfolio";
+import { navItems } from "../../data/site";
 
 import ButtonLink from "../atoms/ButtonLink";
-
-type SiteHeaderProps = {
-  items: NavItem[];
-};
-
-const SiteHeader = ({ items }: SiteHeaderProps): JSX.Element => {
+const SiteHeader = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeMenu = (): void => setIsOpen(false);
@@ -28,7 +23,7 @@ const SiteHeader = ({ items }: SiteHeaderProps): JSX.Element => {
             aria-label="Primary"
             className="hidden items-center gap-8 md:flex"
           >
-            {items.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.href}
                 className="text-sm text-slate-300 transition hover:text-white"
@@ -57,7 +52,7 @@ const SiteHeader = ({ items }: SiteHeaderProps): JSX.Element => {
       {isOpen ? (
         <div className="fixed inset-0 z-40 bg-slate-950/92 px-6 pt-28 backdrop-blur-xl md:hidden">
           <nav aria-label="Mobile" className="grid gap-4">
-            {items.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.href}
                 className="rounded-3xl border border-white/10 bg-white/6 px-5 py-4 text-lg text-white"

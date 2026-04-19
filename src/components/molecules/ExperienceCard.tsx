@@ -1,4 +1,4 @@
-import type { ExperienceEntry } from "../../data/portfolio";
+import type { ExperienceEntry } from "../../data/experience";
 
 import Badge from "../atoms/Badge";
 import ButtonLink from "../atoms/ButtonLink";
