@@ -1,0 +1,61 @@
+import { useEffect, useRef } from "react";
+import "./Experience.scss"; // Make sure to create a corresponding SCSS file
+import ResumeItem from "./Resume Item/presentation/ResumeItem";
+import { useResumeContext } from "./Resume Item/presentation/ResumeProvider";
+import anime from "animejs";
+
+const Experience = (): JSX.Element => {
+  const { resumeData } = useResumeContext();
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: ".resume-item",
+              translateY: [100, 0], // Moves up from below
+              opacity: [0, 1],
+              delay: anime.stagger(100), // Delay each item slightly
+              easing: "easeOutQuad",
+            });
+            if (panelRef.current) {
+              observer.unobserve(panelRef.current);
+            }
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    if (panelRef.current) {
+      observer.observe(panelRef.current);
+    }
+
+    return () => observer.disconnect(); // Cleanup the observer
+  }, []);
+
+  return (
+    <div className="experience-panel" ref={panelRef} id="experience">
+      <div className="experience-content">
+        <div className="experience-title">EXPERIENCE</div>
+      </div>
+
+      <div className="resume-list">
+        {resumeData.map((item) => (
+          <ResumeItem
+            key={item.title}
+            title={item.title}
+            duration={item.duration}
+            description={item.description}
+            technologies={item.technologies}
+            link={item.link}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Experience;
