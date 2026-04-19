@@ -1,4 +1,4 @@
-const IconArrowUpRight = (): JSX.Element => {
+export const IconArrowUpRight = (): JSX.Element => {
   return (
     <svg
       aria-hidden="true"

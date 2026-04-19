@@ -14,7 +14,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     "border border-white/12 bg-white/6 text-white hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10",
 };
 
-const ButtonLink = ({
+export const ButtonLink = ({
   children,
   className = "",
   variant = "solid",

@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import { navItems } from "../../data/site";
+import { navItems } from "../../../data/site";
 
-import ButtonLink from "../atoms/ButtonLink";
-const SiteHeader = (): JSX.Element => {
+import { ButtonLink } from "../../atoms/ButtonLink";
+export const SiteHeader = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeMenu = (): void => setIsOpen(false);
@@ -71,5 +71,3 @@ const SiteHeader = (): JSX.Element => {
     </>
   );
 };
-
-export default SiteHeader;

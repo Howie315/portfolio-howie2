@@ -1,8 +1,8 @@
-import { heroStats, profile } from "../../data/site";
+import { heroStats, profile } from "../../../data/site";
 
-import Badge from "../atoms/Badge";
-import ButtonLink from "../atoms/ButtonLink";
-import StatCard from "../molecules/StatCard";
+import { Badge } from "../../atoms/Badge";
+import { ButtonLink } from "../../atoms/ButtonLink";
+import StatCard from "./subcomponents/StatCard";
 
 const HeroSection = (): JSX.Element => {
   return (

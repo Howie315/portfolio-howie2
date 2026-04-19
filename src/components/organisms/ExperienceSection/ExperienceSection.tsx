@@ -1,7 +1,7 @@
-import { experienceEntries } from "../../data/experience";
+import { experienceEntries } from "../../../data/experience";
 
-import ExperienceCard from "../molecules/ExperienceCard";
-import SectionHeading from "../molecules/SectionHeading";
+import ExperienceCard from "./subcomponents/ExperienceCard";
+import SectionHeading from "../../molecules/SectionHeading";
 
 const ExperienceSection = (): JSX.Element => {
   return (

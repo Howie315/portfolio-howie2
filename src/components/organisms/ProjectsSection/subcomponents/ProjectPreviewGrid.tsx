@@ -1,4 +1,4 @@
-import type { ProjectImage } from "../../data/projects";
+import type { ProjectImage } from "../../../../data/projects";
 
 type ProjectPreviewGridProps = {
   images: ReadonlyArray<ProjectImage>;

@@ -1,10 +1,10 @@
 import { startTransition, useState } from "react";
 
-import { contactMethods } from "../../data/site";
+import { contactMethods } from "../../../data/site";
 
-import ContactField from "../molecules/ContactField";
-import ContactMethodCard from "../molecules/ContactMethodCard";
-import SectionHeading from "../molecules/SectionHeading";
+import ContactField from "./subcomponents/ContactField";
+import ContactMethodCard from "./subcomponents/ContactMethodCard";
+import SectionHeading from "../../molecules/SectionHeading";
 
 type SubmissionState =
   | { status: "idle" }

@@ -1,8 +1,8 @@
-import type { ExperienceEntry } from "../../data/experience";
+import type { ExperienceEntry } from "../../../../data/experience";
 
-import Badge from "../atoms/Badge";
-import ButtonLink from "../atoms/ButtonLink";
-import IconArrowUpRight from "../atoms/IconArrowUpRight";
+import { Badge } from "../../../atoms/Badge";
+import { ButtonLink } from "../../../atoms/ButtonLink";
+import { IconArrowUpRight } from "../../../atoms/IconArrowUpRight";
 
 type ExperienceCardProps = {
   entry: ExperienceEntry;

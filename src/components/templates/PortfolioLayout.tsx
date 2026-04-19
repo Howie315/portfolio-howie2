@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import SiteHeader from "../organisms/SiteHeader";
+import { SiteHeader } from "../organisms/SiteHeader";
 
 type PortfolioLayoutProps = {
   children: ReactNode;

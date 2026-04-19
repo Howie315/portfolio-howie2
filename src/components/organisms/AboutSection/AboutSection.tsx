@@ -1,6 +1,6 @@
-import { aboutHighlights, aboutParagraphs, profile } from "../../data/site";
+import { aboutHighlights, aboutParagraphs, profile } from "../../../data/site";
 
-import SectionHeading from "../molecules/SectionHeading";
+import SectionHeading from "../../molecules/SectionHeading";
 
 const AboutSection = (): JSX.Element => {
   return (

@@ -1,6 +1,6 @@
-import type { ContactMethod } from "../../data/site";
+import type { ContactMethod } from "../../../../data/site";
 
-import IconArrowUpRight from "../atoms/IconArrowUpRight";
+import { IconArrowUpRight } from "../../../atoms/IconArrowUpRight";
 
 type ContactMethodCardProps = {
   method: ContactMethod;

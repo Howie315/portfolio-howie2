@@ -14,7 +14,7 @@ const toneClasses: Record<BadgeTone, string> = {
   muted: "border-white/10 bg-slate-950/45 text-slate-300",
 };
 
-const Badge = ({
+export const Badge = ({
   children,
   className = "",
   tone = "default",

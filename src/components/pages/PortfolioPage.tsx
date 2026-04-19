@@ -1,13 +1,21 @@
 import { Suspense, lazy } from "react";
 
-import HeroSection from "../organisms/HeroSection";
-import SectionFallback from "../molecules/SectionFallback";
+import SectionFallback from "./PortfolioPage/subcomponents/SectionFallback";
+import HeroSection from "../organisms/HeroSection/HeroSection";
 import PortfolioLayout from "../templates/PortfolioLayout";
 
-const AboutSection = lazy(() => import("../organisms/AboutSection"));
-const ExperienceSection = lazy(() => import("../organisms/ExperienceSection"));
-const ProjectsSection = lazy(() => import("../organisms/ProjectsSection"));
-const ContactSection = lazy(() => import("../organisms/ContactSection"));
+const AboutSection = lazy(
+  () => import("../organisms/AboutSection/AboutSection"),
+);
+const ExperienceSection = lazy(
+  () => import("../organisms/ExperienceSection/ExperienceSection"),
+);
+const ProjectsSection = lazy(
+  () => import("../organisms/ProjectsSection/ProjectsSection"),
+);
+const ContactSection = lazy(
+  () => import("../organisms/ContactSection/ContactSection"),
+);
 
 const PortfolioPage = (): JSX.Element => {
   return (

@@ -1,4 +1,4 @@
-import SectionEyebrow from "../atoms/SectionEyebrow";
+import { SectionEyebrow } from "../atoms/SectionEyebrow";
 
 type SectionHeadingProps = {
   eyebrow: string;
