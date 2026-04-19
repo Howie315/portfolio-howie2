@@ -6,6 +6,7 @@ import {
   BufferGeometry,
   CanvasTexture,
   Clock,
+  Color,
   DynamicDrawUsage,
   Euler,
   FogExp2,
@@ -32,6 +33,7 @@ import {
   type Texture,
   WebGLRenderer,
 } from "three";
+import { sceneConfig, scenePalette, scenePhaseStops } from "./sceneConfig";
 
 type ImmersiveSceneOptions = {
   canvas: HTMLCanvasElement;
@@ -54,6 +56,23 @@ type FragmentConfig = {
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(max, Math.max(min, value));
+
+const getInterpolatedPhaseColor = (progress: number): Color => {
+  const clampedProgress = clamp(progress, 0, 1);
+  const nextStop =
+    scenePhaseStops.find((stop) => stop.progress >= clampedProgress) ??
+    scenePhaseStops[scenePhaseStops.length - 1];
+  const nextIndex = scenePhaseStops.indexOf(nextStop);
+  const previousStop =
+    scenePhaseStops[Math.max(nextIndex - 1, 0)] ?? scenePhaseStops[0];
+  const range = Math.max(nextStop.progress - previousStop.progress, 0.0001);
+  const localProgress = (clampedProgress - previousStop.progress) / range;
+
+  return new Color(previousStop.color).lerp(
+    new Color(nextStop.color),
+    localProgress,
+  );
+};
 
 const createParticleTexture = (): CanvasTexture => {
   const canvas = document.createElement("canvas");
@@ -147,6 +166,34 @@ const createSigilTexture = (accentColor: string): CanvasTexture => {
   return texture;
 };
 
+const createSmokeTexture = (): CanvasTexture => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  canvas.width = 512;
+  canvas.height = 512;
+
+  if (!context) {
+    return new CanvasTexture(canvas);
+  }
+
+  const gradient = context.createRadialGradient(256, 256, 0, 256, 256, 256);
+  gradient.addColorStop(0, "rgba(255, 255, 255, 0.16)");
+  gradient.addColorStop(0.28, "rgba(126, 76, 255, 0.12)");
+  gradient.addColorStop(0.62, "rgba(16, 8, 24, 0.1)");
+  gradient.addColorStop(1, "rgba(8, 4, 12, 0)");
+
+  context.fillStyle = gradient;
+  context.beginPath();
+  context.arc(256, 256, 220, 0, Math.PI * 2);
+  context.fill();
+
+  const texture = new CanvasTexture(canvas);
+  texture.colorSpace = SRGBColorSpace;
+
+  return texture;
+};
+
 const createSprite = (
   texture: Texture,
   color: string,
@@ -173,8 +220,15 @@ export const createImmersiveScene = ({
   prefersReducedMotion,
 }: ImmersiveSceneOptions): SceneController => {
   const isMobile = window.innerWidth < 768;
-  const particleCount = isMobile ? 420 : 860;
-  const fragmentCount = isMobile ? 18 : 34;
+  const particleCount = isMobile
+    ? sceneConfig.mobile.particleCount
+    : sceneConfig.desktop.particleCount;
+  const fragmentCount = isMobile
+    ? sceneConfig.mobile.fragmentCount
+    : sceneConfig.desktop.fragmentCount;
+  const smokeCount = isMobile
+    ? sceneConfig.mobile.smokeCount
+    : sceneConfig.desktop.smokeCount;
 
   const renderer = new WebGLRenderer({
     alpha: true,
@@ -191,7 +245,8 @@ export const createImmersiveScene = ({
   );
 
   const scene = new Scene();
-  scene.fog = new FogExp2("#07030d", isMobile ? 0.09 : 0.068);
+  const fog = new FogExp2(scenePalette.backgroundFog, isMobile ? 0.09 : 0.068);
+  scene.fog = fog;
 
   const camera = new PerspectiveCamera(
     42,
@@ -201,11 +256,11 @@ export const createImmersiveScene = ({
   );
   camera.position.set(0, 0.6, 8.2);
 
-  const ambientLight = new AmbientLight("#46307b", 1.8);
-  const keyLight = new PointLight("#8f63ff", 14, 22, 2);
+  const ambientLight = new AmbientLight(scenePalette.ambient, 1.8);
+  const keyLight = new PointLight(scenePalette.key, 14, 22, 2);
   keyLight.position.set(2.8, 1.2, 4.6);
 
-  const rimLight = new PointLight("#ff3d82", 10, 20, 2);
+  const rimLight = new PointLight(scenePalette.rim, 10, 20, 2);
   rimLight.position.set(-4.2, -1.2, 2.8);
 
   scene.add(ambientLight, keyLight, rimLight);
@@ -221,7 +276,7 @@ export const createImmersiveScene = ({
     clearcoat: 0.7,
     clearcoatRoughness: 0.24,
     color: "#13081f",
-    emissive: "#6d46ff",
+    emissive: scenePalette.indigo,
     emissiveIntensity: 1.25,
     metalness: 0.15,
     roughness: 0.28,
@@ -237,7 +292,7 @@ export const createImmersiveScene = ({
 
   const shellMaterial = new MeshBasicMaterial({
     blending: AdditiveBlending,
-    color: "#ff4d91",
+    color: scenePalette.ember,
     opacity: 0.13,
     transparent: true,
     wireframe: true,
@@ -250,7 +305,11 @@ export const createImmersiveScene = ({
 
   sceneRoot.add(coreMesh, shellMesh);
 
-  const ringPalette = ["#7e4cff", "#ff4a8a", "#6dcbff"] as const;
+  const ringPalette = [
+    scenePalette.indigo,
+    scenePalette.ember,
+    scenePalette.cyan,
+  ] as const;
   const ringRotations = [
     new Euler(0.8, 0.2, 0),
     new Euler(1.3, 0.8, Math.PI / 3),
@@ -273,10 +332,13 @@ export const createImmersiveScene = ({
   });
 
   const sigilTextures = [
-    createSigilTexture("#7e4cff"),
-    createSigilTexture("#ff4a8a"),
+    createSigilTexture(scenePalette.indigo),
+    createSigilTexture(scenePalette.ember),
   ];
   const particleTexture = createParticleTexture();
+  const smokeTexture = createSmokeTexture();
+  const phaseColor = new Color(scenePalette.indigo);
+  const complementaryPhaseColor = new Color(scenePalette.cyan);
 
   const frontSigil = createSprite(
     sigilTextures[0],
@@ -287,12 +349,35 @@ export const createImmersiveScene = ({
 
   const backSigil = createSprite(
     sigilTextures[1],
-    "#ff4a8a",
+    scenePalette.ember,
     isMobile ? 9.5 : 11.5,
   );
   backSigil.position.set(0.8, 0.6, -3.8);
 
   sceneRoot.add(frontSigil, backSigil);
+
+  const smokeConfigs = Array.from({ length: smokeCount }, () => ({
+    rotation: MathUtils.randFloat(0, Math.PI * 2),
+    speed: MathUtils.randFloat(0.24, 0.52),
+    x: MathUtils.randFloatSpread(6),
+    y: MathUtils.randFloatSpread(3.2),
+  }));
+
+  const smokeSprites = smokeConfigs.map((config, index) => {
+    const sprite = createSprite(
+      smokeTexture,
+      scenePalette.smoke,
+      isMobile ? 8 + index * 1.6 : 10 + index * 2.1,
+    );
+
+    sprite.material.opacity = isMobile ? 0.08 : 0.11;
+    sprite.position.set(config.x, config.y, -5.5 - index * 1.4);
+    sprite.material.rotation = config.rotation;
+
+    scene.add(sprite);
+
+    return sprite;
+  });
 
   const particleGeometry = new BufferGeometry();
   const particlePositions = new Float32Array(particleCount * 3);
@@ -319,7 +404,7 @@ export const createImmersiveScene = ({
     new PointsMaterial({
       alphaMap: particleTexture,
       blending: AdditiveBlending,
-      color: "#a66eff",
+      color: scenePalette.indigo,
       depthWrite: false,
       map: particleTexture,
       opacity: isMobile ? 0.55 : 0.7,
@@ -334,7 +419,7 @@ export const createImmersiveScene = ({
   const fragmentGeometry = new OctahedronGeometry(0.18, 0);
   const fragmentMaterial = new MeshStandardMaterial({
     color: "#18091f",
-    emissive: "#fe4d90",
+    emissive: scenePalette.ember,
     emissiveIntensity: 1.15,
     metalness: 0.15,
     roughness: 0.18,
@@ -427,6 +512,8 @@ export const createImmersiveScene = ({
     const motionTime = prefersReducedMotion
       ? scrollProgress * Math.PI
       : elapsedTime;
+    phaseColor.copy(getInterpolatedPhaseColor(scrollProgress));
+    complementaryPhaseColor.set(scenePalette.cyan).lerp(phaseColor, 0.22);
 
     coreMesh.rotation.x = motionTime * 0.28 + pointerY * 0.18;
     coreMesh.rotation.y = motionTime * 0.38 + pointerX * 0.24;
@@ -449,13 +536,27 @@ export const createImmersiveScene = ({
     backSigil.material.rotation = motionTime * 0.08;
     frontSigil.position.y = -0.35 + Math.sin(motionTime * 1.2) * 0.08;
     backSigil.position.y = 0.48 + Math.cos(motionTime * 0.6) * 0.12;
+    frontSigil.material.color.copy(phaseColor);
+    backSigil.material.color.copy(complementaryPhaseColor);
 
     particles.rotation.y = motionTime * 0.016;
     particles.rotation.x = motionTime * 0.008;
+    if (particles.material instanceof PointsMaterial) {
+      particles.material.color.copy(phaseColor);
+    }
 
     sceneRoot.position.x = pointerX * 0.8;
     sceneRoot.position.y = 0.4 - scrollProgress * 2.4 + pointerY * 0.45;
     sceneRoot.position.z = -scrollProgress * 1.1;
+
+    smokeSprites.forEach((sprite, index) => {
+      const config = smokeConfigs[index];
+      const drift = motionTime * config.speed;
+      sprite.position.x = config.x + Math.sin(drift + index) * 0.35;
+      sprite.position.y = config.y + Math.cos(drift * 1.4 + index) * 0.24;
+      sprite.material.rotation = config.rotation + drift * 0.08;
+      sprite.material.color.set(scenePalette.smoke).lerp(phaseColor, 0.18);
+    });
 
     camera.position.x = pointerX * 0.6;
     camera.position.y = 0.55 - scrollProgress * 3.2 + pointerY * 0.4;
@@ -464,7 +565,21 @@ export const createImmersiveScene = ({
 
     keyLight.intensity = 12 + scrollProgress * 6;
     rimLight.intensity = 8 + Math.sin(motionTime * 0.6) * 1.8;
+    keyLight.color.copy(phaseColor);
+    rimLight.color.copy(complementaryPhaseColor);
     coreMaterial.emissiveIntensity = 1.2 + scrollProgress * 0.8;
+    coreMaterial.emissive.copy(phaseColor);
+    fragmentMaterial.emissive.copy(complementaryPhaseColor);
+    shellMaterial.color.copy(complementaryPhaseColor);
+    fog.color.copy(
+      new Color(scenePalette.backgroundFog).lerp(phaseColor, 0.18),
+    );
+    fog.density = isMobile
+      ? 0.09 - scrollProgress * 0.012
+      : 0.068 - scrollProgress * 0.014;
+    renderer.toneMappingExposure = isMobile
+      ? 1 + scrollProgress * 0.08
+      : 1.08 + scrollProgress * 0.1;
 
     updateFragments(motionTime);
   };
@@ -588,6 +703,7 @@ export const createImmersiveScene = ({
       });
 
       particleTexture.dispose();
+      smokeTexture.dispose();
       sigilTextures.forEach((texture) => texture.dispose());
       renderer.dispose();
     },

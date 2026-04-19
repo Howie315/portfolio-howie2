@@ -1,4 +1,4 @@
-import profileImage from "../imgs/profile.JPG";
+import profileImage from "../imgs/profile-2026.jpg";
 
 export type NavItem = {
   label: string;

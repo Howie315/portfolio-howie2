@@ -18,7 +18,7 @@ const HeroSection = (): JSX.Element => {
             </Badge>
 
             <div className="space-y-6">
-              <h1 className="max-w-4xl font-display text-5xl font-semibold tracking-[-0.07em] text-white sm:text-6xl lg:text-[5.7rem] lg:leading-[0.92]">
+              <h1 className="max-w-4xl font-display text-[clamp(2.65rem,9vw,4.1rem)] font-semibold leading-[0.98] tracking-[-0.07em] text-white sm:text-6xl sm:leading-[0.95] lg:text-[5.7rem] lg:leading-[0.92]">
                 Original digital experiences with cinematic presence and product
                 discipline.
               </h1>
@@ -71,7 +71,7 @@ const HeroSection = (): JSX.Element => {
               src={profile.image}
             />
 
-            <div className="absolute top-8 right-8 max-w-[14rem] rounded-[1.5rem] border border-white/10 bg-[rgba(7,4,18,0.72)] px-4 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+            <div className="absolute top-8 right-8 hidden max-w-[14rem] rounded-[1.5rem] border border-white/10 bg-[rgba(7,4,18,0.72)] px-4 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl md:block">
               <p className="text-[0.62rem] uppercase tracking-[0.3em] text-[rgba(255,196,221,0.82)]">
                 Current field
               </p>
@@ -81,7 +81,7 @@ const HeroSection = (): JSX.Element => {
               </p>
             </div>
 
-            <div className="absolute right-6 bottom-6 left-6 rounded-[1.85rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,5,20,0.82),rgba(4,4,13,0.9))] p-5 backdrop-blur-xl">
+            <div className="absolute right-6 bottom-6 left-6 hidden rounded-[1.85rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,5,20,0.82),rgba(4,4,13,0.9))] p-5 backdrop-blur-xl md:block">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <p className="text-[0.62rem] uppercase tracking-[0.3em] text-[rgba(188,187,208,0.64)]">
@@ -93,8 +93,37 @@ const HeroSection = (): JSX.Element => {
                   </p>
                 </div>
                 <Badge className="shrink-0" tone="default">
-                  Riverside, CA
+                  Anaheim, CA
                 </Badge>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-3 md:hidden">
+              <div className="rounded-[1.6rem] border border-white/10 bg-[rgba(7,4,18,0.72)] px-4 py-4 backdrop-blur-xl">
+                <p className="text-[0.62rem] uppercase tracking-[0.3em] text-[rgba(255,196,221,0.82)]">
+                  Current field
+                </p>
+                <p className="mt-2 text-sm font-medium text-white">
+                  Frontend systems, design-system evolution, and high-trust user
+                  flows.
+                </p>
+              </div>
+
+              <div className="rounded-[1.85rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,5,20,0.82),rgba(4,4,13,0.9))] p-5 backdrop-blur-xl">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[0.62rem] uppercase tracking-[0.3em] text-[rgba(188,187,208,0.64)]">
+                      Specialties
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[rgba(226,228,236,0.82)]">
+                      React architecture, visual systems, interface motion, and
+                      premium product polish.
+                    </p>
+                  </div>
+                  <Badge className="shrink-0" tone="default">
+                    Anaheim, CA
+                  </Badge>
+                </div>
               </div>
             </div>
           </div>

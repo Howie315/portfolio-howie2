@@ -14,10 +14,11 @@ export const SiteHeader = (): JSX.Element => {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-[rgba(4,3,14,0.68)] backdrop-blur-2xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <a
-            className="font-display text-lg font-semibold tracking-[0.24em] text-white uppercase"
+            className="font-display text-base font-semibold tracking-[0.24em] text-white uppercase sm:text-lg"
             href="#top"
           >
-            Howie Nguyen
+            <span className="sm:hidden">Howie</span>
+            <span className="hidden sm:inline">Howie Nguyen</span>
           </a>
 
           <nav

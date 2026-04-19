@@ -131,6 +131,44 @@ textarea {
   scroll-margin-top: 7rem;
 }
 
+.section-shell::before {
+  content: "";
+  position: absolute;
+  inset: -8rem -6rem;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(
+      circle at 25% 18%,
+      rgba(255, 74, 138, 0.12),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 72% 28%,
+      rgba(126, 76, 255, 0.16),
+      transparent 40%
+    ),
+    conic-gradient(
+      from 180deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.05) 32deg,
+      transparent 76deg,
+      rgba(255, 255, 255, 0.04) 126deg,
+      transparent 172deg,
+      rgba(255, 255, 255, 0.04) 220deg,
+      transparent 260deg,
+      rgba(255, 255, 255, 0.03) 312deg,
+      transparent 360deg
+    );
+  opacity: 0.45;
+  filter: blur(0.4px);
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 0, 0, 0.85),
+    transparent 62%
+  );
+}
+
 .section-inner {
   margin-inline: auto;
   max-width: 72rem;
@@ -165,6 +203,19 @@ textarea {
   );
 }
 
+.reveal-stage {
+  opacity: 0;
+  transform: translateY(2rem) scale(0.985);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal-stage[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 @media (min-width: 640px) {
   .section-shell {
     padding-inline: 1.5rem;
@@ -182,6 +233,12 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .reveal-stage {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   *,

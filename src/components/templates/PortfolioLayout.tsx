@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import type { ReactNode } from "react";
 
+import { useShouldEnable3D } from "../../hooks/useShouldEnable3D";
 import { SiteHeader } from "../organisms/SiteHeader";
 
 type PortfolioLayoutProps = {
@@ -23,11 +24,16 @@ const BackdropFallback = (): JSX.Element => {
 const PortfolioLayout = ({
   children,
 }: Readonly<PortfolioLayoutProps>): JSX.Element => {
+  const shouldEnable3D = useShouldEnable3D();
+
   return (
     <div className="relative min-h-screen overflow-x-clip bg-transparent text-white">
-      <Suspense fallback={<BackdropFallback />}>
-        <ImmersiveBackground />
-      </Suspense>
+      <BackdropFallback />
+      {shouldEnable3D ? (
+        <Suspense fallback={null}>
+          <ImmersiveBackground />
+        </Suspense>
+      ) : null}
 
       <div
         aria-hidden="true"
