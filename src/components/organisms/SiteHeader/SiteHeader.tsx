@@ -3,6 +3,7 @@ import { useState } from "react";
 import { navItems } from "../../../data/site";
 
 import { ButtonLink } from "../../atoms/ButtonLink";
+
 export const SiteHeader = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -10,13 +11,13 @@ export const SiteHeader = (): JSX.Element => {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-[rgba(4,3,14,0.68)] backdrop-blur-2xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <a
-            className="font-display text-lg font-semibold tracking-[0.2em] text-white uppercase"
+            className="font-display text-lg font-semibold tracking-[0.24em] text-white uppercase"
             href="#top"
           >
-            Howie
+            Howie Nguyen
           </a>
 
           <nav
@@ -25,9 +26,9 @@ export const SiteHeader = (): JSX.Element => {
           >
             {navItems.map((item) => (
               <a
-                key={item.href}
-                className="text-sm text-slate-300 transition hover:text-white"
+                className="text-sm tracking-[0.08em] text-[rgba(214,216,226,0.78)] transition hover:text-white"
                 href={item.href}
+                key={item.href}
               >
                 {item.label}
               </a>
@@ -50,13 +51,13 @@ export const SiteHeader = (): JSX.Element => {
       </header>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-40 bg-slate-950/92 px-6 pt-28 backdrop-blur-xl md:hidden">
+        <div className="fixed inset-0 z-40 bg-[rgba(4,3,12,0.94)] px-6 pt-28 backdrop-blur-2xl md:hidden">
           <nav aria-label="Mobile" className="grid gap-4">
             {navItems.map((item) => (
               <a
-                key={item.href}
-                className="rounded-3xl border border-white/10 bg-white/6 px-5 py-4 text-lg text-white"
+                className="surface-panel rounded-[1.6rem] px-5 py-4 text-lg text-white"
                 href={item.href}
+                key={item.href}
                 onClick={closeMenu}
               >
                 {item.label}

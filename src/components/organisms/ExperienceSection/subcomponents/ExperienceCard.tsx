@@ -10,13 +10,13 @@ type ExperienceCardProps = {
 
 const ExperienceCard = ({ entry }: ExperienceCardProps): JSX.Element => {
   return (
-    <article className="rounded-[2rem] border border-white/10 bg-white/7 p-6 shadow-[0_20px_80px_rgba(4,10,24,0.24)] backdrop-blur-xl">
+    <article className="surface-panel rounded-[2.1rem] p-6 sm:p-7">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="space-y-2">
-          <h3 className="font-display text-2xl font-semibold text-white">
+          <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-white">
             {entry.title}
           </h3>
-          <p className="text-sm uppercase tracking-[0.18em] text-slate-400">
+          <p className="text-sm uppercase tracking-[0.18em] text-[rgba(188,187,208,0.64)]">
             {entry.duration}
           </p>
         </div>
@@ -37,10 +37,10 @@ const ExperienceCard = ({ entry }: ExperienceCardProps): JSX.Element => {
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(16rem,0.9fr)]">
-        <ul className="space-y-3 text-sm leading-7 text-slate-300">
+        <ul className="space-y-3 text-sm leading-7 text-[rgba(214,216,226,0.78)]">
           {entry.description.map((item) => (
             <li key={item} className="flex gap-3">
-              <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
+              <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[rgba(255,143,196,0.94)] shadow-[0_0_16px_rgba(255,86,160,0.72)]" />
               <span>{item}</span>
             </li>
           ))}

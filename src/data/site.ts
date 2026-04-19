@@ -6,8 +6,14 @@ export type NavItem = {
 };
 
 export type Stat = {
+  detail?: string;
   label: string;
   value: string;
+};
+
+export type HeroSignal = {
+  detail: string;
+  title: string;
 };
 
 export type ContactMethod = {
@@ -24,20 +30,48 @@ export const navItems: ReadonlyArray<NavItem> = [
 ];
 
 export const heroStats: ReadonlyArray<Stat> = [
-  { label: "Years building interfaces", value: "3+" },
-  { label: "Products shipped", value: "10+" },
-  { label: "Primary stack", value: "React + TypeScript" },
+  {
+    detail: "Shipping product UI across SaaS, internal platforms, and mobile.",
+    label: "Experience arc",
+    value: "3+ years",
+  },
+  {
+    detail: "Frontend systems, interaction polish, and implementation quality.",
+    label: "Core discipline",
+    value: "React + TypeScript",
+  },
+  {
+    detail: "Interfaces built to feel precise, readable, and alive.",
+    label: "Delivery style",
+    value: "Fast + intentional",
+  },
+];
+
+export const heroSignals: ReadonlyArray<HeroSignal> = [
+  {
+    detail: "Turning dense product requirements into clear, high-trust flows.",
+    title: "Product-minded frontend engineering",
+  },
+  {
+    detail: "Design systems, motion, and UI architecture that scale cleanly.",
+    title: "Visual craft with systems thinking",
+  },
+  {
+    detail:
+      "Balancing performance, maintainability, and memorable interaction.",
+    title: "Interfaces with presence",
+  },
 ];
 
 export const aboutParagraphs: ReadonlyArray<string> = [
-  "I'm a software engineer based in Riverside, California, with roots in Cincinnati, Ohio and a strong focus on polished product experiences.",
-  "My work sits at the intersection of frontend engineering, product thinking, and design systems. I like building interfaces that feel clear, fast, and memorable.",
-  "Outside of work, I spend time lifting, playing racket sports, reading manga, and keeping up with the craft side of interface design.",
+  "I build interfaces that feel controlled under pressure: clean structure, strong hierarchy, crisp feedback, and enough motion to make a product feel alive without becoming noise.",
+  "Most of my work lives between frontend engineering, design systems, and product refinement. I care about the feel of a screen just as much as its implementation details.",
+  "Outside of work, I recharge through lifting, racket sports, manga, and studying the craft behind memorable digital experiences.",
 ];
 
 export const aboutHighlights: ReadonlyArray<string> = [
   "Design-system minded implementation",
-  "Accessible, responsive interface patterns",
+  "Performance-aware interaction design",
   "Collaboration across design and engineering",
 ];
 

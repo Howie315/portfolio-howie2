@@ -57,22 +57,22 @@ const ContactSection = (): JSX.Element => {
 
   return (
     <section
-      className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8"
+      className="section-shell pb-20"
       id="contact"
       style={{
         containIntrinsicSize: "1px 960px",
         contentVisibility: "auto",
       }}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="section-inner">
         <SectionHeading
-          description="If you’re building a product and want a frontend partner who cares about both implementation quality and interface feel, I’d love to talk."
+          description="If you need frontend help on a product that should feel sharper, faster, and more memorable than the default, I’m always open to the right conversation."
           eyebrow="Contact"
-          title="Let's build something thoughtful together."
+          title="Let’s shape something with real presence."
         />
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.9fr)]">
-          <div className="rounded-4xl border border-white/10 bg-white/6 p-6 shadow-[0_24px_90px_rgba(4,10,24,0.28)] backdrop-blur-xl">
+        <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.92fr)]">
+          <div className="surface-panel rounded-[2.3rem] p-6 sm:p-7">
             <form className="grid gap-4" onSubmit={handleSubmit}>
               <ContactField
                 label="Name"
@@ -95,7 +95,7 @@ const ContactSection = (): JSX.Element => {
                 required
               />
               <button
-                className="mt-2 inline-flex items-center justify-center rounded-full bg-brand-400 px-5 py-3 text-sm font-medium text-slate-950 transition hover:-translate-y-0.5 hover:bg-brand-300 disabled:cursor-not-allowed disabled:opacity-70"
+                className="mt-3 inline-flex items-center justify-center rounded-full border border-[rgba(255,122,170,0.32)] bg-[linear-gradient(135deg,rgba(255,74,138,0.94),rgba(126,76,255,0.94))] px-5 py-3 text-sm font-medium tracking-[0.08em] text-white shadow-[0_20px_60px_rgba(111,52,255,0.35)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={submission.status === "submitting"}
                 type="submit"
               >
@@ -110,8 +110,8 @@ const ContactSection = (): JSX.Element => {
               <p
                 className={`mt-4 text-sm ${
                   submission.status === "success"
-                    ? "text-mint-300"
-                    : "text-rose-300"
+                    ? "text-[rgba(150,255,220,0.92)]"
+                    : "text-[rgba(255,178,199,0.92)]"
                 }`}
               >
                 {submission.message}
@@ -120,6 +120,16 @@ const ContactSection = (): JSX.Element => {
           </div>
 
           <div className="grid gap-6">
+            <div className="surface-panel rounded-4xl p-6">
+              <p className="text-[0.68rem] uppercase tracking-[0.32em] text-[rgba(255,170,204,0.82)]">
+                Best fit
+              </p>
+              <p className="mt-3 text-lg leading-8 text-white">
+                Product-focused frontend roles, design-system work, interaction
+                refinement, and ambitious portfolio or marketing experiences.
+              </p>
+            </div>
+
             <div className="grid gap-4">
               {contactMethods.map((method) => (
                 <ContactMethodCard key={method.label} method={method} />

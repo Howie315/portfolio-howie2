@@ -11,16 +11,16 @@ type ProjectCardProps = {
 
 const ProjectCard = ({ project }: ProjectCardProps): JSX.Element => {
   return (
-    <article className="rounded-4xl border border-white/10 bg-white/6 p-6 shadow-[0_26px_90px_rgba(4,10,24,0.3)] backdrop-blur-xl">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
+    <article className="surface-panel rounded-[2.3rem] p-6 sm:p-7">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)]">
         <ProjectPreviewGrid images={project.images} title={project.title} />
 
         <div className="flex flex-col justify-between gap-6">
           <div className="space-y-4">
-            <h3 className="font-display text-2xl font-semibold text-white sm:text-3xl">
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
               {project.title}
             </h3>
-            <p className="text-sm leading-7 text-slate-300 sm:text-base">
+            <p className="text-sm leading-7 text-[rgba(214,216,226,0.76)] sm:text-base">
               {project.summary}
             </p>
           </div>

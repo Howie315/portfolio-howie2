@@ -6,21 +6,21 @@ import SectionHeading from "../../molecules/SectionHeading";
 const ProjectsSection = (): JSX.Element => {
   return (
     <section
-      className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8"
+      className="section-shell"
       id="projects"
       style={{
         containIntrinsicSize: "1px 1800px",
         contentVisibility: "auto",
       }}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="section-inner">
         <SectionHeading
-          description="Selected work focused on product interfaces, communication flows, and mobile-first experiences."
+          description="A few selected builds where the priority was product clarity, interaction feel, and making each flow hold together under real use."
           eyebrow="Projects"
-          title="Products that balance clarity, utility, and visual polish."
+          title="Selected systems, flows, and product surfaces."
         />
 
-        <div className="mt-10 grid gap-8">
+        <div className="mt-12 grid gap-8">
           {projects.map((project) => (
             <ProjectCard key={project.title} project={project} />
           ))}

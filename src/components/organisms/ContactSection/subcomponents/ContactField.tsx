@@ -12,10 +12,10 @@ const ContactField = ({
   ...props
 }: ContactFieldProps): JSX.Element => {
   const sharedClasses =
-    "w-full rounded-3xl border border-white/10 bg-slate-950/45 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition focus:border-brand-400/60 focus:bg-slate-950/60";
+    "w-full rounded-[1.5rem] border border-white/10 bg-[rgba(7,4,18,0.68)] px-4 py-3 text-sm text-white placeholder:text-[rgba(188,187,208,0.46)] outline-none transition focus:border-[rgba(255,122,170,0.42)] focus:bg-[rgba(7,4,18,0.82)]";
 
   return (
-    <label className="grid gap-2 text-sm text-slate-300">
+    <label className="grid gap-2 text-sm text-[rgba(214,216,226,0.8)]">
       <span>{label}</span>
       {multiline ? (
         <textarea

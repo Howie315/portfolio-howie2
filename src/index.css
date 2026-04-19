@@ -10,12 +10,6 @@
 @theme {
   --font-sans: "Cabinet Grotesk", "Segoe UI", sans-serif;
   --font-display: "Clash Display", "Cabinet Grotesk", sans-serif;
-  --color-brand-400: #63d2ff;
-  --color-brand-300: #8ae1ff;
-  --color-brand-500: #1da1f2;
-  --color-mint-300: #b8f0d8;
-  --color-surface-900: #0b1120;
-  --color-surface-800: #111b32;
 }
 
 *,
@@ -25,19 +19,20 @@
 }
 
 :root {
-  color: #f8fafc;
+  color: #f8f7ff;
   background:
     radial-gradient(
-      circle at 15% 10%,
-      rgba(99, 210, 255, 0.24),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 85% 15%,
-      rgba(184, 240, 216, 0.14),
+      circle at 18% 12%,
+      rgba(126, 76, 255, 0.18),
       transparent 24%
     ),
-    linear-gradient(180deg, #050816 0%, #0b1120 38%, #0f172a 100%);
+    radial-gradient(
+      circle at 82% 20%,
+      rgba(255, 74, 138, 0.14),
+      transparent 20%
+    ),
+    linear-gradient(180deg, #06030d 0%, #04030b 52%, #020208 100%);
+  color-scheme: dark;
   font-family: var(--font-sans);
 }
 
@@ -52,6 +47,7 @@ body {
   color: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body::before {
@@ -59,11 +55,28 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 85%);
+  z-index: 1;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 92px 92px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.82), transparent 86%);
+  opacity: 0.55;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 32%,
+      rgba(0, 0, 0, 0.42) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.56));
 }
 
 a {
@@ -81,10 +94,102 @@ textarea {
   font: inherit;
 }
 
+textarea {
+  min-height: 9rem;
+}
+
 ::selection {
-  background: rgba(99, 210, 255, 0.3);
+  background: rgba(255, 82, 148, 0.34);
+}
+
+::-webkit-scrollbar {
+  width: 0.72rem;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(12, 8, 20, 0.9);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(12, 8, 20, 0.9);
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 74, 138, 0.8),
+    rgba(126, 76, 255, 0.9)
+  );
 }
 
 #root {
   min-height: 100vh;
+}
+
+.section-shell {
+  position: relative;
+  padding-inline: 1rem;
+  padding-block: 2.5rem;
+  scroll-margin-top: 7rem;
+}
+
+.section-inner {
+  margin-inline: auto;
+  max-width: 72rem;
+}
+
+.surface-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.025)
+    ),
+    linear-gradient(180deg, rgba(10, 7, 20, 0.88), rgba(5, 4, 15, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 32px 120px rgba(4, 0, 15, 0.42);
+  backdrop-filter: blur(24px);
+}
+
+.surface-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 255, 255, 0.06),
+    transparent 42%
+  );
+}
+
+@media (min-width: 640px) {
+  .section-shell {
+    padding-inline: 1.5rem;
+    padding-block: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-shell {
+    padding-inline: 2rem;
+    padding-block: 3.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

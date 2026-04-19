@@ -14,11 +14,11 @@ const ProjectPreviewGrid = ({
       {images.map((image) => (
         <div
           key={`${title}-${image.alt}`}
-          className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-950/60 shadow-[0_16px_50px_rgba(4,10,24,0.28)]"
+          className="overflow-hidden rounded-[1.65rem] border border-white/10 bg-[rgba(8,4,18,0.68)] shadow-[0_22px_64px_rgba(2,0,15,0.34)]"
         >
           <img
             alt={image.alt}
-            className="h-full w-full object-cover transition duration-300 hover:scale-[1.02]"
+            className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
             src={image.src}
           />
         </div>

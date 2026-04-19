@@ -5,32 +5,32 @@ import SectionHeading from "../../molecules/SectionHeading";
 const AboutSection = (): JSX.Element => {
   return (
     <section
-      className="px-4 py-8 scroll-mt-28 sm:px-6 lg:px-8"
+      className="section-shell"
       id="about"
       style={{
         containIntrinsicSize: "1px 960px",
         contentVisibility: "auto",
       }}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="section-inner">
         <SectionHeading
-          description="The portfolio is now structured around reusable Tailwind components, but the voice and content still reflect the same work and interests."
+          description="The work is grounded in product delivery, but the standard I chase is a little higher than just functional. I want the interface to hold attention, communicate confidence, and make the product feel unmistakably considered."
           eyebrow="About"
-          title="Frontend craft grounded in product thinking."
+          title="Frontend craft with structure, tension, and visual control."
         />
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(18rem,0.85fr)_minmax(0,1.15fr)]">
-          <div className="overflow-hidden rounded-4xl border border-white/10 bg-white/6 p-3 shadow-[0_24px_90px_rgba(4,10,24,0.28)] backdrop-blur-xl">
+        <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(18rem,0.78fr)_minmax(0,1.22fr)]">
+          <div className="surface-panel overflow-hidden rounded-[2.4rem] p-3">
             <img
               alt={profile.alt}
-              className="aspect-4/5 w-full rounded-3xl object-cover"
+              className="aspect-4/5 w-full rounded-4xl object-cover"
               src={profile.image}
             />
           </div>
 
           <div className="grid gap-6">
-            <div className="rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur-xl">
-              <div className="space-y-4 text-base leading-8 text-slate-300">
+            <div className="surface-panel rounded-[2.2rem] p-6 sm:p-8">
+              <div className="space-y-5 text-base leading-8 text-[rgba(214,216,226,0.82)]">
                 {aboutParagraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -40,8 +40,8 @@ const AboutSection = (): JSX.Element => {
             <div className="grid gap-4 sm:grid-cols-3">
               {aboutHighlights.map((highlight) => (
                 <div
+                  className="surface-panel rounded-[1.7rem] p-5"
                   key={highlight}
-                  className="rounded-3xl border border-white/10 bg-slate-950/45 p-5"
                 >
                   <p className="text-sm font-medium leading-7 text-white">
                     {highlight}

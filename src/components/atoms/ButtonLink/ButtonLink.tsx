@@ -9,9 +9,9 @@ type ButtonLinkProps = ComponentPropsWithoutRef<"a"> & {
 
 const variantClasses: Record<ButtonVariant, string> = {
   solid:
-    "bg-brand-400 text-slate-950 shadow-[0_18px_45px_rgba(99,210,255,0.28)] hover:-translate-y-0.5 hover:bg-brand-300",
+    "border border-[rgba(255,122,170,0.34)] bg-[linear-gradient(135deg,rgba(255,74,138,0.94),rgba(126,76,255,0.94))] text-white shadow-[0_20px_60px_rgba(111,52,255,0.35)] hover:-translate-y-0.5 hover:shadow-[0_28px_80px_rgba(111,52,255,0.45)]",
   ghost:
-    "border border-white/12 bg-white/6 text-white hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10",
+    "border border-white/12 bg-white/6 text-white hover:-translate-y-0.5 hover:border-[rgba(255,122,170,0.32)] hover:bg-white/10",
 };
 
 export const ButtonLink = ({
@@ -22,7 +22,7 @@ export const ButtonLink = ({
 }: ButtonLinkProps): JSX.Element => {
   return (
     <a
-      className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition duration-200 ${variantClasses[variant]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium tracking-[0.08em] transition duration-200 ${variantClasses[variant]} ${className}`}
       {...props}
     >
       {children}
