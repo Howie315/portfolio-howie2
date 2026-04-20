@@ -224,10 +224,6 @@ const PortfolioScenePage = (): React.JSX.Element => {
               setTouchLookOffset([0, 0]);
             }}
             onTouchEnd={(event) => {
-              if (isMobileViewport && isTouch) {
-                event.preventDefault();
-              }
-
               const pinchDistance = getTouchDistance(event.touches);
 
               if (pinchDistance) {
@@ -269,8 +265,6 @@ const PortfolioScenePage = (): React.JSX.Element => {
               if (!isMobileViewport || !isTouch) {
                 return;
               }
-
-              event.preventDefault();
 
               if (event.touches.length >= 2) {
                 const pinchDistance = getTouchDistance(event.touches);
@@ -316,8 +310,6 @@ const PortfolioScenePage = (): React.JSX.Element => {
               if (!isMobileViewport || !isTouch) {
                 return;
               }
-
-              event.preventDefault();
 
               const pinchDistance = getTouchDistance(event.touches);
 

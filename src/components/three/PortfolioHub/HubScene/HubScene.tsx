@@ -59,6 +59,7 @@ const HubScene = ({
     : "#8f65ff";
   const isLiteMode = sceneMode === "lite";
   const isMobileViewport = viewportKind === "mobile";
+  const mobileHitScale = isMobileViewport ? 0.82 : 1;
   const ambientParticlePositions = useMemo(() => {
     const count = isMobileViewport ? 28 : isLiteMode ? 40 : 72;
     const positions = new Float32Array(count * 3);
@@ -253,7 +254,15 @@ const HubScene = ({
         <InteractiveHubObject
           accentColor="#ff4a8a"
           hoveredSection={hoveredSection}
-          hitAreaScale={isTouchDevice ? [6.2, 3.6, 4.4] : [4.4, 2.2, 2.6]}
+          hitAreaScale={
+            isTouchDevice
+              ? [
+                  5.3 * mobileHitScale,
+                  3.1 * mobileHitScale,
+                  3.7 * mobileHitScale,
+                ]
+              : [4.4, 2.2, 2.6]
+          }
           id="about"
           isTouchDevice={isTouchDevice}
           isSelected={activeSection === "about"}
@@ -304,7 +313,15 @@ const HubScene = ({
         <InteractiveHubObject
           accentColor="#6dcbff"
           hoveredSection={hoveredSection}
-          hitAreaScale={isTouchDevice ? [3.4, 3.5, 2.4] : [2.8, 2.9, 1.8]}
+          hitAreaScale={
+            isTouchDevice
+              ? [
+                  2.55 * mobileHitScale,
+                  2.7 * mobileHitScale,
+                  1.55 * mobileHitScale,
+                ]
+              : [2.8, 2.9, 1.8]
+          }
           id="projects"
           isTouchDevice={isTouchDevice}
           isSelected={activeSection === "projects"}
@@ -346,7 +363,15 @@ const HubScene = ({
         <InteractiveHubObject
           accentColor="#d2b1ff"
           hoveredSection={hoveredSection}
-          hitAreaScale={isTouchDevice ? [3.5, 3.7, 2.6] : [2.9, 3.1, 2]}
+          hitAreaScale={
+            isTouchDevice
+              ? [
+                  2.95 * mobileHitScale,
+                  3.15 * mobileHitScale,
+                  2 * mobileHitScale,
+                ]
+              : [2.9, 3.1, 2]
+          }
           id="skills"
           isTouchDevice={isTouchDevice}
           isSelected={activeSection === "skills"}
@@ -380,7 +405,15 @@ const HubScene = ({
         <InteractiveHubObject
           accentColor="#ff8db3"
           hoveredSection={hoveredSection}
-          hitAreaScale={isTouchDevice ? [3.7, 3.9, 2.2] : [2.9, 3.3, 1.6]}
+          hitAreaScale={
+            isTouchDevice
+              ? [
+                  3.1 * mobileHitScale,
+                  3.25 * mobileHitScale,
+                  1.75 * mobileHitScale,
+                ]
+              : [2.9, 3.3, 1.6]
+          }
           id="experience"
           isTouchDevice={isTouchDevice}
           isSelected={activeSection === "experience"}
@@ -426,7 +459,24 @@ const HubScene = ({
         <InteractiveHubObject
           accentColor="#7e4cff"
           hoveredSection={hoveredSection}
-          hitAreaScale={isTouchDevice ? [4.1, 4.6, 2.8] : [3.3, 3.8, 2.2]}
+          hitAreaOffset={
+            isTouchDevice
+              ? [
+                  0,
+                  isMobileViewport ? 0.08 : 0.15,
+                  isMobileViewport ? 1.05 : 1.28,
+                ]
+              : [0, 0, 0]
+          }
+          hitAreaScale={
+            isTouchDevice
+              ? [
+                  4 * mobileHitScale,
+                  4.2 * mobileHitScale,
+                  1.35 * mobileHitScale,
+                ]
+              : [3.3, 3.8, 2.2]
+          }
           id="contact"
           isTouchDevice={isTouchDevice}
           isSelected={activeSection === "contact"}

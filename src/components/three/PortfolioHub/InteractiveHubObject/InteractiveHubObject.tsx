@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { Group } from "three";
 import { Color, DoubleSide, Mesh } from "three";
 import type { ThreeEvent } from "@react-three/fiber";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 import type { SceneSectionId } from "../../../../data/sceneContent";
 
@@ -11,6 +11,7 @@ type InteractiveHubObjectProps = {
   accentColor: string;
   children: ReactNode;
   hoveredSection: SceneSectionId | null;
+  hitAreaOffset?: [number, number, number];
   hitAreaScale?: [number, number, number];
   id: SceneSectionId;
   isTouchDevice?: boolean;
@@ -25,6 +26,7 @@ const InteractiveHubObject = ({
   accentColor,
   children,
   hoveredSection,
+  hitAreaOffset = [0, 0, 0],
   hitAreaScale = [2.2, 2.2, 2.2],
   id,
   isTouchDevice = false,
@@ -34,6 +36,7 @@ const InteractiveHubObject = ({
   onSelect,
   position,
 }: InteractiveHubObjectProps): React.JSX.Element => {
+  const { gl } = useThree();
   const groupRef = useRef<Group | null>(null);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activePointerIdRef = useRef<number | null>(null);
@@ -58,16 +61,23 @@ const InteractiveHubObject = ({
     }
 
     document.body.style.cursor = shouldHighlight ? "pointer" : "";
+    gl.domElement.style.cursor = shouldHighlight ? "pointer" : "";
 
     return () => {
       document.body.style.cursor = "";
+      gl.domElement.style.cursor = "";
     };
-  }, [isTouchDevice, shouldHighlight]);
+  }, [gl, isTouchDevice, shouldHighlight]);
 
   const handleHoverStart = (): void => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
+    }
+
+    if (!isTouchDevice) {
+      document.body.style.cursor = "pointer";
+      gl.domElement.style.cursor = "pointer";
     }
 
     onHover(id);
@@ -79,6 +89,11 @@ const InteractiveHubObject = ({
     }
 
     hoverTimeoutRef.current = setTimeout(() => {
+      if (!isTouchDevice) {
+        document.body.style.cursor = "";
+        gl.domElement.style.cursor = "";
+      }
+
       onHover(null);
       hoverTimeoutRef.current = null;
     }, 70);
@@ -149,6 +164,7 @@ const InteractiveHubObject = ({
   return (
     <group position={position} ref={groupRef}>
       <mesh
+        position={hitAreaOffset}
         onClick={(event) => {
           handleSelect(event, "click");
         }}
@@ -156,6 +172,9 @@ const InteractiveHubObject = ({
           if (isTouchDevice) {
             resetTouchState();
             onHover(null);
+          } else {
+            document.body.style.cursor = "";
+            gl.domElement.style.cursor = "";
           }
         }}
         onPointerDown={(event) => {
