@@ -1,5 +1,3 @@
-import type { JSX } from "react";
-
 import {
   type SceneSectionId,
   sceneSectionOrder,
@@ -29,12 +27,12 @@ const SceneHubFallback = ({
       />
       <div
         aria-hidden="true"
-        className="absolute left-1/2 top-[22%] h-[22rem] w-[22rem] -translate-x-1/2 rounded-full border border-[rgba(126,76,255,0.22)] bg-[radial-gradient(circle_at_center,rgba(126,76,255,0.22),transparent_65%)] blur-3xl"
+        className="absolute left-1/2 top-[22%] h-88 w-88 -translate-x-1/2 rounded-full border border-[rgba(126,76,255,0.22)] bg-[radial-gradient(circle_at_center,rgba(126,76,255,0.22),transparent_65%)] blur-3xl"
       />
 
       <div className="relative flex min-h-screen items-start justify-center px-4 py-28 pb-12 sm:items-center sm:px-6 sm:py-28">
         <div className="grid w-full max-w-6xl gap-4 lg:grid-cols-[1.02fr_0.98fr]">
-          <div className="scene-shell-panel rounded-[1.7rem] p-5 sm:rounded-[2rem] sm:p-8">
+          <div className="scene-shell-panel rounded-[1.7rem] p-5 sm:rounded-4xl sm:p-8">
             <p className="text-[0.68rem] uppercase tracking-[0.34em] text-[rgba(255,170,204,0.84)] sm:text-[0.72rem]">
               {isMobile ? "Touch chamber mode" : "Scene fallback"}
             </p>

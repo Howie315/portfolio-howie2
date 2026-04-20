@@ -1,5 +1,3 @@
-import type { JSX } from "react";
-
 import {
   type SceneSectionId,
   sceneSectionCopy,
@@ -40,11 +38,11 @@ export const SceneDetailPanel = ({
         type="button"
       />
 
-      <div className="pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(19,11,34,0.96),rgba(7,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-xl sm:rounded-[2rem]">
+      <div className="pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(19,11,34,0.96),rgba(7,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-xl sm:rounded-4xl">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,170,204,0.42),transparent)]" />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute right-[-5rem] top-[-4rem] h-48 w-48 rounded-full blur-3xl"
+          className="pointer-events-none absolute -right-20 -top-16 h-48 w-48 rounded-full blur-3xl"
           style={{ backgroundColor: `${sectionMeta.accent}32` }}
         />
         <div
@@ -169,7 +167,7 @@ export const SceneDetailPanel = ({
                   <div className="mt-4 flex flex-wrap gap-2.5">
                     {group.values.map((value) => (
                       <span
-                        className="scene-detail-chip !text-[0.72rem] !tracking-[0.12em] normal-case"
+                        className="scene-detail-chip text-[0.72rem]! tracking-[0.12em]! normal-case"
                         key={value}
                       >
                         {value}
