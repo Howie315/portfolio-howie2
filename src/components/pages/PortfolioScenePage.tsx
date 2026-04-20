@@ -12,12 +12,14 @@ const PortfolioHubCanvas = lazy(
 );
 
 const PortfolioScenePage = (): React.JSX.Element => {
-  const { isTouch, sceneMode, viewportKind } = useSceneExperienceProfile();
+  const { isReady, isTouch, sceneMode, viewportKind } =
+    useSceneExperienceProfile();
   const isMobileViewport = viewportKind === "mobile";
   const showBottomNarrative = !isMobileViewport || sceneMode !== "fallback";
   const showMobileDock = isMobileViewport && sceneMode !== "fallback";
   const showDesktopStatus = viewportKind === "desktop";
   const isMobileFallback = isMobileViewport && sceneMode === "fallback";
+  const isAwaitingSceneDecision = !isReady;
 
   const [activeSection, setActiveSection] = useState<SceneSectionId | null>(
     null,
@@ -104,7 +106,9 @@ const PortfolioScenePage = (): React.JSX.Element => {
     >
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,74,138,0.16),transparent_22%),radial-gradient(circle_at_78%_16%,rgba(126,76,255,0.22),transparent_24%),linear-gradient(180deg,#04020a_0%,#06030f_44%,#020207_100%)]" />
 
-      {sceneMode !== "fallback" ? (
+      {isAwaitingSceneDecision ? (
+        <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_50%_28%,rgba(126,76,255,0.14),transparent_18%),radial-gradient(circle_at_50%_68%,rgba(255,74,138,0.12),transparent_22%),linear-gradient(180deg,#05030c_0%,#04020b_48%,#020208_100%)]" />
+      ) : sceneMode !== "fallback" ? (
         <Suspense
           fallback={
             <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_50%_28%,rgba(126,76,255,0.14),transparent_18%),radial-gradient(circle_at_50%_68%,rgba(255,74,138,0.12),transparent_22%),linear-gradient(180deg,#05030c_0%,#04020b_48%,#020208_100%)]" />
@@ -172,11 +176,13 @@ const PortfolioScenePage = (): React.JSX.Element => {
             </p>
             {viewportKind !== "desktop" ? (
               <p className="mt-3 max-w-xl text-[0.92rem] leading-6 text-[rgba(214,216,226,0.74)]">
-                {sceneMode === "fallback"
-                  ? "A mobile-first chamber map built for touch, readability, and faster exploration."
-                  : isMobileViewport
-                    ? "Tap the lit artifacts in the 3D chamber to reveal each section. Touch mode keeps the scene lighter and easier to target."
-                    : "Tap the lit artifacts to reveal each section. The chamber is running in a lighter touch mode."}
+                {isAwaitingSceneDecision
+                  ? "Preparing the chamber for your device."
+                  : sceneMode === "fallback"
+                    ? "A mobile-first chamber map built for touch, readability, and faster exploration."
+                    : isMobileViewport
+                      ? "Tap the lit artifacts in the 3D chamber to reveal each section. Touch mode keeps the scene lighter and easier to target."
+                      : "Tap the lit artifacts to reveal each section. The chamber is running in a lighter touch mode."}
               </p>
             ) : null}
           </div>

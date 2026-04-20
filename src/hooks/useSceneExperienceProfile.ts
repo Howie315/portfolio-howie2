@@ -11,6 +11,7 @@ export type ViewportKind = "desktop" | "mobile" | "tablet";
 
 export type SceneExperienceProfile = {
   isTouch: boolean;
+  isReady: boolean;
   sceneMode: SceneMode;
   viewportKind: ViewportKind;
 };
@@ -181,6 +182,7 @@ export const useSceneExperienceProfile = (): SceneExperienceProfile => {
 
     return {
       isTouch,
+      isReady: !canRenderAny3D || isIdleReady,
       sceneMode,
       viewportKind,
     };
