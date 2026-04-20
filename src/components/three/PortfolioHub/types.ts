@@ -10,7 +10,10 @@ export type PortfolioHubCanvasProps = {
   onHoverSection: (sectionId: SceneSectionId | null) => void;
   onSelectSection: (sectionId: SceneSectionId) => void;
   onTransitionChange?: (isTransitioning: boolean) => void;
+  touchOrbitOffset?: [number, number];
+  touchZoomOffset?: number;
   sceneMode: SceneRenderMode;
+  touchLookOffset?: [number, number];
   viewportKind?: "desktop" | "mobile" | "tablet";
   viewState: CameraView;
 };

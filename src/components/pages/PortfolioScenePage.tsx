@@ -11,6 +11,14 @@ const PortfolioHubCanvas = lazy(
   () => import("../three/PortfolioHub/PortfolioHubCanvas"),
 );
 
+type TouchPointListLike = {
+  [index: number]: { clientX: number; clientY: number } | undefined;
+  length: number;
+};
+
+const clamp = (value: number, min: number, max: number): number =>
+  Math.max(min, Math.min(max, value));
+
 const PortfolioScenePage = (): React.JSX.Element => {
   const { isReady, isTouch, sceneMode, viewportKind } =
     useSceneExperienceProfile();
@@ -29,8 +37,25 @@ const PortfolioScenePage = (): React.JSX.Element => {
   );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [touchOrbitOffset, setTouchOrbitOffset] = useState<[number, number]>([
+    0, 0,
+  ]);
+  const [touchZoomOffset, setTouchZoomOffset] = useState(0);
+  const [touchLookOffset, setTouchLookOffset] = useState<[number, number]>([
+    0, 0,
+  ]);
   const [viewState, setViewState] = useState<ViewState>("hub");
   const returnTimeoutRef = useRef<number | null>(null);
+  const touchGestureRef = useRef<{
+    isDragging: boolean;
+    startOrbitOffset: [number, number];
+    startX: number;
+    startY: number;
+  } | null>(null);
+  const touchPinchRef = useRef<{
+    startDistance: number;
+    startZoomOffset: number;
+  } | null>(null);
 
   const activeSceneSection = useMemo(
     () => sceneSections.find((section) => section.id === activeSection) ?? null,
@@ -51,6 +76,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
 
     setIsMobileNavOpen(false);
     setHoveredSection(null);
+    setTouchLookOffset([0, 0]);
     setActiveSection(sectionId);
     setViewState("focus");
   };
@@ -62,6 +88,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
 
     setIsMobileNavOpen(false);
     setHoveredSection(null);
+    setTouchLookOffset([0, 0]);
     setViewState("hub");
 
     returnTimeoutRef.current = window.setTimeout(() => {
@@ -96,6 +123,80 @@ const PortfolioScenePage = (): React.JSX.Element => {
     };
   }, []);
 
+  const handleTouchLookMove = (
+    clientX: number,
+    clientY: number,
+    rect: DOMRect,
+  ): void => {
+    const normalizedX = ((clientX - rect.left) / rect.width) * 2 - 1;
+    const normalizedY = ((clientY - rect.top) / rect.height) * 2 - 1;
+
+    setTouchLookOffset([
+      Math.max(-0.85, Math.min(0.85, normalizedX)),
+      Math.max(-0.8, Math.min(0.8, -normalizedY)),
+    ]);
+  };
+
+  const handleTouchGestureMove = (
+    clientX: number,
+    clientY: number,
+    rect: DOMRect,
+  ): void => {
+    handleTouchLookMove(clientX, clientY, rect);
+
+    if (!touchGestureRef.current) {
+      return;
+    }
+
+    const deltaX = clientX - touchGestureRef.current.startX;
+    const deltaY = clientY - touchGestureRef.current.startY;
+
+    if (
+      !touchGestureRef.current.isDragging &&
+      Math.hypot(deltaX, deltaY) > 12
+    ) {
+      touchGestureRef.current.isDragging = true;
+    }
+
+    if (!touchGestureRef.current.isDragging) {
+      return;
+    }
+
+    // Keep touch rotation bounded so the hub stays cinematic instead of
+    // becoming a free orbit camera on small screens.
+    const nextYaw = clamp(
+      touchGestureRef.current.startOrbitOffset[0] -
+        (deltaX / rect.width) * 1.55,
+      -0.7,
+      0.7,
+    );
+    const nextPitch = clamp(
+      touchGestureRef.current.startOrbitOffset[1] +
+        (deltaY / rect.height) * 0.62,
+      -0.22,
+      0.24,
+    );
+
+    setTouchOrbitOffset([nextYaw, nextPitch]);
+  };
+
+  const getTouchDistance = (touches: TouchPointListLike): number | null => {
+    if (touches.length < 2) {
+      return null;
+    }
+
+    const [firstTouch, secondTouch] = [touches[0], touches[1]];
+
+    if (!firstTouch || !secondTouch) {
+      return null;
+    }
+
+    return Math.hypot(
+      secondTouch.clientX - firstTouch.clientX,
+      secondTouch.clientY - firstTouch.clientY,
+    );
+  };
+
   return (
     <div
       className={`relative min-h-screen bg-[#05030c] text-white ${
@@ -114,17 +215,154 @@ const PortfolioScenePage = (): React.JSX.Element => {
             <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_50%_28%,rgba(126,76,255,0.14),transparent_18%),radial-gradient(circle_at_50%_68%,rgba(255,74,138,0.12),transparent_22%),linear-gradient(180deg,#05030c_0%,#04020b_48%,#020208_100%)]" />
           }
         >
-          <PortfolioHubCanvas
-            activeSection={activeSection}
-            hoveredSection={hoveredSection}
-            isTouchDevice={isTouch}
-            onHoverSection={setHoveredSection}
-            onSelectSection={handleOpenSection}
-            onTransitionChange={setIsTransitioning}
-            sceneMode={sceneMode}
-            viewportKind={viewportKind}
-            viewState={viewState}
-          />
+          <div
+            className="absolute inset-0 z-10"
+            style={{ touchAction: "none" }}
+            onTouchCancel={() => {
+              touchGestureRef.current = null;
+              touchPinchRef.current = null;
+              setTouchLookOffset([0, 0]);
+            }}
+            onTouchEnd={(event) => {
+              if (isMobileViewport && isTouch) {
+                event.preventDefault();
+              }
+
+              const pinchDistance = getTouchDistance(event.touches);
+
+              if (pinchDistance) {
+                touchPinchRef.current = {
+                  startDistance: pinchDistance,
+                  startZoomOffset: touchZoomOffset,
+                };
+              } else {
+                touchPinchRef.current = null;
+              }
+
+              if (event.touches.length === 1) {
+                const touch = event.touches[0];
+
+                if (!touch) {
+                  return;
+                }
+
+                touchGestureRef.current = {
+                  isDragging: false,
+                  startOrbitOffset: touchOrbitOffset,
+                  startX: touch.clientX,
+                  startY: touch.clientY,
+                };
+
+                handleTouchLookMove(
+                  touch.clientX,
+                  touch.clientY,
+                  event.currentTarget.getBoundingClientRect(),
+                );
+
+                return;
+              }
+
+              touchGestureRef.current = null;
+              setTouchLookOffset([0, 0]);
+            }}
+            onTouchMove={(event) => {
+              if (!isMobileViewport || !isTouch) {
+                return;
+              }
+
+              event.preventDefault();
+
+              if (event.touches.length >= 2) {
+                const pinchDistance = getTouchDistance(event.touches);
+
+                if (!pinchDistance) {
+                  return;
+                }
+
+                if (!touchPinchRef.current) {
+                  touchPinchRef.current = {
+                    startDistance: pinchDistance,
+                    startZoomOffset: touchZoomOffset,
+                  };
+                }
+
+                const pinchDelta =
+                  (pinchDistance - touchPinchRef.current.startDistance) / 115;
+                const nextZoomOffset = clamp(
+                  touchPinchRef.current.startZoomOffset - pinchDelta,
+                  -2.35,
+                  1.75,
+                );
+
+                touchGestureRef.current = null;
+                setTouchZoomOffset(nextZoomOffset);
+                setTouchLookOffset([0, 0]);
+                return;
+              }
+
+              const touch = event.touches[0];
+
+              if (!touch) {
+                return;
+              }
+
+              handleTouchGestureMove(
+                touch.clientX,
+                touch.clientY,
+                event.currentTarget.getBoundingClientRect(),
+              );
+            }}
+            onTouchStart={(event) => {
+              if (!isMobileViewport || !isTouch) {
+                return;
+              }
+
+              event.preventDefault();
+
+              const pinchDistance = getTouchDistance(event.touches);
+
+              if (pinchDistance) {
+                touchPinchRef.current = {
+                  startDistance: pinchDistance,
+                  startZoomOffset: touchZoomOffset,
+                };
+                touchGestureRef.current = null;
+                setTouchLookOffset([0, 0]);
+                return;
+              }
+
+              const touch = event.touches[0];
+
+              if (!touch) {
+                return;
+              }
+
+              const rect = event.currentTarget.getBoundingClientRect();
+
+              touchGestureRef.current = {
+                isDragging: false,
+                startOrbitOffset: touchOrbitOffset,
+                startX: touch.clientX,
+                startY: touch.clientY,
+              };
+              handleTouchLookMove(touch.clientX, touch.clientY, rect);
+            }}
+          >
+            <PortfolioHubCanvas
+              activeSection={activeSection}
+              hoveredSection={hoveredSection}
+              isTouchDevice={isTouch}
+              onHoverSection={setHoveredSection}
+              onSelectSection={handleOpenSection}
+              onTransitionChange={setIsTransitioning}
+              sceneMode={sceneMode}
+              touchOrbitOffset={touchOrbitOffset}
+              touchLookOffset={touchLookOffset}
+              touchZoomOffset={touchZoomOffset}
+              viewportKind={viewportKind}
+              viewState={viewState}
+            />
+          </div>
         </Suspense>
       ) : (
         <SceneHubFallback

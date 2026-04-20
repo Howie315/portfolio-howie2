@@ -12,6 +12,9 @@ const PortfolioHubCanvas = ({
   onSelectSection,
   onTransitionChange,
   sceneMode,
+  touchOrbitOffset = [0, 0],
+  touchLookOffset = [0, 0],
+  touchZoomOffset = 0,
   viewportKind = "desktop",
   viewState,
 }: PortfolioHubCanvasProps): React.JSX.Element => {
@@ -51,6 +54,9 @@ const PortfolioHubCanvas = ({
             onSelectSection={onSelectSection}
             onTransitionChange={onTransitionChange}
             sceneMode={sceneMode}
+            touchOrbitOffset={touchOrbitOffset}
+            touchLookOffset={touchLookOffset}
+            touchZoomOffset={touchZoomOffset}
             viewportKind={viewportKind}
             viewState={viewState}
           />

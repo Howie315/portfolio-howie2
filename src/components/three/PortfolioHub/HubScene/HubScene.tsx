@@ -15,6 +15,9 @@ type HubSceneProps = {
   onSelectSection: (sectionId: SceneSectionId) => void;
   onTransitionChange?: (isTransitioning: boolean) => void;
   sceneMode: SceneRenderMode;
+  touchOrbitOffset?: [number, number];
+  touchLookOffset?: [number, number];
+  touchZoomOffset?: number;
   viewportKind?: "desktop" | "mobile" | "tablet";
   viewState: CameraView;
 };
@@ -44,6 +47,9 @@ const HubScene = ({
   onSelectSection,
   onTransitionChange,
   sceneMode,
+  touchOrbitOffset = [0, 0],
+  touchLookOffset = [0, 0],
+  touchZoomOffset = 0,
   viewportKind = "desktop",
   viewState,
 }: HubSceneProps): React.JSX.Element => {
@@ -106,6 +112,9 @@ const HubScene = ({
         hoveredSection={hoveredSection}
         isTouchDevice={isTouchDevice}
         onTransitionChange={onTransitionChange}
+        touchOrbitOffset={touchOrbitOffset}
+        touchLookOffset={touchLookOffset}
+        touchZoomOffset={touchZoomOffset}
         viewState={viewState}
       />
 
