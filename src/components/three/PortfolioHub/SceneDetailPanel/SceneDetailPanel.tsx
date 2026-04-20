@@ -35,7 +35,7 @@ export const SceneDetailPanel = ({
     <aside className="pointer-events-none fixed inset-0 z-30 flex items-end justify-end p-0 sm:items-stretch sm:p-4 lg:p-6">
       <button
         aria-label="Close section panel"
-        className="absolute inset-0 touch-manipulation bg-[rgba(2,2,8,0.56)] backdrop-blur-[2px]"
+        className="pointer-events-auto absolute inset-0 touch-manipulation bg-[rgba(2,2,8,0.56)] backdrop-blur-[2px]"
         onClick={onClose}
         type="button"
       />

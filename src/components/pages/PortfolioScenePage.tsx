@@ -69,6 +69,11 @@ const PortfolioScenePage = (): React.JSX.Element => {
   const visualSceneSection = activeSceneSection ?? hoveredSceneSection;
 
   const handleOpenSection = (sectionId: SceneSectionId): void => {
+    if (activeSection) {
+      handleReturnToHub();
+      return;
+    }
+
     if (returnTimeoutRef.current) {
       clearTimeout(returnTimeoutRef.current);
       returnTimeoutRef.current = null;
