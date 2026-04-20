@@ -3,7 +3,7 @@ import { aboutHighlights, aboutParagraphs } from "../../../data/site";
 import SectionReveal from "../../molecules/SectionReveal";
 import SectionHeading from "../../molecules/SectionHeading";
 
-const AboutSection = (): JSX.Element => {
+const AboutSection = (): React.JSX.Element => {
   return (
     <section
       className="section-shell"

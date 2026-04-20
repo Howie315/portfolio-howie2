@@ -4,7 +4,7 @@ type MobileMenuProps = {
   closeMenu: () => void;
 };
 
-const MobileMenu = ({ closeMenu }: MobileMenuProps): JSX.Element => {
+const MobileMenu = ({ closeMenu }: MobileMenuProps): React.JSX.Element => {
   const handleClick = (): void => {
     closeMenu();
   };

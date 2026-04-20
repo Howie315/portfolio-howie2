@@ -4,7 +4,7 @@ import { navItems } from "../../../data/site";
 
 import { ButtonLink } from "../../atoms/ButtonLink";
 
-export const SiteHeader = (): JSX.Element => {
+export const SiteHeader = (): React.JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeMenu = (): void => setIsOpen(false);

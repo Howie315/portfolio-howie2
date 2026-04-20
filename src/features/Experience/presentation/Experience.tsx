@@ -4,7 +4,7 @@ import ResumeItem from "./Resume Item/presentation/ResumeItem";
 import { useResumeContext } from "./Resume Item/presentation/ResumeProvider";
 import anime from "animejs";
 
-const Experience = (): JSX.Element => {
+const Experience = (): React.JSX.Element => {
   const { resumeData } = useResumeContext();
   const panelRef = useRef<HTMLDivElement | null>(null);
 

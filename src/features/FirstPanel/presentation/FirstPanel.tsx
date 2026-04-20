@@ -2,7 +2,7 @@ import "./FirstPanel.scss";
 import Lottie from "react-lottie-player";
 import Space from "../../../Animation - 1702361057646.json";
 
-const FirstPanel = (): JSX.Element => {
+const FirstPanel = (): React.JSX.Element => {
   return (
     <div className="first-panel">
       <Lottie loop animationData={Space} play className="lottie-animation" />

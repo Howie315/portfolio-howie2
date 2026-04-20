@@ -4,7 +4,7 @@ import ProjectCard from "./subcomponents/ProjectCard";
 import SectionReveal from "../../molecules/SectionReveal";
 import SectionHeading from "../../molecules/SectionHeading";
 
-const ProjectsSection = (): JSX.Element => {
+const ProjectsSection = (): React.JSX.Element => {
   return (
     <section
       className="section-shell"

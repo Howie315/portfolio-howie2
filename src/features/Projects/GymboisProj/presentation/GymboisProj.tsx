@@ -9,7 +9,7 @@ import vacation from "../../../../imgs/GymBois/vacation.png";
 import arrowDiagonal from "../../../../imgs/arrowDiagonal.svg";
 import "./GymboisProj.scss";
 
-const GymBoisProj = (): JSX.Element => {
+const GymBoisProj = (): React.JSX.Element => {
   return (
     <div className="gymbois-application">
       <div className="gymbois-row">

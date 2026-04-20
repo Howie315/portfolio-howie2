@@ -10,7 +10,7 @@ const ContactField = ({
   multiline = false,
   className = "",
   ...props
-}: ContactFieldProps): JSX.Element => {
+}: ContactFieldProps): React.JSX.Element => {
   const sharedClasses =
     "w-full rounded-[1.5rem] border border-white/10 bg-[rgba(7,4,18,0.68)] px-4 py-3 text-sm text-white placeholder:text-[rgba(188,187,208,0.46)] outline-none transition focus:border-[rgba(255,122,170,0.42)] focus:bg-[rgba(7,4,18,0.82)]";
 

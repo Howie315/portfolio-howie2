@@ -8,7 +8,7 @@ type ExperienceCardProps = {
   entry: ExperienceEntry;
 };
 
-const ExperienceCard = ({ entry }: ExperienceCardProps): JSX.Element => {
+const ExperienceCard = ({ entry }: ExperienceCardProps): React.JSX.Element => {
   return (
     <article className="surface-panel rounded-[2.1rem] p-6 sm:p-7">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">

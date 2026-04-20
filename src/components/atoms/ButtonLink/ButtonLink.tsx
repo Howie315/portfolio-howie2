@@ -19,7 +19,7 @@ export const ButtonLink = ({
   className = "",
   variant = "solid",
   ...props
-}: ButtonLinkProps): JSX.Element => {
+}: ButtonLinkProps): React.JSX.Element => {
   return (
     <a
       className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium tracking-[0.08em] transition duration-200 ${variantClasses[variant]} ${className}`}

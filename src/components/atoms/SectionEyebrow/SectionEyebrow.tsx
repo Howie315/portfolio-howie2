@@ -4,7 +4,7 @@ type SectionEyebrowProps = {
 
 export const SectionEyebrow = ({
   children,
-}: SectionEyebrowProps): JSX.Element => {
+}: SectionEyebrowProps): React.JSX.Element => {
   return (
     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[rgba(255,170,204,0.88)]">
       {children}

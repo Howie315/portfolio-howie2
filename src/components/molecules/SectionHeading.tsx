@@ -12,7 +12,7 @@ const SectionHeading = ({
   title,
   description,
   align = "left",
-}: SectionHeadingProps): JSX.Element => {
+}: SectionHeadingProps): React.JSX.Element => {
   const alignmentClasses =
     align === "center"
       ? "mx-auto max-w-3xl text-center items-center"

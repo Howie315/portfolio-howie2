@@ -5,7 +5,7 @@ import messenging from "../../../../imgs/SizzleMessenging/messenging.png";
 import arrowDiagonal from "../../../../imgs/arrowDiagonal.svg";
 import "./SizzleMessenging.scss";
 
-const SizzleMessenging = (): JSX.Element => {
+const SizzleMessenging = (): React.JSX.Element => {
   return (
     <div className="sizzle-application">
       <div className="sizzle-row">

@@ -8,7 +8,7 @@ import MobileMenu from "../MobileMenu/presentation/MobileMenu";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-const Navigation = (): JSX.Element => {
+const Navigation = (): React.JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = (): void => {

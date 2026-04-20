@@ -12,7 +12,7 @@ const ImmersiveBackground = lazy(
   () => import("../three/ImmersiveBackground/ImmersiveBackground"),
 );
 
-const BackdropFallback = (): JSX.Element => {
+const BackdropFallback = (): React.JSX.Element => {
   return (
     <div
       aria-hidden="true"
@@ -23,7 +23,7 @@ const BackdropFallback = (): JSX.Element => {
 
 const PortfolioLayout = ({
   children,
-}: Readonly<PortfolioLayoutProps>): JSX.Element => {
+}: Readonly<PortfolioLayoutProps>): React.JSX.Element => {
   const shouldEnable3D = useShouldEnable3D();
 
   return (
@@ -37,7 +37,7 @@ const PortfolioLayout = ({
 
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(circle_at_50%_-10%,transparent_0%,rgba(0,0,0,0.12)_36%,rgba(0,0,0,0.66)_100%)]"
+        className="pointer-events-none fixed inset-0 z-1 bg-[radial-gradient(circle_at_50%_-10%,transparent_0%,rgba(0,0,0,0.12)_36%,rgba(0,0,0,0.66)_100%)]"
       />
 
       <div className="relative z-20">

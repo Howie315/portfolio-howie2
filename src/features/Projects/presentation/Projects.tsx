@@ -8,7 +8,7 @@ import register from "../../../imgs/register.svg";
 import GymBoisProj from "../GymboisProj/presentation/GymboisProj";
 import SizzleMessenging from "../SizzleMessenging/presentation'/SizzleMessening";
 
-const Projects = (): JSX.Element => {
+const Projects = (): React.JSX.Element => {
   return (
     <div className="projects-panel" id="projects">
       <div className="projects-content">

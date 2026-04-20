@@ -4,7 +4,7 @@ import Lottie from "react-lottie-player";
 import Space from "../../../spaceShip.json";
 import anime from "animejs";
 
-const SecondPanel = (): JSX.Element => {
+const SecondPanel = (): React.JSX.Element => {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
 

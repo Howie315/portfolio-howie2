@@ -4,7 +4,7 @@ import { Badge } from "../../atoms/Badge";
 import { ButtonLink } from "../../atoms/ButtonLink";
 import StatCard from "./subcomponents/StatCard";
 
-const HeroSection = (): JSX.Element => {
+const HeroSection = (): React.JSX.Element => {
   return (
     <section
       className="section-shell relative overflow-hidden pt-32 pb-14 sm:pt-36 lg:pt-40 lg:pb-20"

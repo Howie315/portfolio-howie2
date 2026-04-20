@@ -7,7 +7,7 @@ import { createImmersiveScene } from "./createImmersiveScene";
 
 type SceneStatus = "fallback" | "loading" | "ready";
 
-const ImmersiveBackground = (): JSX.Element => {
+const ImmersiveBackground = (): React.JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [sceneStatus, setSceneStatus] = useState<SceneStatus>("loading");

@@ -6,7 +6,7 @@ import Lottie from "react-lottie-player";
 import Tennis from "../../../tennis.json";
 import gsap from "gsap";
 
-const About = (): JSX.Element => {
+const About = (): React.JSX.Element => {
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
 

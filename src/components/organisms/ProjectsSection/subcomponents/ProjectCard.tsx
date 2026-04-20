@@ -9,7 +9,7 @@ type ProjectCardProps = {
   project: Project;
 };
 
-const ProjectCard = ({ project }: ProjectCardProps): JSX.Element => {
+const ProjectCard = ({ project }: ProjectCardProps): React.JSX.Element => {
   return (
     <article className="surface-panel rounded-[2.3rem] p-6 sm:p-7">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)]">

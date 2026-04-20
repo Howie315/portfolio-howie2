@@ -4,7 +4,7 @@ import ExperienceCard from "./subcomponents/ExperienceCard";
 import SectionReveal from "../../molecules/SectionReveal";
 import SectionHeading from "../../molecules/SectionHeading";
 
-const ExperienceSection = (): JSX.Element => {
+const ExperienceSection = (): React.JSX.Element => {
   return (
     <section
       className="section-shell"

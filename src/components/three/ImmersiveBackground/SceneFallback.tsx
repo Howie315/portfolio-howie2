@@ -1,4 +1,4 @@
-const SceneFallback = (): JSX.Element => {
+const SceneFallback = (): React.JSX.Element => {
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(170,92,255,0.25),transparent_20%),radial-gradient(circle_at_72%_38%,rgba(255,74,138,0.16),transparent_18%),radial-gradient(circle_at_28%_70%,rgba(77,41,165,0.16),transparent_22%),linear-gradient(180deg,rgba(2,2,10,0.22),rgba(2,2,8,0.72))]" />

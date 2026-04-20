@@ -16,7 +16,7 @@ const ResumeItem = ({
   description,
   technologies,
   link,
-}: ResumeItemProps): JSX.Element => {
+}: ResumeItemProps): React.JSX.Element => {
   const descriptionContainerRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseEnter = (): void => {

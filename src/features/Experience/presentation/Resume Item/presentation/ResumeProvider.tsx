@@ -58,7 +58,7 @@ export const ResumeContext = createContext<ResumeContextValue | null>(null);
 
 export const ResumeProvider = ({
   children,
-}: ResumeProviderProps): JSX.Element => {
+}: ResumeProviderProps): React.JSX.Element => {
   const [resumeData, setResumeData] =
     useState<ResumeEntry[]>(initialResumeData);
 

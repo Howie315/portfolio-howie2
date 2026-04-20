@@ -42,7 +42,7 @@ const applyHoverEffect = (): (() => void) => {
   };
 };
 
-const Contact = (): JSX.Element => {
+const Contact = (): React.JSX.Element => {
   const [submissionMessage, setSubmissionMessage] = useState("");
 
   useEffect(() => {

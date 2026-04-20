@@ -4,7 +4,7 @@ type SectionFallbackProps = {
 
 const SectionFallback = ({
   className = "",
-}: SectionFallbackProps): JSX.Element => {
+}: SectionFallbackProps): React.JSX.Element => {
   return (
     <div className={`section-shell ${className}`}>
       <div className="section-inner">

@@ -6,7 +6,9 @@ type ContactMethodCardProps = {
   method: ContactMethod;
 };
 
-const ContactMethodCard = ({ method }: ContactMethodCardProps): JSX.Element => {
+const ContactMethodCard = ({
+  method,
+}: ContactMethodCardProps): React.JSX.Element => {
   return (
     <a
       className="surface-panel group flex items-center justify-between gap-4 rounded-[1.7rem] px-4 py-4 transition hover:-translate-y-0.5 hover:border-[rgba(255,122,170,0.32)]"

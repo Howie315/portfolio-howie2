@@ -11,7 +11,7 @@ type SectionRevealProps = {
 const SectionReveal = ({
   children,
   className = "",
-}: SectionRevealProps): JSX.Element => {
+}: SectionRevealProps): React.JSX.Element => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [isVisible, setIsVisible] = useState(prefersReducedMotion);
   const elementRef = useRef<HTMLDivElement | null>(null);

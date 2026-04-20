@@ -21,7 +21,7 @@ export const Badge = ({
   children,
   className = "",
   tone = "default",
-}: BadgeProps): JSX.Element => {
+}: BadgeProps): React.JSX.Element => {
   return (
     <span
       className={`inline-flex items-center rounded-full border px-3 py-1 text-[0.68rem] font-medium tracking-[0.24em] uppercase ${toneClasses[tone]} ${className}`}

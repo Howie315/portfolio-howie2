@@ -83,6 +83,19 @@ a {
   color: inherit;
 }
 
+a,
+button,
+[role="button"],
+summary {
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .scene-interactive {
+    cursor: pointer;
+  }
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -122,6 +135,128 @@ textarea {
 
 #root {
   min-height: 100vh;
+}
+
+.scene-shell-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.025)
+    ),
+    linear-gradient(180deg, rgba(8, 6, 20, 0.8), rgba(6, 5, 18, 0.78));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 20px 80px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(24px);
+}
+
+.scene-shell-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(255, 255, 255, 0.06),
+      transparent 44%
+    ),
+    linear-gradient(90deg, transparent, rgba(255, 170, 204, 0.04), transparent);
+}
+
+.scene-detail-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.025)
+    ),
+    linear-gradient(180deg, rgba(14, 10, 28, 0.8), rgba(9, 7, 20, 0.82));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 22px 80px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(18px);
+}
+
+.scene-detail-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.06),
+      transparent 34%
+    ),
+    linear-gradient(90deg, transparent, rgba(255, 170, 204, 0.035), transparent);
+}
+
+.scene-detail-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.42rem 0.78rem;
+  color: rgba(222, 224, 232, 0.8);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scene-detail-chip::before {
+  content: "";
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: rgba(255, 170, 204, 0.78);
+  box-shadow: 0 0 12px rgba(255, 170, 204, 0.52);
+}
+
+canvas {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 767px) {
+  body::before {
+    background-size: 124px 124px;
+    opacity: 0.38;
+  }
+
+  .scene-shell-panel {
+    backdrop-filter: blur(18px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 16px 54px rgba(0, 0, 0, 0.32);
+  }
+
+  .scene-detail-card {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 16px 42px rgba(0, 0, 0, 0.22);
+  }
+
+  .scene-detail-chip {
+    padding: 0.48rem 0.82rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+  }
 }
 
 .section-shell {

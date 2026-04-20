@@ -4,7 +4,7 @@ type StatCardProps = {
   stat: Stat;
 };
 
-const StatCard = ({ stat }: StatCardProps): JSX.Element => {
+const StatCard = ({ stat }: StatCardProps): React.JSX.Element => {
   return (
     <div className="surface-panel relative overflow-hidden rounded-[1.65rem] p-5">
       <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.32),transparent)]" />

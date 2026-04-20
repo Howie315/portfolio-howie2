@@ -13,7 +13,7 @@ type SubmissionState =
   | { status: "success"; message: string }
   | { status: "error"; message: string };
 
-const ContactSection = (): JSX.Element => {
+const ContactSection = (): React.JSX.Element => {
   const [submission, setSubmission] = useState<SubmissionState>({
     status: "idle",
   });
