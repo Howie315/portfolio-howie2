@@ -61,6 +61,26 @@ const getDeviceMemory = (): number => {
   );
 };
 
+const getPlatformHints = (): {
+  isAppleMobile: boolean;
+  viewportWidth: number;
+} => {
+  if (typeof navigator === "undefined" || typeof window === "undefined") {
+    return {
+      isAppleMobile: false,
+      viewportWidth: 1440,
+    };
+  }
+
+  const userAgent = navigator.userAgent;
+  const isAppleMobile = /iPhone|iPad|iPod/i.test(userAgent);
+
+  return {
+    isAppleMobile,
+    viewportWidth: window.innerWidth,
+  };
+};
+
 export const useSceneExperienceProfile = (): SceneExperienceProfile => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [isMobile, setIsMobile] = useState<boolean>(() =>
@@ -109,9 +129,15 @@ export const useSceneExperienceProfile = (): SceneExperienceProfile => {
   const hardwareConcurrency = getHardwareConcurrency();
   const deviceMemory = getDeviceMemory();
   const saveData = getSaveData();
+  const { isAppleMobile, viewportWidth } = getPlatformHints();
 
   const canRenderAny3D =
     !prefersReducedMotion && !saveData && hardwareConcurrency >= 4;
+  const canRenderMobileLite3D =
+    canRenderAny3D &&
+    (hardwareConcurrency >= 5 ||
+      deviceMemory >= 4 ||
+      (isAppleMobile && viewportWidth >= 380));
 
   useEffect(() => {
     if (!canRenderAny3D) {
@@ -145,13 +171,7 @@ export const useSceneExperienceProfile = (): SceneExperienceProfile => {
     let sceneMode: SceneMode = "fallback";
 
     if (viewportKind === "mobile") {
-      sceneMode =
-        canRenderAny3D &&
-        isIdleReady &&
-        hardwareConcurrency >= 6 &&
-        deviceMemory >= 4
-          ? "lite"
-          : "fallback";
+      sceneMode = canRenderMobileLite3D && isIdleReady ? "lite" : "fallback";
     } else if (canRenderAny3D && isIdleReady) {
       sceneMode =
         viewportKind === "desktop" && !isTouch && hardwareConcurrency >= 6
@@ -166,11 +186,14 @@ export const useSceneExperienceProfile = (): SceneExperienceProfile => {
     };
   }, [
     canRenderAny3D,
+    canRenderMobileLite3D,
     deviceMemory,
     hardwareConcurrency,
+    isAppleMobile,
     isIdleReady,
     isMobile,
     isTablet,
     isTouch,
+    viewportWidth,
   ]);
 };
