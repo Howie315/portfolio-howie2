@@ -21,20 +21,6 @@ export type SceneSection = {
   title: string;
 };
 
-const skillSet = new Set<string>();
-
-experienceEntries.forEach((entry) => {
-  entry.technologies.forEach((technology) => {
-    skillSet.add(technology);
-  });
-});
-
-projects.forEach((project) => {
-  project.technologies.forEach((technology) => {
-    skillSet.add(technology);
-  });
-});
-
 export const sceneSections: ReadonlyArray<SceneSection> = [
   {
     accent: "#ff4a8a",
@@ -59,11 +45,11 @@ export const sceneSections: ReadonlyArray<SceneSection> = [
   {
     accent: "#d2b1ff",
     description:
-      "An archive of tools, languages, and systems thinking collected from shipping products across web and mobile teams.",
+      "A focused view of the technologies, frontend specialties, and platform experience behind the work shown throughout the portfolio.",
     id: "skills",
     kicker: "Archive",
     summary:
-      "A working stack centered on React, TypeScript, product systems, and modern frontend craft.",
+      "Core strengths across React, TypeScript, frontend architecture, and product-facing platform work.",
     title: "Skills",
   },
   {
@@ -105,30 +91,45 @@ export const sceneSectionCopy = {
   skills: {
     groups: [
       {
-        label: "Frontend + UI",
+        label: "Languages + Frameworks",
         values: [
           "React",
           "TypeScript",
+          "JavaScript",
+          "ES6+",
+          "Next.js",
+          "Node.js",
+          "HTML/CSS",
+          "SCSS/Sass",
           "Tailwind CSS",
-          "Design Systems",
-          "Interaction Design",
-          "Accessibility",
         ],
       },
       {
-        label: "Product + Platforms",
+        label: "Frontend + Product UI",
         values: [
-          "ChatGPT Apps",
-          "Marketplace API",
-          "MCP",
-          "Nexus",
-          "FSM Workflows",
-          "Firebase Analytics",
+          "Responsive UI Development",
+          "Component Architecture",
+          "Accessibility",
+          "Design Systems",
+          "REST APIs",
+          "AI Product Integrations",
+          "Cypress",
+          "Jest",
         ],
       },
       {
-        label: "Broader Stack",
-        values: Array.from(skillSet).sort(),
+        label: "Developer Tools + Platforms",
+        values: [
+          "Git",
+          "GitHub",
+          "Postman",
+          "Docker",
+          "Linux",
+          "Visual Studio Code",
+          "PostgreSQL",
+          "MongoDB",
+          "MySQL",
+        ],
       },
     ],
   },
