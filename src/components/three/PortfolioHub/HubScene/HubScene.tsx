@@ -64,7 +64,7 @@ const HubScene = ({
     : "#8f65ff";
   const isLiteMode = sceneMode === "lite";
   const isMobileViewport = viewportKind === "mobile";
-  const mobileHitScale = isMobileViewport ? 1.18 : 1;
+  const mobileHitScale = isMobileViewport ? 1.04 : 1;
   const ambientParticlePositions = useMemo(() => {
     const count = isMobileViewport ? 28 : isLiteMode ? 40 : 72;
     const positions = new Float32Array(count * 3);

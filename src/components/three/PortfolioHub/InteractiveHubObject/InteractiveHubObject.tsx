@@ -215,7 +215,7 @@ const InteractiveHubObject = ({
                 event.clientY - touchStart.y,
               );
 
-              if (movedDistance > 16) {
+              if (movedDistance > 12) {
                 resetTouchState();
                 onHover(null);
               }
@@ -252,7 +252,7 @@ const InteractiveHubObject = ({
 
           resetTouchState();
 
-          if (movedDistance <= 22) {
+          if (movedDistance <= 16) {
             handleSelect(event, "touch");
           } else {
             onHover(null);
