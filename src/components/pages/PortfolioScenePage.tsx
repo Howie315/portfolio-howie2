@@ -16,7 +16,7 @@ type TouchPointListLike = {
   length: number;
 };
 
-const TOUCH_DRAG_THRESHOLD = 14;
+const TOUCH_DRAG_THRESHOLD = 8;
 const TOUCH_PINCH_SENSITIVITY = 132;
 
 const clamp = (value: number, min: number, max: number): number =>
@@ -184,13 +184,13 @@ const PortfolioScenePage = (): React.JSX.Element => {
     // becoming a free orbit camera on small screens.
     const nextYaw = clamp(
       touchGestureRef.current.startOrbitOffset[0] -
-        (deltaX / rect.width) * 1.55,
+        (deltaX / rect.width) * 1.9,
       -0.98,
       0.98,
     );
     const nextPitch = clamp(
       touchGestureRef.current.startOrbitOffset[1] +
-        (deltaY / rect.height) * 0.62,
+        (deltaY / rect.height) * 0.78,
       -0.28,
       0.3,
     );
