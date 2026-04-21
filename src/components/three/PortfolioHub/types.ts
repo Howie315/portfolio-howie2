@@ -2,6 +2,8 @@ import type { SceneSectionId } from "../../../data/sceneContent";
 
 export type CameraView = "focus" | "hub";
 export type SceneRenderMode = "full" | "lite";
+export type TouchVectorRef = { current: [number, number] };
+export type TouchZoomRef = { current: number };
 
 export type PortfolioHubCanvasProps = {
   activeSection: SceneSectionId | null;
@@ -10,10 +12,10 @@ export type PortfolioHubCanvasProps = {
   onHoverSection: (sectionId: SceneSectionId | null) => void;
   onSelectSection: (sectionId: SceneSectionId) => void;
   onTransitionChange?: (isTransitioning: boolean) => void;
-  touchOrbitOffset?: [number, number];
-  touchZoomOffset?: number;
   sceneMode: SceneRenderMode;
-  touchLookOffset?: [number, number];
+  touchLookOffsetRef?: TouchVectorRef;
+  touchOrbitOffsetRef?: TouchVectorRef;
+  touchZoomOffsetRef?: TouchZoomRef;
   viewportKind?: "desktop" | "mobile" | "tablet";
   viewState: CameraView;
 };

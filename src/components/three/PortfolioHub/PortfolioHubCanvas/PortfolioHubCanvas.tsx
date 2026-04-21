@@ -13,9 +13,9 @@ const PortfolioHubCanvas = ({
   onSelectSection,
   onTransitionChange,
   sceneMode,
-  touchOrbitOffset = [0, 0],
-  touchLookOffset = [0, 0],
-  touchZoomOffset = 0,
+  touchOrbitOffsetRef,
+  touchLookOffsetRef,
+  touchZoomOffsetRef,
   viewportKind = "desktop",
   viewState,
 }: PortfolioHubCanvasProps): React.JSX.Element => {
@@ -23,8 +23,8 @@ const PortfolioHubCanvas = ({
   const isMobileViewport = viewportKind === "mobile";
   const mobileDprMax =
     typeof window === "undefined"
-      ? 1.8
-      : Math.min(window.devicePixelRatio || 1.8, 2);
+      ? 1.45
+      : Math.min(window.devicePixelRatio || 1.45, 1.6);
 
   return (
     <div className="absolute inset-0 z-10">
@@ -41,7 +41,7 @@ const PortfolioHubCanvas = ({
         }}
         dpr={
           isMobileViewport
-            ? [1.2, mobileDprMax]
+            ? [1, mobileDprMax]
             : isLiteMode
               ? [1, 1.15]
               : [1, 1.6]
@@ -71,9 +71,9 @@ const PortfolioHubCanvas = ({
             onSelectSection={onSelectSection}
             onTransitionChange={onTransitionChange}
             sceneMode={sceneMode}
-            touchOrbitOffset={touchOrbitOffset}
-            touchLookOffset={touchLookOffset}
-            touchZoomOffset={touchZoomOffset}
+            touchOrbitOffsetRef={touchOrbitOffsetRef}
+            touchLookOffsetRef={touchLookOffsetRef}
+            touchZoomOffsetRef={touchZoomOffsetRef}
             viewportKind={viewportKind}
             viewState={viewState}
           />

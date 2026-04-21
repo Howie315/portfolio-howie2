@@ -4,7 +4,7 @@ import { Vector3 as ThreeVector3 } from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 
 import { cameraPresets } from "../cameraConfig";
-import type { CameraView } from "../types";
+import type { CameraView, TouchVectorRef, TouchZoomRef } from "../types";
 import type { SceneSectionId } from "../../../../data/sceneContent";
 
 type HubCameraRigProps = {
@@ -12,9 +12,9 @@ type HubCameraRigProps = {
   hoveredSection: SceneSectionId | null;
   isTouchDevice?: boolean;
   onTransitionChange?: (isTransitioning: boolean) => void;
-  touchOrbitOffset?: [number, number];
-  touchLookOffset?: [number, number];
-  touchZoomOffset?: number;
+  touchOrbitOffsetRef?: TouchVectorRef;
+  touchLookOffsetRef?: TouchVectorRef;
+  touchZoomOffsetRef?: TouchZoomRef;
   viewState: CameraView;
 };
 
@@ -23,9 +23,9 @@ const HubCameraRig = ({
   hoveredSection,
   isTouchDevice = false,
   onTransitionChange,
-  touchOrbitOffset = [0, 0],
-  touchLookOffset = [0, 0],
-  touchZoomOffset = 0,
+  touchOrbitOffsetRef,
+  touchLookOffsetRef,
+  touchZoomOffsetRef,
   viewState,
 }: HubCameraRigProps): null => {
   const { camera, pointer } = useThree();
@@ -64,6 +64,9 @@ const HubCameraRig = ({
 
   useFrame((_, delta) => {
     const clampedDelta = Math.min(delta, 1 / 20);
+    const touchOrbitOffset = touchOrbitOffsetRef?.current ?? [0, 0];
+    const touchLookOffset = touchLookOffsetRef?.current ?? [0, 0];
+    const touchZoomOffset = touchZoomOffsetRef?.current ?? 0;
     const isHubView = viewState === "hub" || !activeSection;
     const parallaxStrength = isTouchDevice
       ? isHubView
