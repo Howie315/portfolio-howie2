@@ -1,6 +1,7 @@
 import type { SceneSectionId } from "../../../data/sceneContent";
 
 export type CameraView = "focus" | "hub";
+export type CameraMode = "cinematic" | "viewer";
 export type SceneRenderMode = "full" | "lite";
 export type TouchVectorRef = { current: [number, number] };
 export type TouchZoomRef = { current: number };
@@ -17,5 +18,6 @@ export type PortfolioHubCanvasProps = {
   touchOrbitOffsetRef?: TouchVectorRef;
   touchZoomOffsetRef?: TouchZoomRef;
   viewportKind?: "desktop" | "mobile" | "tablet";
+  cameraMode?: CameraMode;
   viewState: CameraView;
 };

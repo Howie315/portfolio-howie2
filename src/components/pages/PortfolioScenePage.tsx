@@ -4,6 +4,7 @@ import type { SceneSectionId } from "../../data/sceneContent";
 import { sceneSectionOrder, sceneSections } from "../../data/sceneContent";
 import { useSceneExperienceProfile } from "../../hooks/useSceneExperienceProfile";
 import { SceneDetailPanel, SceneHubFallback } from "../three/PortfolioHub";
+import type { CameraMode } from "../three/PortfolioHub/types";
 
 type ViewState = "focus" | "hub";
 
@@ -16,8 +17,8 @@ type TouchPointListLike = {
   length: number;
 };
 
-const TOUCH_DRAG_THRESHOLD = 8;
-const TOUCH_PINCH_SENSITIVITY = 132;
+const TOUCH_DRAG_THRESHOLD = 4;
+const TOUCH_PINCH_SENSITIVITY = 72;
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
@@ -31,6 +32,8 @@ const PortfolioScenePage = (): React.JSX.Element => {
   const showDesktopStatus = viewportKind === "desktop";
   const isMobileFallback = isMobileViewport && sceneMode === "fallback";
   const isAwaitingSceneDecision = !isReady;
+  const cameraMode: CameraMode =
+    isMobileViewport && isTouch ? "viewer" : "cinematic";
 
   const [activeSection, setActiveSection] = useState<SceneSectionId | null>(
     null,
@@ -47,13 +50,13 @@ const PortfolioScenePage = (): React.JSX.Element => {
   const touchLookOffsetRef = useRef<[number, number]>([0, 0]);
   const touchGestureRef = useRef<{
     isDragging: boolean;
-    startOrbitOffset: [number, number];
     startX: number;
     startY: number;
+    lastX: number;
+    lastY: number;
   } | null>(null);
   const touchPinchRef = useRef<{
-    startDistance: number;
-    startZoomOffset: number;
+    lastDistance: number;
   } | null>(null);
 
   const activeSceneSection = useMemo(
@@ -141,27 +144,11 @@ const PortfolioScenePage = (): React.JSX.Element => {
     };
   }, []);
 
-  const handleTouchLookMove = (
-    clientX: number,
-    clientY: number,
-    rect: DOMRect,
-  ): void => {
-    const normalizedX = ((clientX - rect.left) / rect.width) * 2 - 1;
-    const normalizedY = ((clientY - rect.top) / rect.height) * 2 - 1;
-
-    touchLookOffsetRef.current = [
-      Math.max(-0.85, Math.min(0.85, normalizedX)),
-      Math.max(-0.8, Math.min(0.8, -normalizedY)),
-    ];
-  };
-
   const handleTouchGestureMove = (
     clientX: number,
     clientY: number,
     rect: DOMRect,
   ): void => {
-    handleTouchLookMove(clientX, clientY, rect);
-
     if (!touchGestureRef.current) {
       return;
     }
@@ -180,22 +167,23 @@ const PortfolioScenePage = (): React.JSX.Element => {
       return;
     }
 
-    // Keep touch rotation bounded so the hub stays cinematic instead of
-    // becoming a free orbit camera on small screens.
+    const incrementalX = clientX - touchGestureRef.current.lastX;
+    const incrementalY = clientY - touchGestureRef.current.lastY;
     const nextYaw = clamp(
-      touchGestureRef.current.startOrbitOffset[0] -
-        (deltaX / rect.width) * 1.9,
+      touchOrbitOffsetRef.current[0] - (incrementalX / rect.width) * 2.2,
       -0.98,
       0.98,
     );
     const nextPitch = clamp(
-      touchGestureRef.current.startOrbitOffset[1] +
-        (deltaY / rect.height) * 1.05,
+      touchOrbitOffsetRef.current[1] + (incrementalY / rect.height) * 1.15,
       -0.36,
       0.38,
     );
 
+    touchGestureRef.current.lastX = clientX;
+    touchGestureRef.current.lastY = clientY;
     touchOrbitOffsetRef.current = [nextYaw, nextPitch];
+    touchLookOffsetRef.current = [0, 0];
   };
 
   const getTouchDistance = (touches: TouchPointListLike): number | null => {
@@ -257,16 +245,12 @@ const PortfolioScenePage = (): React.JSX.Element => {
 
                 touchGestureRef.current = {
                   isDragging: false,
-                  startOrbitOffset: touchOrbitOffsetRef.current,
                   startX: touch.clientX,
                   startY: touch.clientY,
+                  lastX: touch.clientX,
+                  lastY: touch.clientY,
                 };
-
-                handleTouchLookMove(
-                  touch.clientX,
-                  touch.clientY,
-                  event.currentTarget.getBoundingClientRect(),
-                );
+                touchLookOffsetRef.current = [0, 0];
 
                 return;
               }
@@ -290,20 +274,20 @@ const PortfolioScenePage = (): React.JSX.Element => {
 
                 if (!touchPinchRef.current) {
                   touchPinchRef.current = {
-                    startDistance: pinchDistance,
-                    startZoomOffset: touchZoomOffsetRef.current,
+                    lastDistance: pinchDistance,
                   };
                 }
 
                 const pinchDelta =
-                  (pinchDistance - touchPinchRef.current.startDistance) /
+                  (pinchDistance - touchPinchRef.current.lastDistance) /
                   TOUCH_PINCH_SENSITIVITY;
                 const nextZoomOffset = clamp(
-                  touchPinchRef.current.startZoomOffset - pinchDelta,
-                  -0.65,
-                  3.55,
+                  touchZoomOffsetRef.current - pinchDelta,
+                  -2.2,
+                  5.2,
                 );
 
+                touchPinchRef.current.lastDistance = pinchDistance;
                 touchGestureRef.current = null;
                 touchZoomOffsetRef.current = nextZoomOffset;
                 touchLookOffsetRef.current = [0, 0];
@@ -346,8 +330,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
               if (pinchDistance) {
                 event.preventDefault();
                 touchPinchRef.current = {
-                  startDistance: pinchDistance,
-                  startZoomOffset: touchZoomOffsetRef.current,
+                  lastDistance: pinchDistance,
                 };
                 touchGestureRef.current = null;
                 touchLookOffsetRef.current = [0, 0];
@@ -360,15 +343,14 @@ const PortfolioScenePage = (): React.JSX.Element => {
                 return;
               }
 
-              const rect = event.currentTarget.getBoundingClientRect();
-
               touchGestureRef.current = {
                 isDragging: false,
-                startOrbitOffset: touchOrbitOffsetRef.current,
                 startX: touch.clientX,
                 startY: touch.clientY,
+                lastX: touch.clientX,
+                lastY: touch.clientY,
               };
-              handleTouchLookMove(touch.clientX, touch.clientY, rect);
+              touchLookOffsetRef.current = [0, 0];
             }}
           >
             <PortfolioHubCanvas
@@ -383,6 +365,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
               touchLookOffsetRef={touchLookOffsetRef}
               touchZoomOffsetRef={touchZoomOffsetRef}
               viewportKind={viewportKind}
+              cameraMode={cameraMode}
               viewState={viewState}
             />
           </div>

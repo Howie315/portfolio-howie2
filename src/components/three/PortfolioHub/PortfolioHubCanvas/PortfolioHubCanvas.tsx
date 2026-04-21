@@ -17,6 +17,7 @@ const PortfolioHubCanvas = ({
   touchLookOffsetRef,
   touchZoomOffsetRef,
   viewportKind = "desktop",
+  cameraMode = "cinematic",
   viewState,
 }: PortfolioHubCanvasProps): React.JSX.Element => {
   const isLiteMode = sceneMode === "lite";
@@ -75,6 +76,7 @@ const PortfolioHubCanvas = ({
             touchLookOffsetRef={touchLookOffsetRef}
             touchZoomOffsetRef={touchZoomOffsetRef}
             viewportKind={viewportKind}
+            cameraMode={cameraMode}
             viewState={viewState}
           />
         </Suspense>

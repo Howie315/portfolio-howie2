@@ -6,6 +6,7 @@ import type { SceneSectionId } from "../../../../data/sceneContent";
 import { HubCameraRig } from "../HubCameraRig";
 import { InteractiveHubObject } from "../InteractiveHubObject";
 import type {
+  CameraMode,
   CameraView,
   SceneRenderMode,
   TouchVectorRef,
@@ -24,6 +25,7 @@ type HubSceneProps = {
   touchLookOffsetRef?: TouchVectorRef;
   touchZoomOffsetRef?: TouchZoomRef;
   viewportKind?: "desktop" | "mobile" | "tablet";
+  cameraMode?: CameraMode;
   viewState: CameraView;
 };
 
@@ -56,6 +58,7 @@ const HubScene = ({
   touchLookOffsetRef,
   touchZoomOffsetRef,
   viewportKind = "desktop",
+  cameraMode = "cinematic",
   viewState,
 }: HubSceneProps): React.JSX.Element => {
   const activeVisualSection = hoveredSection ?? activeSection;
@@ -126,6 +129,7 @@ const HubScene = ({
         touchOrbitOffsetRef={touchOrbitOffsetRef}
         touchLookOffsetRef={touchLookOffsetRef}
         touchZoomOffsetRef={touchZoomOffsetRef}
+        cameraMode={cameraMode}
         viewState={viewState}
       />
 
