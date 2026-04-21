@@ -32,13 +32,13 @@ const PortfolioHubCanvas = ({
       <Canvas
         camera={{
           fov: isMobileViewport
-            ? 60
+            ? 62
             : isLiteMode
               ? isTouchDevice
                 ? 47
                 : 44
               : 38,
-          position: isMobileViewport ? [0, 2.86, 13.9] : [0, 2.8, 9.5],
+          position: isMobileViewport ? [0, 2.96, 14.8] : [0, 2.8, 9.5],
         }}
         dpr={
           isMobileViewport

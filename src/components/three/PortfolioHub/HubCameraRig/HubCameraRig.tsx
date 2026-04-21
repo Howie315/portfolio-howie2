@@ -39,6 +39,8 @@ const HubCameraRig = ({
   const cameraTargetRef = useRef<Vector3>(new ThreeVector3());
   const lookAtTargetRef = useRef<Vector3>(new ThreeVector3());
   const currentLookAtRef = useRef<Vector3>(new ThreeVector3());
+  const smoothedOrbitRef = useRef<[number, number]>([0, 0]);
+  const smoothedZoomRef = useRef(0);
   const transitionRef = useRef(false);
 
   const isViewerMode = cameraMode === "viewer";
@@ -47,7 +49,7 @@ const HubCameraRig = ({
     if (isViewerMode && (viewState === "hub" || !activeSection)) {
       return {
         lookAt: [0, 1.22, -0.15] as [number, number, number],
-        position: [0, 2.96, 11.9] as [number, number, number],
+        position: [0, 3.06, 12.7] as [number, number, number],
       };
     }
 
@@ -58,7 +60,7 @@ const HubCameraRig = ({
     if (isViewerMode && activeSection === "about") {
       return {
         lookAt: [0, 1.16, 0.55] as [number, number, number],
-        position: [0.42, 2.02, 3.72] as [number, number, number],
+        position: [0.4, 2.08, 4.2] as [number, number, number],
       };
     }
 
@@ -77,6 +79,24 @@ const HubCameraRig = ({
     const touchLookOffset = touchLookOffsetRef?.current ?? [0, 0];
     const touchZoomOffset = touchZoomOffsetRef?.current ?? 0;
     const isHubView = viewState === "hub" || !activeSection;
+    const viewerSmoothing = 1 - Math.exp(-clampedDelta * 10.5);
+
+    if (isViewerMode) {
+      smoothedOrbitRef.current = [
+        smoothedOrbitRef.current[0] +
+          (touchOrbitOffset[0] - smoothedOrbitRef.current[0]) * viewerSmoothing,
+        smoothedOrbitRef.current[1] +
+          (touchOrbitOffset[1] - smoothedOrbitRef.current[1]) * viewerSmoothing,
+      ];
+      smoothedZoomRef.current +=
+        (touchZoomOffset - smoothedZoomRef.current) * viewerSmoothing;
+    } else {
+      smoothedOrbitRef.current = [0, 0];
+      smoothedZoomRef.current = 0;
+    }
+
+    const orbitOffset = isViewerMode ? smoothedOrbitRef.current : [0, 0];
+    const zoomOffset = isViewerMode ? smoothedZoomRef.current : 0;
     const parallaxStrength = isViewerMode
       ? isHubView
         ? 0.62
@@ -98,14 +118,14 @@ const HubCameraRig = ({
     const lookAtTarget = baseLookAt.clone();
 
     if (isViewerMode) {
-      const orbitYaw = touchOrbitOffset[0] * (isHubView ? 0.98 : 0.24);
-      const orbitPitch = touchOrbitOffset[1] * (isHubView ? 0.54 : 0.18);
+      const orbitYaw = orbitOffset[0] * (isHubView ? 0.82 : 0.18);
+      const orbitPitch = orbitOffset[1] * (isHubView ? 0.54 : 0.18);
       const orbitVector = desiredPosition.clone().sub(baseLookAt);
       const radius = Math.max(
         isHubView ? 7.8 : 2.35,
         Math.min(
           isHubView ? 17.5 : 8.6,
-          orbitVector.length() + touchZoomOffset,
+          orbitVector.length() + zoomOffset,
         ),
       );
       const nextYaw = Math.atan2(orbitVector.x, orbitVector.z) + orbitYaw;
@@ -129,8 +149,8 @@ const HubCameraRig = ({
         baseLookAt.z + Math.cos(nextYaw) * planarRadius,
       );
 
-      lookAtTarget.x += touchOrbitOffset[0] * (isHubView ? 0.94 : 0.22);
-      lookAtTarget.y += touchOrbitOffset[1] * (isHubView ? 0.46 : 0.18);
+      lookAtTarget.x += orbitOffset[0] * (isHubView ? 0.76 : 0.16);
+      lookAtTarget.y += orbitOffset[1] * (isHubView ? 0.46 : 0.18);
     }
 
     const previousDistance = camera.position.distanceTo(desiredPosition);

@@ -171,8 +171,8 @@ const PortfolioScenePage = (): React.JSX.Element => {
     const incrementalY = clientY - touchGestureRef.current.lastY;
     const nextYaw = clamp(
       touchOrbitOffsetRef.current[0] - (incrementalX / rect.width) * 2.2,
-      -0.98,
-      0.98,
+      -0.82,
+      0.82,
     );
     const nextPitch = clamp(
       touchOrbitOffsetRef.current[1] + (incrementalY / rect.height) * 1.15,

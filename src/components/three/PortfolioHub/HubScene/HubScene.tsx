@@ -87,7 +87,7 @@ const HubScene = ({
       <fog attach="fog" args={["#05030c", 10, 28]} />
 
       <mesh position={[0, 4.6, -1.8]}>
-        <sphereGeometry args={[24, 40, 40]} />
+        <sphereGeometry args={[28, 44, 44]} />
         <meshBasicMaterial color="#08040f" side={BackSide} />
       </mesh>
 
@@ -152,13 +152,13 @@ const HubScene = ({
           <meshStandardMaterial color={wallColor} roughness={0.96} />
         </mesh>
 
-        <mesh position={[-8.1, 4.6, -0.2]} rotation={[0, Math.PI / 2, 0]}>
-          <boxGeometry args={[13, 10, 0.6]} />
+        <mesh position={[-9.2, 4.6, -0.2]} rotation={[0, Math.PI / 2, 0]}>
+          <boxGeometry args={[15.4, 10, 0.6]} />
           <meshStandardMaterial color={wallColor} roughness={0.96} />
         </mesh>
 
-        <mesh position={[8.1, 4.6, -0.2]} rotation={[0, Math.PI / 2, 0]}>
-          <boxGeometry args={[13, 10, 0.6]} />
+        <mesh position={[9.2, 4.6, -0.2]} rotation={[0, Math.PI / 2, 0]}>
+          <boxGeometry args={[15.4, 10, 0.6]} />
           <meshStandardMaterial color={wallColor} roughness={0.96} />
         </mesh>
 
