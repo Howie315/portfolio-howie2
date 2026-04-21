@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { ThreeEvent } from "@react-three/fiber";
-import { Color } from "three";
+import { BackSide, Color } from "three";
 
 import type { SceneSectionId } from "../../../../data/sceneContent";
 import { HubCameraRig } from "../HubCameraRig";
@@ -59,7 +59,7 @@ const HubScene = ({
     : "#8f65ff";
   const isLiteMode = sceneMode === "lite";
   const isMobileViewport = viewportKind === "mobile";
-  const mobileHitScale = isMobileViewport ? 0.82 : 1;
+  const mobileHitScale = isMobileViewport ? 1.18 : 1;
   const ambientParticlePositions = useMemo(() => {
     const count = isMobileViewport ? 28 : isLiteMode ? 40 : 72;
     const positions = new Float32Array(count * 3);
@@ -77,6 +77,11 @@ const HubScene = ({
     <>
       <color args={["#05030c"]} attach="background" />
       <fog attach="fog" args={["#05030c", 10, 28]} />
+
+      <mesh position={[0, 4.6, -1.8]}>
+        <sphereGeometry args={[24, 40, 40]} />
+        <meshBasicMaterial color="#08040f" side={BackSide} />
+      </mesh>
 
       <ambientLight intensity={isLiteMode ? 0.92 : 0.85} />
       <hemisphereLight
@@ -275,9 +280,21 @@ const HubScene = ({
             <mesh castShadow receiveShadow>
               <boxGeometry args={[3.1, 0.18, 1.45]} />
               <meshStandardMaterial
-                color="#1b1124"
-                metalness={0.18}
-                roughness={0.44}
+                color="#24152f"
+                emissive="#130b18"
+                emissiveIntensity={0.1}
+                metalness={0.24}
+                roughness={0.34}
+              />
+            </mesh>
+            <mesh position={[0, 0.095, 0]} receiveShadow>
+              <boxGeometry args={[2.92, 0.03, 1.27]} />
+              <meshStandardMaterial
+                color="#3b223d"
+                emissive="#1f111f"
+                emissiveIntensity={0.08}
+                metalness={0.08}
+                roughness={0.18}
               />
             </mesh>
             {(
@@ -294,15 +311,21 @@ const HubScene = ({
                 position={legPosition}
               >
                 <boxGeometry args={[0.22, 1.2, 0.22]} />
-                <meshStandardMaterial color="#120c18" roughness={0.76} />
+                <meshStandardMaterial
+                  color="#17101f"
+                  metalness={0.18}
+                  roughness={0.62}
+                />
               </mesh>
             ))}
             <mesh position={[0, 0.32, -0.1]} rotation={[-0.2, 0.1, 0]}>
               <boxGeometry args={[1.05, 0.08, 0.72]} />
               <meshStandardMaterial
-                color="#2a182f"
+                color="#341b35"
                 emissive="#ff4a8a"
-                emissiveIntensity={0.18}
+                emissiveIntensity={0.28}
+                metalness={0.22}
+                roughness={0.28}
               />
             </mesh>
           </group>
@@ -333,27 +356,41 @@ const HubScene = ({
           <group>
             <mesh position={[0, 0, -0.12]}>
               <circleGeometry args={[1.15, 48]} />
-              <meshBasicMaterial color="#6dcbff" transparent opacity={0.08} />
+              <meshBasicMaterial color="#6dcbff" transparent opacity={0.12} />
             </mesh>
             <mesh castShadow receiveShadow>
               <boxGeometry args={[1.8, 1.05, 0.08]} />
               <meshStandardMaterial
-                color="#10101b"
-                metalness={0.26}
-                roughness={0.28}
+                color="#131621"
+                emissive="#080b10"
+                emissiveIntensity={0.08}
+                metalness={0.42}
+                roughness={0.2}
               />
             </mesh>
             <mesh position={[0, 0, 0.045]}>
               <planeGeometry args={[1.58, 0.82]} />
-              <meshBasicMaterial color="#6dcbff" transparent opacity={0.35} />
+              <meshBasicMaterial color="#6dcbff" transparent opacity={0.46} />
+            </mesh>
+            <mesh position={[0, 0, 0.05]}>
+              <planeGeometry args={[1.44, 0.69]} />
+              <meshBasicMaterial color="#d8f4ff" transparent opacity={0.08} />
             </mesh>
             <mesh position={[0, -0.75, 0]}>
               <cylinderGeometry args={[0.05, 0.09, 0.7, 10]} />
-              <meshStandardMaterial color="#181420" roughness={0.46} />
+              <meshStandardMaterial
+                color="#1f1a28"
+                metalness={0.32}
+                roughness={0.3}
+              />
             </mesh>
             <mesh position={[0, -1.12, 0]}>
               <cylinderGeometry args={[0.5, 0.5, 0.08, 18]} />
-              <meshStandardMaterial color="#1a1420" roughness={0.46} />
+              <meshStandardMaterial
+                color="#221a28"
+                metalness={0.24}
+                roughness={0.34}
+              />
             </mesh>
           </group>
         </InteractiveHubObject>
@@ -383,19 +420,41 @@ const HubScene = ({
           <group>
             <mesh castShadow receiveShadow>
               <boxGeometry args={[1.65, 2.2, 0.9]} />
-              <meshStandardMaterial color="#17101f" roughness={0.68} />
+              <meshStandardMaterial
+                color="#1b1323"
+                emissive="#0f0a14"
+                emissiveIntensity={0.08}
+                metalness={0.14}
+                roughness={0.56}
+              />
             </mesh>
             <mesh position={[-0.24, 0.55, 0.48]} rotation={[0, 0.12, 0]}>
               <boxGeometry args={[0.34, 1.1, 0.2]} />
-              <meshStandardMaterial color="#4f2359" roughness={0.56} />
+              <meshStandardMaterial
+                color="#6a2b6f"
+                emissive="#281026"
+                emissiveIntensity={0.08}
+                metalness={0.12}
+                roughness={0.42}
+              />
             </mesh>
             <mesh position={[0.18, 0.42, 0.46]} rotation={[0, -0.08, 0]}>
               <boxGeometry args={[0.4, 1.32, 0.22]} />
-              <meshStandardMaterial color="#2a4b83" roughness={0.54} />
+              <meshStandardMaterial
+                color="#335799"
+                emissive="#111c34"
+                emissiveIntensity={0.08}
+                metalness={0.14}
+                roughness={0.4}
+              />
             </mesh>
             <mesh position={[-0.05, -0.4, 0.44]} rotation={[0, 0.18, 0]}>
               <cylinderGeometry args={[0.14, 0.14, 1, 18]} />
-              <meshStandardMaterial color="#b06a7d" roughness={0.42} />
+              <meshStandardMaterial
+                color="#c27a8d"
+                metalness={0.08}
+                roughness={0.32}
+              />
             </mesh>
           </group>
         </InteractiveHubObject>
@@ -426,21 +485,29 @@ const HubScene = ({
             <mesh castShadow receiveShadow>
               <boxGeometry args={[1.9, 2.35, 0.12]} />
               <meshStandardMaterial
-                color="#18121f"
-                metalness={0.12}
-                roughness={0.38}
+                color="#201727"
+                emissive="#0e0912"
+                emissiveIntensity={0.08}
+                metalness={0.18}
+                roughness={0.26}
               />
             </mesh>
             <mesh position={[0, 0, 0.1]}>
               <planeGeometry args={[1.5, 1.9]} />
-              <meshBasicMaterial color="#ff4a8a" transparent opacity={0.16} />
+              <meshBasicMaterial color="#ff4a8a" transparent opacity={0.2} />
+            </mesh>
+            <mesh position={[0, 0, 0.105]}>
+              <planeGeometry args={[1.18, 1.56]} />
+              <meshBasicMaterial color="#ffd6e6" transparent opacity={0.05} />
             </mesh>
             <mesh position={[0.42, 0.66, 0.22]} rotation={[0.3, 0.6, 0]}>
               <octahedronGeometry args={[0.16, 0]} />
               <meshStandardMaterial
                 color="#ffd4f0"
                 emissive="#ff4a8a"
-                emissiveIntensity={0.22}
+                emissiveIntensity={0.3}
+                metalness={0.38}
+                roughness={0.16}
               />
             </mesh>
             <mesh position={[-0.36, -0.2, 0.18]} rotation={[0.6, 0.2, 0.5]}>
@@ -448,7 +515,9 @@ const HubScene = ({
               <meshStandardMaterial
                 color="#b2cfff"
                 emissive="#6dcbff"
-                emissiveIntensity={0.18}
+                emissiveIntensity={0.24}
+                metalness={0.34}
+                roughness={0.18}
               />
             </mesh>
           </group>
@@ -488,29 +557,37 @@ const HubScene = ({
           <group>
             <mesh position={[0, -0.78, -0.08]}>
               <cylinderGeometry args={[0.8, 1, 0.22, 8]} />
-              <meshStandardMaterial color="#170f20" roughness={0.86} />
+              <meshStandardMaterial
+                color="#1b1124"
+                metalness={0.16}
+                roughness={0.62}
+              />
             </mesh>
             <mesh castShadow>
               <torusGeometry args={[1.2, 0.12, 22, 120]} />
               <meshStandardMaterial
-                color="#21132d"
+                color="#29153a"
                 emissive="#7e4cff"
-                emissiveIntensity={0.3}
-                metalness={0.12}
-                roughness={0.24}
+                emissiveIntensity={0.42}
+                metalness={0.24}
+                roughness={0.14}
               />
             </mesh>
             <mesh position={[0, 0, -0.05]}>
               <circleGeometry args={[0.95, 64]} />
-              <meshBasicMaterial color="#7e4cff" transparent opacity={0.3} />
+              <meshBasicMaterial color="#7e4cff" transparent opacity={0.38} />
+            </mesh>
+            <mesh position={[0, 0, -0.01]}>
+              <circleGeometry args={[0.72, 64]} />
+              <meshBasicMaterial color="#cbb6ff" transparent opacity={0.12} />
             </mesh>
             <mesh position={[0, 0, 0.22]} rotation={[0.4, 0.3, 0.2]}>
               <torusGeometry args={[1.55, 0.02, 10, 90]} />
-              <meshBasicMaterial color="#6dcbff" transparent opacity={0.42} />
+              <meshBasicMaterial color="#6dcbff" transparent opacity={0.48} />
             </mesh>
             <mesh position={[0, 0.05, -0.1]} rotation={[0.2, -0.3, 0.16]}>
               <torusGeometry args={[1.85, 0.015, 10, 90]} />
-              <meshBasicMaterial color="#ff7db6" transparent opacity={0.24} />
+              <meshBasicMaterial color="#ff7db6" transparent opacity={0.3} />
             </mesh>
           </group>
         </InteractiveHubObject>

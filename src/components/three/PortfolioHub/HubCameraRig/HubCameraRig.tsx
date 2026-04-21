@@ -38,7 +38,7 @@ const HubCameraRig = ({
     if (isTouchDevice && (viewState === "hub" || !activeSection)) {
       return {
         lookAt: [0, 1.22, -0.15] as [number, number, number],
-        position: [0, 2.5, 7.9] as [number, number, number],
+        position: [0, 2.96, 11.9] as [number, number, number],
       };
     }
 
@@ -67,7 +67,7 @@ const HubCameraRig = ({
     const isHubView = viewState === "hub" || !activeSection;
     const parallaxStrength = isTouchDevice
       ? isHubView
-        ? 0.6
+        ? 0.48
         : 0.26
       : isHubView
         ? 0.45
@@ -86,10 +86,16 @@ const HubCameraRig = ({
     const lookAtTarget = baseLookAt.clone();
 
     if (isTouchDevice) {
-      const orbitYaw = touchOrbitOffset[0] * (isHubView ? 0.88 : 0.18);
-      const orbitPitch = touchOrbitOffset[1] * (isHubView ? 0.34 : 0.08);
+      const orbitYaw = touchOrbitOffset[0] * (isHubView ? 0.72 : 0.15);
+      const orbitPitch = touchOrbitOffset[1] * (isHubView ? 0.28 : 0.07);
       const orbitVector = desiredPosition.clone().sub(baseLookAt);
-      const radius = orbitVector.length() + (isHubView ? touchZoomOffset : 0);
+      const radius = Math.max(
+        isHubView ? 9.6 : 2.8,
+        Math.min(
+          isHubView ? 15.1 : 7.4,
+          orbitVector.length() + (isHubView ? touchZoomOffset : 0),
+        ),
+      );
       const nextYaw = Math.atan2(orbitVector.x, orbitVector.z) + orbitYaw;
       const nextPitch = Math.max(
         -0.45,
@@ -111,14 +117,14 @@ const HubCameraRig = ({
         baseLookAt.z + Math.cos(nextYaw) * planarRadius,
       );
 
-      lookAtTarget.x += touchOrbitOffset[0] * (isHubView ? 0.95 : 0.18);
-      lookAtTarget.y += touchOrbitOffset[1] * (isHubView ? 0.3 : 0.08);
+      lookAtTarget.x += touchOrbitOffset[0] * (isHubView ? 0.72 : 0.14);
+      lookAtTarget.y += touchOrbitOffset[1] * (isHubView ? 0.24 : 0.07);
     }
 
     const previousDistance = camera.position.distanceTo(desiredPosition);
     camera.position.lerp(
       desiredPosition,
-      1 - Math.exp(-clampedDelta * (isTouchDevice ? 5.1 : 4.4)),
+      1 - Math.exp(-clampedDelta * (isTouchDevice ? 5.6 : 4.4)),
     );
 
     lookAtTarget.x += horizontalInput * (isTouchDevice ? 0.2 : 0.22);
@@ -126,7 +132,7 @@ const HubCameraRig = ({
 
     currentLookAtRef.current.lerp(
       lookAtTarget,
-      1 - Math.exp(-clampedDelta * (isTouchDevice ? 5.8 : 5.2)),
+      1 - Math.exp(-clampedDelta * (isTouchDevice ? 6.1 : 5.2)),
     );
     camera.lookAt(currentLookAtRef.current);
 

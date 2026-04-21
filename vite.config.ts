@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   build: {
+    // Three.js vendor code is isolated into its own async chunk and is expected
+    // to exceed Vite's default 500 kB warning threshold.
+    chunkSizeWarningLimit: 800,
     rolldownOptions: {
       output: {
         codeSplitting: {

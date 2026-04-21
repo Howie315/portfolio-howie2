@@ -16,6 +16,9 @@ type TouchPointListLike = {
   length: number;
 };
 
+const TOUCH_DRAG_THRESHOLD = 14;
+const TOUCH_PINCH_SENSITIVITY = 132;
+
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
 
@@ -69,8 +72,22 @@ const PortfolioScenePage = (): React.JSX.Element => {
   const visualSceneSection = activeSceneSection ?? hoveredSceneSection;
 
   const handleOpenSection = (sectionId: SceneSectionId): void => {
-    if (activeSection) {
+    if (activeSection === sectionId) {
       handleReturnToHub();
+      return;
+    }
+
+    if (activeSection && activeSection !== sectionId) {
+      if (returnTimeoutRef.current) {
+        clearTimeout(returnTimeoutRef.current);
+        returnTimeoutRef.current = null;
+      }
+
+      setIsMobileNavOpen(false);
+      setHoveredSection(null);
+      setTouchLookOffset([0, 0]);
+      setActiveSection(sectionId);
+      setViewState("focus");
       return;
     }
 
@@ -158,7 +175,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
 
     if (
       !touchGestureRef.current.isDragging &&
-      Math.hypot(deltaX, deltaY) > 12
+      Math.hypot(deltaX, deltaY) > TOUCH_DRAG_THRESHOLD
     ) {
       touchGestureRef.current.isDragging = true;
     }
@@ -172,14 +189,14 @@ const PortfolioScenePage = (): React.JSX.Element => {
     const nextYaw = clamp(
       touchGestureRef.current.startOrbitOffset[0] -
         (deltaX / rect.width) * 1.55,
-      -0.7,
-      0.7,
+      -0.98,
+      0.98,
     );
     const nextPitch = clamp(
       touchGestureRef.current.startOrbitOffset[1] +
         (deltaY / rect.height) * 0.62,
-      -0.22,
-      0.24,
+      -0.28,
+      0.3,
     );
 
     setTouchOrbitOffset([nextYaw, nextPitch]);
@@ -222,23 +239,18 @@ const PortfolioScenePage = (): React.JSX.Element => {
         >
           <div
             className="absolute inset-0 z-10"
-            style={{ touchAction: "none" }}
+            style={{
+              touchAction: "none",
+              WebkitTapHighlightColor: "transparent",
+              userSelect: "none",
+            }}
             onTouchCancel={() => {
               touchGestureRef.current = null;
               touchPinchRef.current = null;
               setTouchLookOffset([0, 0]);
             }}
             onTouchEnd={(event) => {
-              const pinchDistance = getTouchDistance(event.touches);
-
-              if (pinchDistance) {
-                touchPinchRef.current = {
-                  startDistance: pinchDistance,
-                  startZoomOffset: touchZoomOffset,
-                };
-              } else {
-                touchPinchRef.current = null;
-              }
+              touchPinchRef.current = null;
 
               if (event.touches.length === 1) {
                 const touch = event.touches[0];
@@ -264,6 +276,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
               }
 
               touchGestureRef.current = null;
+              touchPinchRef.current = null;
               setTouchLookOffset([0, 0]);
             }}
             onTouchMove={(event) => {
@@ -272,6 +285,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
               }
 
               if (event.touches.length >= 2) {
+                event.preventDefault();
                 const pinchDistance = getTouchDistance(event.touches);
 
                 if (!pinchDistance) {
@@ -286,11 +300,12 @@ const PortfolioScenePage = (): React.JSX.Element => {
                 }
 
                 const pinchDelta =
-                  (pinchDistance - touchPinchRef.current.startDistance) / 115;
+                  (pinchDistance - touchPinchRef.current.startDistance) /
+                  TOUCH_PINCH_SENSITIVITY;
                 const nextZoomOffset = clamp(
                   touchPinchRef.current.startZoomOffset - pinchDelta,
-                  -2.35,
-                  1.75,
+                  -0.65,
+                  3.55,
                 );
 
                 touchGestureRef.current = null;
@@ -303,6 +318,20 @@ const PortfolioScenePage = (): React.JSX.Element => {
 
               if (!touch) {
                 return;
+              }
+
+              const gesture = touchGestureRef.current;
+
+              if (gesture) {
+                const deltaX = touch.clientX - gesture.startX;
+                const deltaY = touch.clientY - gesture.startY;
+
+                if (
+                  gesture.isDragging ||
+                  Math.hypot(deltaX, deltaY) > TOUCH_DRAG_THRESHOLD
+                ) {
+                  event.preventDefault();
+                }
               }
 
               handleTouchGestureMove(
@@ -319,6 +348,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
               const pinchDistance = getTouchDistance(event.touches);
 
               if (pinchDistance) {
+                event.preventDefault();
                 touchPinchRef.current = {
                   startDistance: pinchDistance,
                   startZoomOffset: touchZoomOffset,

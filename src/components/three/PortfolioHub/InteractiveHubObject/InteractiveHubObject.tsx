@@ -44,7 +44,7 @@ const InteractiveHubObject = ({
   const accent = new Color(accentColor);
   const neutral = new Color("#150d1e");
 
-  const isHovered = hoveredSection === id && !isTouchDevice;
+  const isHovered = hoveredSection === id;
   const shouldHighlight = isHovered || isSelected;
 
   useEffect(() => {
@@ -252,7 +252,7 @@ const InteractiveHubObject = ({
 
           resetTouchState();
 
-          if (movedDistance <= 16) {
+          if (movedDistance <= 22) {
             handleSelect(event, "touch");
           } else {
             onHover(null);
@@ -260,7 +260,12 @@ const InteractiveHubObject = ({
         }}
       >
         <boxGeometry args={hitAreaScale} />
-        <meshBasicMaterial depthWrite={false} opacity={0} transparent />
+        <meshBasicMaterial
+          depthWrite={false}
+          opacity={0}
+          toneMapped={false}
+          transparent
+        />
       </mesh>
 
       {shouldHighlight ? (
