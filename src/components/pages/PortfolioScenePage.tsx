@@ -190,9 +190,9 @@ const PortfolioScenePage = (): React.JSX.Element => {
     );
     const nextPitch = clamp(
       touchGestureRef.current.startOrbitOffset[1] +
-        (deltaY / rect.height) * 0.78,
-      -0.28,
-      0.3,
+        (deltaY / rect.height) * 1.05,
+      -0.36,
+      0.38,
     );
 
     touchOrbitOffsetRef.current = [nextYaw, nextPitch];

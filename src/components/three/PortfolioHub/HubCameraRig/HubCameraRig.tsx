@@ -90,7 +90,7 @@ const HubCameraRig = ({
 
     if (isTouchDevice) {
       const orbitYaw = touchOrbitOffset[0] * (isHubView ? 0.86 : 0.17);
-      const orbitPitch = touchOrbitOffset[1] * (isHubView ? 0.34 : 0.08);
+      const orbitPitch = touchOrbitOffset[1] * (isHubView ? 0.46 : 0.12);
       const orbitVector = desiredPosition.clone().sub(baseLookAt);
       const radius = Math.max(
         isHubView ? 9.6 : 2.8,
@@ -121,7 +121,7 @@ const HubCameraRig = ({
       );
 
       lookAtTarget.x += touchOrbitOffset[0] * (isHubView ? 0.84 : 0.16);
-      lookAtTarget.y += touchOrbitOffset[1] * (isHubView ? 0.28 : 0.08);
+      lookAtTarget.y += touchOrbitOffset[1] * (isHubView ? 0.38 : 0.12);
     }
 
     const previousDistance = camera.position.distanceTo(desiredPosition);
