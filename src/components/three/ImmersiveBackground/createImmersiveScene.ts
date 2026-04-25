@@ -5,7 +5,6 @@ import {
   BufferAttribute,
   BufferGeometry,
   CanvasTexture,
-  Clock,
   Color,
   DynamicDrawUsage,
   Euler,
@@ -29,6 +28,7 @@ import {
   Sprite,
   SpriteMaterial,
   SRGBColorSpace,
+  Timer,
   TorusGeometry,
   type Texture,
   WebGLRenderer,
@@ -448,7 +448,8 @@ export const createImmersiveScene = ({
   fragmentGroup.add(fragments);
 
   const dummy = new Object3D();
-  const clock = new Clock();
+  const timer = new Timer();
+  timer.connect(document);
 
   let animationFrameId = 0;
   let destroyed = false;
@@ -584,19 +585,20 @@ export const createImmersiveScene = ({
     updateFragments(motionTime);
   };
 
-  const renderFrame = (): void => {
+  const renderFrame = (timestamp?: number): void => {
     if (destroyed || !isVisible) {
       return;
     }
 
-    const elapsedTime = clock.getElapsedTime();
-    updateScene(elapsedTime);
+    timer.update(timestamp);
+    updateScene(timer.getElapsed());
     renderer.render(scene, camera);
     animationFrameId = window.requestAnimationFrame(renderFrame);
   };
 
   const renderStatic = (): void => {
-    updateScene(clock.getElapsedTime());
+    timer.update();
+    updateScene(timer.getElapsed());
     renderer.render(scene, camera);
   };
 
@@ -640,7 +642,7 @@ export const createImmersiveScene = ({
     }
 
     if (!prefersReducedMotion && isVisible && !animationFrameId) {
-      clock.getDelta();
+      timer.reset();
       renderFrame();
     }
   };
@@ -674,6 +676,8 @@ export const createImmersiveScene = ({
       if (animationFrameId) {
         window.cancelAnimationFrame(animationFrameId);
       }
+
+      timer.dispose();
 
       scene.traverse((object: Object3D) => {
         if (object instanceof Mesh) {
