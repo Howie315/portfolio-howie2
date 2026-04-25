@@ -23,8 +23,8 @@ export const cameraPresets: Record<SceneSectionId | "hub", CameraPreset> = {
     position: [0, 3.04, 8.55],
   },
   projects: {
-    lookAt: [-0.72, 1.48, 0.38],
-    position: [-1.28, 2.16, 3.45],
+    lookAt: [-0.5, 1.48, 0.38],
+    position: [-1.05, 2.16, 3.45],
   },
   skills: {
     lookAt: [1.08, 0.82, 0.86],

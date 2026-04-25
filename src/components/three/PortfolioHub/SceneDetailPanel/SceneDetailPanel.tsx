@@ -119,7 +119,8 @@ const PortalContactContent = (): React.JSX.Element => (
           Step through when the work needs a sharper interface.
         </h3>
         <p className="mt-3 max-w-xl text-sm leading-7 text-[rgba(224,224,238,0.76)]">
-          Frontend roles, product UI work, AI-facing interfaces, and distinctive web experiences are the best fit.
+          Frontend roles, product UI work, AI-facing interfaces, and distinctive
+          web experiences are the best fit.
         </p>
       </div>
     </div>
@@ -150,6 +151,113 @@ const PortalContactContent = (): React.JSX.Element => (
   </div>
 );
 
+const ExperienceArchiveContent = (): React.JSX.Element => (
+  <div className="space-y-4">
+    <div className="scene-detail-card relative overflow-hidden rounded-[1.35rem] p-5 sm:p-6">
+      <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(180deg,rgba(255,255,255,0.045)_0,rgba(255,255,255,0.045)_1px,transparent_1px,transparent_8px)] opacity-45" />
+      <div className="pointer-events-none absolute -right-10 top-4 h-44 w-44 rounded-full bg-[rgba(109,203,255,0.18)] blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-36 w-56 bg-[radial-gradient(circle_at_20%_60%,rgba(255,141,179,0.18),transparent_58%)]" />
+      <div className="relative">
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-[0.62rem] uppercase tracking-[0.34em] text-[rgba(124,255,212,0.78)]">
+            Cartridge archive
+          </p>
+          <span className="rounded-full border border-[rgba(124,255,212,0.2)] bg-[rgba(124,255,212,0.06)] px-3 py-1 text-[0.56rem] uppercase tracking-[0.24em] text-[rgba(230,255,248,0.72)]">
+            2 carts
+          </span>
+        </div>
+        <h3 className="mt-3 font-display text-2xl font-semibold text-white sm:text-3xl">
+          Insert a career cartridge. Load the level. Read the save data.
+        </h3>
+        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+          {["SYNC-24", "SIZZLE-23"].map((label) => (
+            <div
+              className="rounded-2xl border border-white/10 bg-black/20 px-3 py-3"
+              key={label}
+            >
+              <p className="text-[0.58rem] uppercase tracking-[0.26em] text-[rgba(109,203,255,0.72)]">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div className="grid gap-3 lg:grid-cols-2">
+      {sceneSectionCopy.experience.entries.map((entry, index) => (
+        <article
+          className="scene-detail-card relative overflow-hidden rounded-[1.15rem] p-4 transition hover:border-[rgba(124,255,212,0.28)] hover:bg-white/7 sm:p-5"
+          key={`${entry.title}-${entry.duration}`}
+        >
+          <div className="pointer-events-none absolute right-4 top-4 h-16 w-16 rounded-full bg-[rgba(109,203,255,0.08)] blur-2xl" />
+          <div className="relative mb-4 flex h-28 items-center justify-center rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(13,12,18,0.95),rgba(29,21,36,0.9))]">
+            <div
+              className="h-20 w-32 rounded-lg border border-white/10 bg-[#2a2530] shadow-[0_18px_38px_rgba(0,0,0,0.32)]"
+              style={{
+                boxShadow:
+                  index === 0
+                    ? "0 0 34px rgba(109,203,255,0.18)"
+                    : "0 0 34px rgba(255,141,179,0.18)",
+              }}
+            >
+              <div
+                className="mx-auto mt-3 h-9 w-24 rounded border border-white/10"
+                style={{
+                  backgroundColor:
+                    index === 0
+                      ? "rgba(109,203,255,0.34)"
+                      : "rgba(255,141,179,0.34)",
+                }}
+              />
+              <div className="mx-auto mt-2 h-1.5 w-20 rounded-full bg-white/18" />
+              <div className="mx-auto mt-1.5 h-1.5 w-14 rounded-full bg-white/10" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 sm:items-start">
+            <div>
+              <p className="text-[0.58rem] uppercase tracking-[0.28em] text-[rgba(124,255,212,0.72)]">
+                Cartridge {String(index + 1).padStart(2, "0")} loaded
+              </p>
+              <h3 className="mt-2 font-display text-xl text-white">
+                {entry.title}
+              </h3>
+            </div>
+            <p className="text-[0.66rem] uppercase tracking-[0.24em] text-[rgba(255,170,204,0.8)]">
+              {entry.duration}
+            </p>
+          </div>
+
+          <ul className="mt-4 space-y-3 text-sm leading-7 text-[rgba(214,217,228,0.76)]">
+            {entry.description.map((item) => (
+              <li className="flex gap-3" key={item}>
+                <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[rgba(124,255,212,0.82)]" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {entry.technologies.map((technology) => (
+              <span className="scene-detail-chip" key={technology}>
+                {technology}
+              </span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+);
+
+const panelEyebrowMap: Record<SceneSectionId, string> = {
+  about: "Keyboard profile",
+  contact: "Portal gateway",
+  experience: "Archive index",
+  projects: "Monitor system",
+  skills: "Notebook codex",
+};
+
 export const SceneDetailPanel = ({
   activeSection,
   onClose,
@@ -172,7 +280,9 @@ export const SceneDetailPanel = ({
       ? "pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,18,28,0.96),rgba(5,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-3xl sm:rounded-4xl xl:max-w-4xl"
       : activeSection === "contact"
         ? "pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(20,10,42,0.96),rgba(7,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-2xl sm:rounded-4xl"
-        : "pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(19,11,34,0.96),rgba(7,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-xl sm:rounded-4xl";
+        : activeSection === "experience"
+          ? "pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(28,11,28,0.96),rgba(7,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-2xl sm:rounded-4xl"
+          : "pointer-events-auto relative flex h-[min(91vh,46rem)] w-full flex-col overflow-hidden rounded-t-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(19,11,34,0.96),rgba(7,6,18,0.98))] shadow-[0_32px_120px_rgba(0,0,0,0.56)] backdrop-blur-2xl sm:h-full sm:max-h-none sm:max-w-xl sm:rounded-4xl";
 
   return (
     <aside className="pointer-events-none fixed inset-0 z-30 flex items-end justify-end p-0 sm:items-stretch sm:p-4 lg:p-6">
@@ -209,7 +319,7 @@ export const SceneDetailPanel = ({
                 style={{ backgroundColor: sectionMeta.accent }}
               />
               <p className="text-[0.64rem] uppercase tracking-[0.34em] text-[rgba(255,170,204,0.82)]">
-                {sectionMeta.kicker} archive
+                {panelEyebrowMap[activeSection]}
               </p>
             </div>
             <p className="mt-3 text-[0.68rem] uppercase tracking-[0.34em] text-[rgba(196,192,220,0.54)]">
@@ -260,9 +370,7 @@ export const SceneDetailPanel = ({
             </div>
           ) : null}
 
-          {activeSection === "projects" ? (
-            <ProjectMonitorContent />
-          ) : null}
+          {activeSection === "projects" ? <ProjectMonitorContent /> : null}
 
           {activeSection === "skills" ? (
             <div className="grid gap-4">
@@ -289,46 +397,9 @@ export const SceneDetailPanel = ({
             </div>
           ) : null}
 
-          {activeSection === "experience" ? (
-            <div className="space-y-4">
-              {sceneSectionCopy.experience.entries.map((entry) => (
-                <article
-                  className="scene-detail-card rounded-[1.6rem] p-4 sm:p-5"
-                  key={`${entry.title}-${entry.duration}`}
-                >
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-                    <h3 className="font-display text-xl text-white">
-                      {entry.title}
-                    </h3>
-                    <p className="text-[0.7rem] uppercase tracking-[0.24em] text-[rgba(255,170,204,0.8)]">
-                      {entry.duration}
-                    </p>
-                  </div>
+          {activeSection === "experience" ? <ExperienceArchiveContent /> : null}
 
-                  <ul className="mt-4 space-y-3 text-sm leading-7 text-[rgba(214,217,228,0.76)]">
-                    {entry.description.map((item) => (
-                      <li className="flex gap-3" key={item}>
-                        <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[rgba(255,170,204,0.92)]" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {entry.technologies.map((technology) => (
-                      <span className="scene-detail-chip" key={technology}>
-                        {technology}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          ) : null}
-
-          {activeSection === "contact" ? (
-            <PortalContactContent />
-          ) : null}
+          {activeSection === "contact" ? <PortalContactContent /> : null}
         </div>
       </div>
     </aside>

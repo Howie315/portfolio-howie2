@@ -81,11 +81,29 @@ const shardPositions = [
   [-1.6, 3.7, -4.4],
   [1.9, 3.4, -4.1],
 ] as const;
-const experienceBookStack = [
-  { color: "#79345f", height: 0.38, z: -0.26 },
-  { color: "#28478f", height: 0.48, z: 0 },
-  { color: "#5b377f", height: 0.42, z: 0.25 },
+const experienceCartridges = [
+  {
+    accent: "#6dcbff",
+    code: "SYNC",
+    label: "Synchrony",
+    position: [-0.34, 0.34, 0.34],
+    rotation: [0.08, -0.16, -0.08],
+  },
+  {
+    accent: "#ff8db3",
+    code: "SIZZLE",
+    label: "Sizzle",
+    position: [0.35, 0.32, 0.34],
+    rotation: [0.08, 0.18, 0.08],
+  },
 ] as const;
+const keyboardRows = [
+  { count: 12, width: 0.105, z: -0.18, xOffset: -0.63 },
+  { count: 11, width: 0.112, z: -0.035, xOffset: -0.59 },
+  { count: 10, width: 0.122, z: 0.11, xOffset: -0.53 },
+  { count: 8, width: 0.145, z: 0.255, xOffset: -0.42 },
+] as const;
+const keyboardAccentKeys = new Set(["0-11", "2-0", "3-7"]);
 const portalEnergyNodes = [
   { angle: 0.15, radius: 1.52, speed: 0.38, y: 0.12 },
   { angle: 1.4, radius: 1.86, speed: -0.24, y: -0.22 },
@@ -93,6 +111,7 @@ const portalEnergyNodes = [
   { angle: 3.7, radius: 1.74, speed: -0.34, y: -0.08 },
   { angle: 4.8, radius: 1.58, speed: 0.28, y: 0.24 },
 ] as const;
+const portalSpokes = [0, 0.52, 1.04, 1.57, 2.1, 2.62] as const;
 
 const MonitorInterface = ({
   isActive,
@@ -102,6 +121,8 @@ const MonitorInterface = ({
   const scanGroupRef = useRef<Group | null>(null);
   const cursorRef = useRef<Mesh | null>(null);
   const wakeRingRef = useRef<Mesh | null>(null);
+  const orbitRef = useRef<Group | null>(null);
+  const railRef = useRef<Mesh | null>(null);
 
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
@@ -126,6 +147,18 @@ const MonitorInterface = ({
 
     if (wakeRingRef.current) {
       wakeRingRef.current.rotation.z += delta * (isActive ? 0.82 : 0.28);
+    }
+
+    if (orbitRef.current) {
+      orbitRef.current.rotation.z -= delta * (isActive ? 0.58 : 0.18);
+      orbitRef.current.scale.setScalar(
+        1 + Math.sin(time * 1.8) * (isActive ? 0.045 : 0.016),
+      );
+    }
+
+    if (railRef.current) {
+      railRef.current.scale.y =
+        1 + Math.sin(time * (isActive ? 3.2 : 1.4)) * 0.08;
     }
   });
 
@@ -173,6 +206,24 @@ const MonitorInterface = ({
         <planeGeometry args={[0.52, 0.055]} />
         <meshBasicMaterial color="#071019" opacity={0.68} transparent />
       </mesh>
+      <mesh position={[-0.62, -0.12, 0.067]} ref={railRef}>
+        <planeGeometry args={[0.045, 0.46]} />
+        <meshBasicMaterial
+          color="#a9efff"
+          opacity={isActive ? 0.42 : 0.16}
+          transparent
+        />
+      </mesh>
+      {[0.34, 0.18, 0.02, -0.14].map((yOffset, index) => (
+        <mesh key={`monitor-stat-${yOffset}`} position={[0.42, yOffset, 0.067]}>
+          <planeGeometry args={[0.42 - index * 0.055, 0.032]} />
+          <meshBasicMaterial
+            color={index % 2 === 0 ? "#6dcbff" : "#ff8db3"}
+            opacity={isActive ? 0.34 : 0.14}
+            transparent
+          />
+        </mesh>
+      ))}
       <group position={[0, 0, 0.066]} ref={scanGroupRef}>
         {[-0.24, 0, 0.24].map((yOffset) => (
           <mesh key={`scan-${yOffset}`} position={[0, yOffset, 0]}>
@@ -194,13 +245,40 @@ const MonitorInterface = ({
           transparent
         />
       </mesh>
+      <group position={[0, 0, 0.082]} ref={orbitRef}>
+        <mesh rotation={[0, 0, 0.24]}>
+          <ringGeometry args={[0.78, 0.792, isLiteMode ? 42 : 72]} />
+          <meshBasicMaterial
+            blending={AdditiveBlending}
+            color="#6dcbff"
+            opacity={isActive ? 0.32 : 0.09}
+            transparent
+          />
+        </mesh>
+        <mesh position={[0.78, 0, 0]}>
+          <sphereGeometry args={[0.032, 10, 10]} />
+          <meshBasicMaterial
+            color="#e7fbff"
+            opacity={isActive ? 0.78 : 0.28}
+            transparent
+          />
+        </mesh>
+      </group>
       <mesh position={[0, -0.76, 0]}>
         <cylinderGeometry args={[0.05, 0.09, 0.66, 10]} />
-        <meshStandardMaterial color="#1f1a28" metalness={0.32} roughness={0.3} />
+        <meshStandardMaterial
+          color="#1f1a28"
+          metalness={0.32}
+          roughness={0.3}
+        />
       </mesh>
       <mesh position={[0, -1.1, 0]}>
         <cylinderGeometry args={[0.48, 0.48, 0.07, 18]} />
-        <meshStandardMaterial color="#221a28" metalness={0.24} roughness={0.34} />
+        <meshStandardMaterial
+          color="#221a28"
+          metalness={0.24}
+          roughness={0.34}
+        />
       </mesh>
     </group>
   );
@@ -233,7 +311,8 @@ const AmbientField = ({
     }
 
     pointsRef.current.rotation.y += delta * 0.018;
-    pointsRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.28) * 0.1;
+    pointsRef.current.position.y =
+      Math.sin(state.clock.elapsedTime * 0.28) * 0.1;
   });
 
   return (
@@ -325,6 +404,7 @@ const PortalRift = ({
   const coreRef = useRef<Mesh | null>(null);
   const haloRef = useRef<Mesh | null>(null);
   const particleGroupRef = useRef<Group | null>(null);
+  const spokeGroupRef = useRef<Group | null>(null);
 
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
@@ -341,7 +421,8 @@ const PortalRift = ({
     if (coreRef.current) {
       coreRef.current.rotation.z -= delta * (isActive ? 0.72 : 0.32);
       coreRef.current.scale.setScalar(
-        1 + Math.sin(time * (isActive ? 3.4 : 1.8)) * (isActive ? 0.055 : 0.025),
+        1 +
+          Math.sin(time * (isActive ? 3.4 : 1.8)) * (isActive ? 0.055 : 0.025),
       );
     }
 
@@ -352,6 +433,13 @@ const PortalRift = ({
     if (particleGroupRef.current) {
       particleGroupRef.current.rotation.z -= delta * (isActive ? 0.58 : 0.18);
       particleGroupRef.current.rotation.y = Math.sin(time * 0.5) * 0.12;
+    }
+
+    if (spokeGroupRef.current) {
+      spokeGroupRef.current.rotation.z += delta * (isActive ? 0.36 : 0.08);
+      spokeGroupRef.current.scale.setScalar(
+        1 + Math.sin(time * 2.2) * (isActive ? 0.055 : 0.018),
+      );
     }
   });
 
@@ -399,6 +487,23 @@ const PortalRift = ({
         <torusGeometry args={[1.95, 0.014, 10, 96]} />
         <meshBasicMaterial color="#ff7db6" transparent opacity={0.32} />
       </mesh>
+      <group ref={spokeGroupRef}>
+        {portalSpokes.map((rotation, index) => (
+          <mesh
+            key={`portal-spoke-${rotation}`}
+            position={[0, 0, 0.18 + index * 0.004]}
+            rotation={[0, 0, rotation]}
+          >
+            <boxGeometry args={[0.035, 2.54, 0.012]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color={index % 2 === 0 ? "#7e4cff" : "#6dcbff"}
+              opacity={isActive ? 0.18 : 0.055}
+              transparent
+            />
+          </mesh>
+        ))}
+      </group>
       <group ref={particleGroupRef}>
         {portalEnergyNodes.map((node, index) => {
           const x = Math.cos(node.angle) * node.radius;
@@ -422,67 +527,536 @@ const PortalRift = ({
         })}
       </group>
       {isActive ? (
-        <mesh position={[0, 0, 0.02]}>
-          <ringGeometry args={[1.5, 1.72, 80]} />
-          <meshBasicMaterial
-            blending={AdditiveBlending}
-            color="#ffffff"
-            opacity={0.16}
-            transparent
-          />
-        </mesh>
+        <>
+          <mesh position={[0, 0, 0.02]}>
+            <ringGeometry args={[1.5, 1.72, 80]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color="#ffffff"
+              opacity={0.16}
+              transparent
+            />
+          </mesh>
+          <mesh position={[0, 0, -0.12]}>
+            <circleGeometry args={[1.26, isLiteMode ? 42 : 76]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color="#1b0b3d"
+              opacity={0.38}
+              transparent
+            />
+          </mesh>
+        </>
       ) : null}
     </group>
   );
 };
 
-const DeskLamp = ({ isLiteMode }: { isLiteMode: boolean }): React.JSX.Element => {
-  const lampHeadRef = useRef<Group | null>(null);
+const MechanicalKeyboard = ({
+  isActive,
+}: {
+  isActive: boolean;
+}): React.JSX.Element => {
+  const chassisRef = useRef<Group | null>(null);
+  const keyFieldRef = useRef<Group | null>(null);
+  const rippleRef = useRef<Group | null>(null);
+  const underglowRef = useRef<Mesh | null>(null);
+  const commandCoreRef = useRef<Mesh | null>(null);
 
-  useFrame((state) => {
-    if (!lampHeadRef.current) {
-      return;
+  useFrame((state, delta) => {
+    const time = state.clock.elapsedTime;
+    const activation = isActive ? 1 : 0;
+
+    if (chassisRef.current) {
+      chassisRef.current.rotation.x =
+        -0.18 + Math.sin(time * 0.72) * (isActive ? 0.018 : 0.008);
+      chassisRef.current.position.y =
+        Math.sin(time * 1.1) * (isActive ? 0.012 : 0.004);
     }
 
-    lampHeadRef.current.rotation.z = -0.32 + Math.sin(state.clock.elapsedTime * 0.8) * 0.035;
+    if (keyFieldRef.current) {
+      keyFieldRef.current.children.forEach((keyGroup) => {
+        const rowIndex = Number(keyGroup.userData.rowIndex ?? 0);
+        const keyIndex = Number(keyGroup.userData.keyIndex ?? 0);
+        const distance = keyIndex * 0.38 + rowIndex * 0.72;
+        const wave = Math.sin(time * (isActive ? 4.8 : 1.4) - distance);
+        const press = Math.max(0, wave) * (isActive ? 0.026 : 0.007);
+        keyGroup.position.y = -press;
+
+        keyGroup.traverse((object) => {
+          if (!(object instanceof Mesh)) {
+            return;
+          }
+
+          const material = object.material;
+          const intensity = 0.1 + Math.max(0, wave) * (isActive ? 0.85 : 0.18);
+
+          if (Array.isArray(material)) {
+            material.forEach((entry) => {
+              if ("emissiveIntensity" in entry) {
+                entry.emissiveIntensity = intensity;
+              }
+            });
+            return;
+          }
+
+          if ("emissiveIntensity" in material) {
+            material.emissiveIntensity = intensity;
+          }
+        });
+      });
+    }
+
+    if (rippleRef.current) {
+      rippleRef.current.position.x =
+        -0.72 + ((time * (isActive ? 0.7 : 0.28)) % 1.44);
+      rippleRef.current.scale.x = 0.8 + Math.sin(time * 2.6) * 0.12;
+    }
+
+    if (underglowRef.current) {
+      underglowRef.current.scale.x +=
+        ((isActive ? 1.18 : 0.98) - underglowRef.current.scale.x) *
+        (1 - Math.exp(-delta * 5));
+      underglowRef.current.scale.z =
+        1 + Math.sin(time * 1.8) * (isActive ? 0.06 : 0.02);
+    }
+
+    if (commandCoreRef.current) {
+      commandCoreRef.current.rotation.z += delta * (isActive ? 1.2 : 0.26);
+      commandCoreRef.current.scale.setScalar(
+        1 + Math.sin(time * 3.1) * (isActive ? 0.08 : 0.025),
+      );
+    }
   });
 
   return (
-    <group position={[-2.05, 0.78, -0.2]} rotation={[0, 0.2, 0]}>
-      <mesh castShadow position={[0, -0.08, 0]}>
-        <cylinderGeometry args={[0.18, 0.26, 0.08, 22]} />
-        <meshStandardMaterial color="#221929" metalness={0.35} roughness={0.3} />
+    <group ref={chassisRef} rotation={[-0.18, 0, 0]}>
+      <mesh position={[0, -0.03, 0.02]} ref={underglowRef}>
+        <boxGeometry args={[1.98, 0.018, 0.82]} />
+        <meshBasicMaterial
+          blending={AdditiveBlending}
+          color="#ff4a8a"
+          opacity={isActive ? 0.22 : 0.08}
+          transparent
+        />
       </mesh>
-      <mesh castShadow position={[0.05, 0.42, 0]} rotation={[0, 0, -0.28]}>
-        <cylinderGeometry args={[0.035, 0.045, 0.94, 12]} />
-        <meshStandardMaterial color="#282032" metalness={0.42} roughness={0.24} />
+      <mesh castShadow receiveShadow position={[0, 0, 0]}>
+        <boxGeometry args={[1.92, 0.09, 0.72]} />
+        <meshStandardMaterial
+          color="#12111a"
+          emissive="#201020"
+          emissiveIntensity={isActive ? 0.22 : 0.08}
+          metalness={0.48}
+          roughness={0.2}
+        />
       </mesh>
-      <group position={[0.24, 0.88, 0.02]} ref={lampHeadRef}>
-        <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
-          <coneGeometry args={[0.24, 0.44, 24, 1, true]} />
+      <mesh position={[0, 0.062, 0]}>
+        <boxGeometry args={[1.78, 0.024, 0.58]} />
+        <meshStandardMaterial
+          color="#24202e"
+          emissive="#0b0611"
+          emissiveIntensity={0.08}
+          metalness={0.22}
+          roughness={0.28}
+        />
+      </mesh>
+      <mesh position={[-0.02, 0.084, 0.27]} ref={rippleRef}>
+        <boxGeometry args={[0.28, 0.012, 0.045]} />
+        <meshBasicMaterial
+          blending={AdditiveBlending}
+          color="#ffd9ea"
+          opacity={isActive ? 0.34 : 0.12}
+          transparent
+        />
+      </mesh>
+      <group ref={keyFieldRef} position={[0, 0.092, -0.005]}>
+        {keyboardRows.map((row, rowIndex) =>
+          Array.from({ length: row.count }, (_, keyIndex) => {
+            const keyId = `${rowIndex}-${keyIndex}`;
+            const isAccentKey = keyboardAccentKeys.has(keyId);
+            const keyWidth =
+              rowIndex === 3 && keyIndex === 3 ? row.width * 2.4 : row.width;
+            const keySpacing = rowIndex === 3 && keyIndex > 3 ? 0.145 : 0.116;
+            const x =
+              row.xOffset +
+              keyIndex * keySpacing +
+              (rowIndex === 3 && keyIndex > 3 ? 0.18 : 0);
+            const ledColor =
+              (keyIndex + rowIndex) % 3 === 0
+                ? "#6dcbff"
+                : (keyIndex + rowIndex) % 3 === 1
+                  ? "#ff8db3"
+                  : "#d2b1ff";
+
+            return (
+              <group
+                key={`key-${rowIndex}-${keyIndex}`}
+                position={[x, 0, row.z]}
+                userData={{ keyIndex, rowIndex }}
+              >
+                <mesh position={[0, -0.025, 0]}>
+                  <boxGeometry args={[keyWidth * 0.62, 0.035, 0.052]} />
+                  <meshStandardMaterial
+                    color="#6dcbff"
+                    emissive={ledColor}
+                    emissiveIntensity={isActive ? 0.46 : 0.12}
+                    metalness={0.08}
+                    roughness={0.32}
+                  />
+                </mesh>
+                <mesh castShadow position={[0, 0.01, 0]}>
+                  <boxGeometry args={[keyWidth, 0.052, 0.102]} />
+                  <meshStandardMaterial
+                    color={isAccentKey ? "#342037" : "#1d1a25"}
+                    emissive={isAccentKey ? "#ff4a8a" : ledColor}
+                    emissiveIntensity={
+                      isActive ? 0.38 : isAccentKey ? 0.18 : 0.08
+                    }
+                    metalness={isAccentKey ? 0.26 : 0.14}
+                    roughness={0.34}
+                  />
+                </mesh>
+                <mesh position={[0, 0.041, 0]}>
+                  <boxGeometry args={[keyWidth * 0.82, 0.012, 0.074]} />
+                  <meshBasicMaterial
+                    color={isAccentKey ? "#ffe2f0" : "#ffffff"}
+                    opacity={isActive || isAccentKey ? 0.18 : 0.08}
+                    transparent
+                  />
+                </mesh>
+              </group>
+            );
+          }),
+        )}
+      </group>
+      <group position={[0.74, 0.112, -0.28]}>
+        <mesh castShadow>
+          <cylinderGeometry args={[0.085, 0.085, 0.042, 26]} />
           <meshStandardMaterial
-            color="#35223b"
-            emissive="#ff8db3"
-            emissiveIntensity={0.18}
-            metalness={0.25}
-            roughness={0.28}
+            color="#2c2634"
+            emissive="#6dcbff"
+            emissiveIntensity={isActive ? 0.34 : 0.12}
+            metalness={0.55}
+            roughness={0.18}
           />
         </mesh>
-        <pointLight
-          color="#ffbfd8"
-          distance={3.4}
-          intensity={isLiteMode ? 4.5 : 7.5}
-          position={[0.16, -0.06, 0.02]}
+        <mesh position={[0, 0.026, 0]} ref={commandCoreRef}>
+          <ringGeometry args={[0.045, 0.06, 22]} />
+          <meshBasicMaterial
+            blending={AdditiveBlending}
+            color="#6dcbff"
+            opacity={isActive ? 0.62 : 0.2}
+            transparent
+          />
+        </mesh>
+      </group>
+      <mesh position={[0, 0.112, -0.43]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.5, 0.012, 8, 64, Math.PI]} />
+        <meshStandardMaterial
+          color="#15121c"
+          emissive="#6dcbff"
+          emissiveIntensity={isActive ? 0.12 : 0.04}
+          metalness={0.18}
+          roughness={0.42}
         />
+      </mesh>
+      <mesh position={[-0.72, 0.11, 0.31]}>
+        <boxGeometry args={[0.22, 0.04, 0.08]} />
+        <meshStandardMaterial
+          color="#3b1f38"
+          emissive="#ff4a8a"
+          emissiveIntensity={isActive ? 0.58 : 0.18}
+          metalness={0.22}
+          roughness={0.3}
+        />
+      </mesh>
+    </group>
+  );
+};
+
+const MysticNotebook = ({
+  isActive,
+}: {
+  isActive: boolean;
+}): React.JSX.Element => {
+  const sigilRef = useRef<Group | null>(null);
+
+  useFrame((state, delta) => {
+    if (!sigilRef.current) {
+      return;
+    }
+
+    sigilRef.current.rotation.y =
+      Math.sin(state.clock.elapsedTime * 0.9) * 0.06;
+    sigilRef.current.rotation.z += delta * (isActive ? 0.34 : 0.1);
+  });
+
+  return (
+    <group rotation={[-0.08, -0.28, 0.05]}>
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[1.02, 0.09, 0.74]} />
+        <meshStandardMaterial
+          color="#110d16"
+          emissive="#7e4cff"
+          emissiveIntensity={isActive ? 0.24 : 0.1}
+          metalness={0.18}
+          roughness={0.5}
+        />
+      </mesh>
+      <mesh position={[0, 0.055, 0]}>
+        <boxGeometry args={[0.91, 0.012, 0.61]} />
+        <meshBasicMaterial color="#1d1428" transparent opacity={0.76} />
+      </mesh>
+      <mesh position={[-0.33, 0.071, 0]}>
+        <boxGeometry args={[0.035, 0.02, 0.66]} />
+        <meshBasicMaterial color="#d2b1ff" transparent opacity={0.52} />
+      </mesh>
+      <group position={[0.08, 0.083, 0]} ref={sigilRef}>
+        <mesh>
+          <ringGeometry args={[0.15, 0.18, 5]} />
+          <meshBasicMaterial
+            blending={AdditiveBlending}
+            color="#d2b1ff"
+            opacity={isActive ? 0.72 : 0.38}
+            transparent
+          />
+        </mesh>
+        <mesh rotation={[0, 0, Math.PI / 4]}>
+          <ringGeometry args={[0.24, 0.255, 4]} />
+          <meshBasicMaterial
+            color="#ff8db3"
+            opacity={isActive ? 0.5 : 0.24}
+            transparent
+          />
+        </mesh>
+      </group>
+      {[-0.18, 0.02, 0.22].map((z, index) => (
+        <mesh key={`notebook-mark-${z}`} position={[0.28, 0.084, z]}>
+          <boxGeometry args={[0.18 - index * 0.03, 0.01, 0.018]} />
+          <meshBasicMaterial color="#efe2ff" transparent opacity={0.24} />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+const ArchiveExperienceSystem = ({
+  isActive,
+  isLiteMode,
+}: {
+  isActive: boolean;
+  isLiteMode: boolean;
+}): React.JSX.Element => {
+  const cartridgeRackRef = useRef<Group | null>(null);
+  const consoleLidRef = useRef<Mesh | null>(null);
+  const bootScreenRef = useRef<Mesh | null>(null);
+  const powerLightRef = useRef<Mesh | null>(null);
+  const selectedCartRef = useRef<Group | null>(null);
+
+  useFrame((state, delta) => {
+    const time = state.clock.elapsedTime;
+
+    if (cartridgeRackRef.current) {
+      cartridgeRackRef.current.children.forEach((cartridge, index) => {
+        const wave = Math.sin(time * (isActive ? 2.4 : 0.9) + index * 1.2);
+        cartridge.position.y =
+          Number(cartridge.userData.baseY ?? 0) +
+          wave * (isActive ? 0.035 : 0.012);
+        cartridge.rotation.z =
+          Number(cartridge.userData.baseRotationZ ?? 0) +
+          wave * (isActive ? 0.035 : 0.012);
+      });
+    }
+
+    if (consoleLidRef.current) {
+      consoleLidRef.current.position.z =
+        -0.12 + (isActive ? -0.04 : 0) + Math.sin(time * 1.4) * 0.006;
+    }
+
+    if (bootScreenRef.current) {
+      bootScreenRef.current.scale.x =
+        1 + Math.sin(time * (isActive ? 5.2 : 1.7)) * (isActive ? 0.06 : 0.018);
+    }
+
+    if (powerLightRef.current) {
+      powerLightRef.current.scale.setScalar(
+        1 + Math.sin(time * (isActive ? 4.8 : 1.3)) * (isActive ? 0.18 : 0.05),
+      );
+    }
+
+    if (selectedCartRef.current) {
+      selectedCartRef.current.position.z +=
+        ((isActive ? -0.08 : 0.02) - selectedCartRef.current.position.z) *
+        (1 - Math.exp(-delta * 5));
+      selectedCartRef.current.rotation.x =
+        -0.18 + Math.sin(time * 1.1) * (isActive ? 0.025 : 0.008);
+    }
+  });
+
+  return (
+    <group rotation={[0, -0.18, 0]}>
+      <mesh castShadow receiveShadow position={[0, 0.08, -0.02]}>
+        <boxGeometry args={[1.48, 0.18, 0.82]} />
+        <meshStandardMaterial
+          color="#191820"
+          emissive="#2b1728"
+          emissiveIntensity={isActive ? 0.22 : 0.08}
+          metalness={0.28}
+          roughness={0.3}
+        />
+      </mesh>
+      <mesh castShadow position={[0, 0.2, -0.16]} ref={consoleLidRef}>
+        <boxGeometry args={[1.22, 0.055, 0.24]} />
+        <meshStandardMaterial
+          color="#2f2b35"
+          emissive="#6dcbff"
+          emissiveIntensity={isActive ? 0.12 : 0.04}
+          metalness={0.18}
+          roughness={0.26}
+        />
+      </mesh>
+      <mesh position={[0, 0.245, -0.29]}>
+        <boxGeometry args={[0.62, 0.022, 0.06]} />
+        <meshBasicMaterial color="#08060d" transparent opacity={0.72} />
+      </mesh>
+      <group position={[-0.55, 0.24, -0.05]}>
+        <mesh>
+          <boxGeometry args={[0.12, 0.026, 0.12]} />
+          <meshStandardMaterial
+            color="#1c1820"
+            emissive="#ff8db3"
+            emissiveIntensity={isActive ? 0.24 : 0.08}
+            metalness={0.2}
+            roughness={0.32}
+          />
+        </mesh>
+        <mesh position={[0.17, 0, 0]}>
+          <boxGeometry args={[0.12, 0.026, 0.12]} />
+          <meshStandardMaterial
+            color="#1c1820"
+            emissive="#6dcbff"
+            emissiveIntensity={isActive ? 0.22 : 0.06}
+            metalness={0.2}
+            roughness={0.32}
+          />
+        </mesh>
+      </group>
+      <mesh position={[0.57, 0.245, -0.04]} ref={powerLightRef}>
+        <sphereGeometry args={[0.045, 14, 14]} />
+        <meshBasicMaterial
+          blending={AdditiveBlending}
+          color={isActive ? "#7cffd4" : "#ff8db3"}
+          opacity={isActive ? 0.9 : 0.36}
+          transparent
+        />
+      </mesh>
+
+      <group position={[0, 0.42, -0.34]}>
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[1.22, 0.42, 0.05]} />
+          <meshStandardMaterial
+            color="#090812"
+            emissive="#6dcbff"
+            emissiveIntensity={isActive ? 0.12 : 0.04}
+            metalness={0.18}
+            roughness={0.24}
+          />
+        </mesh>
+        <mesh position={[0, 0.04, 0.028]} ref={bootScreenRef}>
+          <boxGeometry args={[0.9, 0.034, 0.014]} />
+          <meshBasicMaterial
+            color="#7cffd4"
+            opacity={isActive ? 0.42 : 0.14}
+            transparent
+          />
+        </mesh>
+        {[-0.12, 0.04, 0.2].map((y, index) => (
+          <mesh key={`archive-boot-line-${y}`} position={[0, y, 0.032]}>
+            <boxGeometry args={[0.72 - index * 0.16, 0.018, 0.012]} />
+            <meshBasicMaterial
+              color={index % 2 === 0 ? "#6dcbff" : "#ff8db3"}
+              opacity={isActive ? 0.3 : 0.08}
+              transparent
+            />
+          </mesh>
+        ))}
+      </group>
+
+      <group ref={cartridgeRackRef}>
+        {experienceCartridges.map((cartridge, index) => (
+          <group
+            key={cartridge.code}
+            position={cartridge.position}
+            rotation={cartridge.rotation}
+            ref={index === 0 ? selectedCartRef : undefined}
+            userData={{
+              baseRotationZ: cartridge.rotation[2],
+              baseY: cartridge.position[1],
+            }}
+          >
+            <mesh castShadow receiveShadow>
+              <boxGeometry args={[0.42, 0.62, 0.095]} />
+              <meshStandardMaterial
+                color="#2a2530"
+                emissive={cartridge.accent}
+                emissiveIntensity={isActive ? 0.2 : 0.07}
+                metalness={0.12}
+                roughness={0.42}
+              />
+            </mesh>
+            <mesh position={[0, 0.08, 0.052]}>
+              <boxGeometry args={[0.32, 0.28, 0.015]} />
+              <meshBasicMaterial
+                color={cartridge.accent}
+                opacity={isActive ? 0.5 : 0.28}
+                transparent
+              />
+            </mesh>
+            <mesh position={[0, -0.18, 0.054]}>
+              <boxGeometry args={[0.26, 0.035, 0.012]} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.24} />
+            </mesh>
+            <mesh position={[0, -0.25, 0.054]}>
+              <boxGeometry args={[0.18, 0.024, 0.012]} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.16} />
+            </mesh>
+            <mesh position={[0, 0.28, 0.058]}>
+              <boxGeometry args={[0.22, 0.045, 0.012]} />
+              <meshBasicMaterial color="#08060d" opacity={0.58} transparent />
+            </mesh>
+          </group>
+        ))}
+      </group>
+      <group position={[0, 0.16, 0.37]}>
+        <mesh receiveShadow>
+          <boxGeometry args={[1.34, 0.08, 0.18]} />
+          <meshStandardMaterial
+            color="#15131a"
+            emissive="#ff8db3"
+            emissiveIntensity={isActive ? 0.09 : 0.035}
+            metalness={0.16}
+            roughness={0.38}
+          />
+        </mesh>
+        {[-0.34, 0.35].map((x, index) => (
+          <mesh key={`cartridge-shelf-stop-${x}`} position={[x, 0.06, 0]}>
+            <boxGeometry args={[0.08, 0.12, 0.2]} />
+            <meshStandardMaterial color="#26222d" roughness={0.32} />
+          </mesh>
+        ))}
       </group>
     </group>
   );
 };
 
-const DeskBase = ({ isLiteMode }: { isLiteMode: boolean }): React.JSX.Element => (
+const DeskBase = ({
+  isLiteMode,
+}: {
+  isLiteMode: boolean;
+}): React.JSX.Element => (
   <group>
     <mesh castShadow receiveShadow>
-      <boxGeometry args={[4.35, 0.2, 2]} />
+      <boxGeometry args={[5.25, 0.2, 2.16]} />
       <meshStandardMaterial
         color="#22142c"
         emissive="#110815"
@@ -492,7 +1066,7 @@ const DeskBase = ({ isLiteMode }: { isLiteMode: boolean }): React.JSX.Element =>
       />
     </mesh>
     <mesh position={[0, 0.115, 0]} receiveShadow>
-      <boxGeometry args={[4.12, 0.035, 1.74]} />
+      <boxGeometry args={[4.92, 0.035, 1.88]} />
       <meshStandardMaterial
         color="#3a233c"
         emissive="#1d101f"
@@ -502,15 +1076,15 @@ const DeskBase = ({ isLiteMode }: { isLiteMode: boolean }): React.JSX.Element =>
       />
     </mesh>
     <mesh position={[0, 0.145, 0.62]}>
-      <boxGeometry args={[3.4, 0.018, 0.18]} />
+      <boxGeometry args={[4.24, 0.018, 0.18]} />
       <meshBasicMaterial color="#ff4a8a" transparent opacity={0.18} />
     </mesh>
     {(
       [
-        [-1.78, -0.67, -0.72],
-        [1.78, -0.67, -0.72],
-        [-1.78, -0.67, 0.72],
-        [1.78, -0.67, 0.72],
+        [-2.26, -0.67, -0.78],
+        [2.26, -0.67, -0.78],
+        [-2.26, -0.67, 0.78],
+        [2.26, -0.67, 0.78],
       ] as const
     ).map((legPosition) => (
       <mesh castShadow key={legPosition.join("-")} position={legPosition}>
@@ -522,7 +1096,6 @@ const DeskBase = ({ isLiteMode }: { isLiteMode: boolean }): React.JSX.Element =>
         />
       </mesh>
     ))}
-    <DeskLamp isLiteMode={isLiteMode} />
   </group>
 );
 
@@ -535,149 +1108,113 @@ const DeskWorkspace = ({
   onHoverSection,
   onSelectSection,
 }: DeskWorkspaceProps): React.JSX.Element => {
+  const isArchiveAwake =
+    hoveredSection === "experience" || activeSection === "experience";
+  const isKeyboardAwake =
+    hoveredSection === "about" || activeSection === "about";
   const isMonitorAwake =
     hoveredSection === "projects" || activeSection === "projects";
+  const isNotebookAwake =
+    hoveredSection === "skills" || activeSection === "skills";
 
   return (
-  <group position={[0, 0.1, 0.85]}>
-    <DeskBase isLiteMode={isLiteMode} />
-    <InteractiveHubObject
-      accentColor="#ff4a8a"
-      hoveredSection={hoveredSection}
-      hitAreaScale={
-        isTouchDevice
-          ? [2.35 * mobileHitScale, 1.4 * mobileHitScale, 1.35 * mobileHitScale]
-          : [2.2, 1.18, 1.15]
-      }
-      id="about"
-      isTouchDevice={isTouchDevice}
-      isSelected={activeSection === "about"}
-      label="Keyboard / About"
-      onHover={onHoverSection}
-      onSelect={onSelectSection}
-      position={[0, 0.38, 0.58]}
-    >
-      <group rotation={[-0.18, 0, 0]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[1.58, 0.08, 0.48]} />
-          <meshStandardMaterial
-            color="#1b1624"
-            emissive="#ff4a8a"
-            emissiveIntensity={0.18}
-            metalness={0.25}
-            roughness={0.32}
-          />
-        </mesh>
-        <mesh position={[0, 0.055, -0.01]}>
-          <boxGeometry args={[1.32, 0.018, 0.28]} />
-          <meshBasicMaterial color="#ffd9ea" transparent opacity={0.08} />
-        </mesh>
-        {[-0.48, -0.24, 0, 0.24, 0.48].map((x) => (
-          <mesh key={`key-${x}`} position={[x, 0.075, 0.05]}>
-            <boxGeometry args={[0.12, 0.018, 0.09]} />
-            <meshBasicMaterial color="#ff8db3" transparent opacity={0.36} />
-          </mesh>
-        ))}
-      </group>
-    </InteractiveHubObject>
+    <group position={[0, 0.1, 0.85]}>
+      <DeskBase isLiteMode={isLiteMode} />
+      <InteractiveHubObject
+        accentColor="#ff4a8a"
+        hoveredSection={hoveredSection}
+        hitAreaScale={
+          isTouchDevice
+            ? [
+                2.35 * mobileHitScale,
+                1.4 * mobileHitScale,
+                1.35 * mobileHitScale,
+              ]
+            : [2.2, 1.18, 1.15]
+        }
+        id="about"
+        isTouchDevice={isTouchDevice}
+        isSelected={activeSection === "about"}
+        label="Keyboard / About"
+        onHover={onHoverSection}
+        onSelect={onSelectSection}
+        position={[0, 0.38, 0.58]}
+      >
+        <MechanicalKeyboard isActive={isKeyboardAwake} />
+      </InteractiveHubObject>
 
-    <InteractiveHubObject
-      accentColor="#6dcbff"
-      hoveredSection={hoveredSection}
-      hitAreaScale={
-        isTouchDevice
-          ? [2.45 * mobileHitScale, 2.7 * mobileHitScale, 1.5 * mobileHitScale]
-          : [2.35, 2.45, 1.35]
-      }
-      id="projects"
-      isTouchDevice={isTouchDevice}
-      isSelected={activeSection === "projects"}
-      label="Monitor / Projects"
-      onHover={onHoverSection}
-      onSelect={onSelectSection}
-      position={[-0.7, 1.15, -0.46]}
-    >
-      <MonitorInterface isActive={isMonitorAwake} isLiteMode={isLiteMode} />
-    </InteractiveHubObject>
+      <InteractiveHubObject
+        accentColor="#6dcbff"
+        hoveredSection={hoveredSection}
+        hitAreaScale={
+          isTouchDevice
+            ? [
+                2.45 * mobileHitScale,
+                2.7 * mobileHitScale,
+                1.5 * mobileHitScale,
+              ]
+            : [2.35, 2.45, 1.35]
+        }
+        id="projects"
+        isTouchDevice={isTouchDevice}
+        isSelected={activeSection === "projects"}
+        label="Monitor / Projects"
+        onHover={onHoverSection}
+        onSelect={onSelectSection}
+        position={[-0.48, 1.15, -0.46]}
+      >
+        <MonitorInterface isActive={isMonitorAwake} isLiteMode={isLiteMode} />
+      </InteractiveHubObject>
 
-    <InteractiveHubObject
-      accentColor="#d2b1ff"
-      hoveredSection={hoveredSection}
-      hitAreaScale={
-        isTouchDevice
-          ? [1.7 * mobileHitScale, 1.1 * mobileHitScale, 1.35 * mobileHitScale]
-          : [1.55, 0.95, 1.2]
-      }
-      id="skills"
-      isTouchDevice={isTouchDevice}
-      isSelected={activeSection === "skills"}
-      label="Notebook / Skills"
-      onHover={onHoverSection}
-      onSelect={onSelectSection}
-      position={[1.08, 0.39, 0.02]}
-    >
-      <group rotation={[-0.08, -0.28, 0.05]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[1.02, 0.08, 0.74]} />
-          <meshStandardMaterial
-            color="#2a1c34"
-            emissive="#d2b1ff"
-            emissiveIntensity={0.18}
-            metalness={0.12}
-            roughness={0.42}
-          />
-        </mesh>
-        <mesh position={[0, 0.052, 0]}>
-          <boxGeometry args={[0.92, 0.012, 0.62]} />
-          <meshBasicMaterial color="#f1e6ff" transparent opacity={0.12} />
-        </mesh>
-        <mesh position={[-0.28, 0.07, 0]}>
-          <boxGeometry args={[0.035, 0.018, 0.66]} />
-          <meshBasicMaterial color="#d2b1ff" transparent opacity={0.5} />
-        </mesh>
-      </group>
-    </InteractiveHubObject>
+      <InteractiveHubObject
+        accentColor="#d2b1ff"
+        hoveredSection={hoveredSection}
+        hitAreaScale={
+          isTouchDevice
+            ? [
+                1.7 * mobileHitScale,
+                1.1 * mobileHitScale,
+                1.35 * mobileHitScale,
+              ]
+            : [1.55, 0.95, 1.2]
+        }
+        id="skills"
+        isTouchDevice={isTouchDevice}
+        isSelected={activeSection === "skills"}
+        label="Occult Notebook / Skills"
+        onHover={onHoverSection}
+        onSelect={onSelectSection}
+        position={[1.08, 0.39, 0.02]}
+      >
+        <MysticNotebook isActive={isNotebookAwake} />
+      </InteractiveHubObject>
 
-    <InteractiveHubObject
-      accentColor="#ff8db3"
-      hoveredSection={hoveredSection}
-      hitAreaScale={
-        isTouchDevice
-          ? [1.8 * mobileHitScale, 1.45 * mobileHitScale, 1.3 * mobileHitScale]
-          : [1.65, 1.2, 1.15]
-      }
-      id="experience"
-      isTouchDevice={isTouchDevice}
-      isSelected={activeSection === "experience"}
-      label="Archive Books / Experience"
-      onHover={onHoverSection}
-      onSelect={onSelectSection}
-      position={[1.9, 0.62, -0.42]}
-    >
-      <group rotation={[0, -0.18, 0]}>
-        {experienceBookStack.map(({ color, height, z }, index) => (
-          <mesh
-            castShadow
-            key={`${color}-${z}`}
-            position={[index * 0.18, height / 2, z]}
-          >
-            <boxGeometry args={[0.16, height, 0.48]} />
-            <meshStandardMaterial
-              color={color}
-              emissive={index === 0 ? "#ff8db3" : "#1b1230"}
-              emissiveIntensity={index === 0 ? 0.16 : 0.06}
-              metalness={0.12}
-              roughness={0.42}
-            />
-          </mesh>
-        ))}
-        <mesh position={[0.58, 0.18, 0.08]} rotation={[0, 0.18, Math.PI / 2]}>
-          <cylinderGeometry args={[0.12, 0.12, 0.84, 18]} />
-          <meshStandardMaterial color="#c27a8d" metalness={0.08} roughness={0.32} />
-        </mesh>
-      </group>
-    </InteractiveHubObject>
-  </group>
+      <InteractiveHubObject
+        accentColor="#ff8db3"
+        hoveredSection={hoveredSection}
+        hitAreaScale={
+          isTouchDevice
+            ? [
+                2.15 * mobileHitScale,
+                1.9 * mobileHitScale,
+                1.55 * mobileHitScale,
+              ]
+            : [2, 1.65, 1.35]
+        }
+        id="experience"
+        isTouchDevice={isTouchDevice}
+        isSelected={activeSection === "experience"}
+        label="Archive / Experience"
+        onHover={onHoverSection}
+        onSelect={onSelectSection}
+        position={[1.82, 0.48, -0.46]}
+      >
+        <ArchiveExperienceSystem
+          isActive={isArchiveAwake}
+          isLiteMode={isLiteMode}
+        />
+      </InteractiveHubObject>
+    </group>
   );
 };
 
@@ -702,7 +1239,11 @@ const HubScene = ({
     : "#8f65ff";
   const isLiteMode = sceneMode === "lite";
   const isMobileViewport = viewportKind === "mobile";
-  const mobileHitScale = isMobileViewport ? 1.08 : viewportKind === "tablet" ? 1.02 : 1;
+  const mobileHitScale = isMobileViewport
+    ? 1.08
+    : viewportKind === "tablet"
+      ? 1.02
+      : 1;
   const isPortalActive = activeVisualSection === "contact";
 
   return (
@@ -762,11 +1303,19 @@ const HubScene = ({
 
         <mesh position={[0, 0.52, -6.08]}>
           <torusGeometry args={[2.38, 0.06, 24, 120]} />
-          <meshBasicMaterial color="#ff4a8a" transparent opacity={isPortalActive ? 0.28 : 0.16} />
+          <meshBasicMaterial
+            color="#ff4a8a"
+            transparent
+            opacity={isPortalActive ? 0.28 : 0.16}
+          />
         </mesh>
         <mesh position={[0, 0.72, -6.15]}>
           <torusGeometry args={[3.08, 0.018, 12, 120]} />
-          <meshBasicMaterial color="#6dcbff" transparent opacity={isPortalActive ? 0.34 : 0.2} />
+          <meshBasicMaterial
+            color="#6dcbff"
+            transparent
+            opacity={isPortalActive ? 0.34 : 0.2}
+          />
         </mesh>
         <mesh position={[0, 2.5, -2.9]}>
           <sphereGeometry args={[3.75, 30, 30]} />
@@ -831,7 +1380,10 @@ const HubScene = ({
           </mesh>
         ))}
 
-        <AmbientField isLiteMode={isLiteMode} isMobileViewport={isMobileViewport} />
+        <AmbientField
+          isLiteMode={isLiteMode}
+          isMobileViewport={isMobileViewport}
+        />
       </group>
 
       <DeskWorkspace
@@ -847,7 +1399,9 @@ const HubScene = ({
       <InteractiveHubObject
         accentColor="#7e4cff"
         hoveredSection={hoveredSection}
-        hitAreaOffset={isTouchDevice ? [0, 0.1, isMobileViewport ? 1.05 : 1.28] : [0, 0, 0]}
+        hitAreaOffset={
+          isTouchDevice ? [0, 0.1, isMobileViewport ? 1.05 : 1.28] : [0, 0, 0]
+        }
         hitAreaScale={
           isTouchDevice
             ? [4 * mobileHitScale, 4.2 * mobileHitScale, 1.35 * mobileHitScale]

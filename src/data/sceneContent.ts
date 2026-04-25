@@ -55,11 +55,11 @@ export const sceneSections: ReadonlyArray<SceneSection> = [
   {
     accent: "#ff8db3",
     description:
-      "A stack of archive books for the work history behind the craft, from Sizzle to Synchrony Financial.",
+      "A retro cartridge archive station where each experience loads like a collectible career level.",
     id: "experience",
     kicker: "Archive",
     summary:
-      "Recent roles focused on frontend architecture, interaction systems, and product execution.",
+      "Two career cartridges for recent roles focused on frontend architecture, interaction systems, and product execution.",
     title: "Experience",
   },
   {

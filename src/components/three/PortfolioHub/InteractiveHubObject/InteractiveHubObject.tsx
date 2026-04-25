@@ -148,7 +148,11 @@ const InteractiveHubObject = ({
               shouldHighlight ? accent : neutral,
               delta * 5.8,
             );
-            entry.emissiveIntensity = isSelected ? 1.05 : isHovered ? 0.78 : 0.16;
+            entry.emissiveIntensity = isSelected
+              ? 1.05
+              : isHovered
+                ? 0.78
+                : 0.16;
           }
         });
         return;
@@ -156,7 +160,11 @@ const InteractiveHubObject = ({
 
       if ("emissive" in material && material.emissive) {
         material.emissive.lerp(shouldHighlight ? accent : neutral, delta * 5.8);
-        material.emissiveIntensity = isSelected ? 1.05 : isHovered ? 0.78 : 0.16;
+        material.emissiveIntensity = isSelected
+          ? 1.05
+          : isHovered
+            ? 0.78
+            : 0.16;
       }
     });
   });
