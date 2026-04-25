@@ -430,8 +430,8 @@ const PortfolioScenePage = (): React.JSX.Element => {
                   : sceneMode === "fallback"
                     ? "A mobile-first chamber map built for touch, readability, and faster exploration."
                     : isMobileViewport
-                      ? "Tap the lit artifacts in the 3D chamber to reveal each section. Touch mode keeps the scene lighter and easier to target."
-                      : "Tap the lit artifacts to reveal each section. The chamber is running in a lighter touch mode."}
+                      ? "Tap the workspace objects and portal to reveal each section. Touch mode keeps the scene lighter and easier to target."
+                      : "Tap the workspace objects and portal to reveal each section. The chamber is running in a lighter touch mode."}
               </p>
             ) : null}
           </div>
@@ -522,8 +522,8 @@ const PortfolioScenePage = (): React.JSX.Element => {
                   (sceneMode === "fallback"
                     ? "Choose a chamber node below to open each section in a mobile-optimized reveal panel."
                     : isTouch
-                      ? "Tap the desk, monitor, archive, wall panel, and portal to open each section."
-                      : "Move through the chamber and interact with the desk, monitor, archive, wall panel, and portal to open each section.")}
+                      ? "Tap the keyboard, monitor, notebook, archive books, and portal to open each section."
+                      : "Move through the chamber and interact with the keyboard, monitor, notebook, archive books, and portal to open each section.")}
               </p>
             </div>
 
@@ -639,7 +639,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
                     {activeSceneSection ? "Focused" : "Suggested"}
                   </p>
                   <p className="mt-0.5 truncate text-[0.84rem] leading-5 text-white">
-                    {activeSceneSection?.title ?? "Tap the desk to start"}
+                    {activeSceneSection?.title ?? "Tap a workspace object"}
                   </p>
                 </div>
               </div>

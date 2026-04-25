@@ -43,7 +43,7 @@ const SceneHubFallback = ({
             </h1>
             <p className="mt-4 max-w-2xl text-[0.95rem] leading-7 text-[rgba(218,220,231,0.78)] sm:mt-5 sm:text-base">
               {isMobile
-                ? "On mobile and constrained devices, the chamber becomes a touch-first exploration map. The same desk, monitor, archive, wall panel, and portal structure is preserved, but the presentation is cleaner, faster, and easier to navigate."
+                ? "On mobile and constrained devices, the chamber becomes a touch-first exploration map. The same keyboard, monitor, notebook, archive, and portal structure is preserved, but the presentation is cleaner, faster, and easier to navigate."
                 : "On smaller screens and low-power devices, the portfolio switches to a lighter exploration mode. The same object map is preserved so the experience stays readable, fast, and intentional."}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">

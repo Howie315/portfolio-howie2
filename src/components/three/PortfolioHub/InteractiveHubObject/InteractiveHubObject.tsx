@@ -122,17 +122,17 @@ const InteractiveHubObject = ({
       return;
     }
 
-    const targetScale = shouldHighlight ? 1.04 : 1;
+    const targetScale = isSelected ? 1.075 : isHovered ? 1.045 : 1;
     const nextScale =
       groupRef.current.scale.x +
-      (targetScale - groupRef.current.scale.x) * delta * 5.4;
-    const rotationTarget = shouldHighlight ? 0.04 : 0;
+      (targetScale - groupRef.current.scale.x) * delta * 6.8;
+    const rotationTarget = isSelected ? 0.055 : isHovered ? 0.035 : 0;
 
     groupRef.current.scale.setScalar(nextScale);
     groupRef.current.position.y =
-      position[1] + Math.sin(performance.now() * 0.0007 + position[0]) * 0.05;
+      position[1] + Math.sin(performance.now() * 0.00065 + position[0]) * 0.045;
     groupRef.current.rotation.y +=
-      (rotationTarget - groupRef.current.rotation.y) * delta * 3.6;
+      (rotationTarget - groupRef.current.rotation.y) * delta * 4.2;
 
     groupRef.current.traverse((object) => {
       if (!(object instanceof Mesh)) {
@@ -146,17 +146,17 @@ const InteractiveHubObject = ({
           if ("emissive" in entry && entry.emissive) {
             entry.emissive.lerp(
               shouldHighlight ? accent : neutral,
-              delta * 4.8,
+              delta * 5.8,
             );
-            entry.emissiveIntensity = shouldHighlight ? 0.75 : 0.18;
+            entry.emissiveIntensity = isSelected ? 1.05 : isHovered ? 0.78 : 0.16;
           }
         });
         return;
       }
 
       if ("emissive" in material && material.emissive) {
-        material.emissive.lerp(shouldHighlight ? accent : neutral, delta * 4.8);
-        material.emissiveIntensity = shouldHighlight ? 0.75 : 0.18;
+        material.emissive.lerp(shouldHighlight ? accent : neutral, delta * 5.8);
+        material.emissiveIntensity = isSelected ? 1.05 : isHovered ? 0.78 : 0.16;
       }
     });
   });
@@ -271,16 +271,16 @@ const InteractiveHubObject = ({
       {shouldHighlight ? (
         <>
           <mesh position={[0, -0.78, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[1.06, isSelected ? 1.52 : 1.34, 48, 1]} />
+            <ringGeometry args={[1.02, isSelected ? 1.62 : 1.38, 56, 1]} />
             <meshBasicMaterial
               color={accentColor}
-              opacity={isSelected ? 0.26 : 0.14}
+              opacity={isSelected ? 0.3 : 0.15}
               side={DoubleSide}
               transparent
             />
           </mesh>
           <mesh position={[0, -0.76, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[1.58, isSelected ? 1.94 : 1.82, 48, 1]} />
+            <ringGeometry args={[1.58, isSelected ? 2.08 : 1.86, 56, 1]} />
             <meshBasicMaterial
               color={accentColor}
               opacity={isSelected ? 0.14 : 0.08}
@@ -300,11 +300,11 @@ const InteractiveHubObject = ({
               key={`${label}-spark-${offset}`}
               position={[
                 offset,
-                0.6 + (index % 2) * 0.24,
+                0.64 + (index % 2) * 0.28,
                 (index % 2 === 0 ? -0.22 : 0.26) * (isSelected ? 1.25 : 1),
               ]}
             >
-              <sphereGeometry args={[isSelected ? 0.08 : 0.055, 10, 10]} />
+              <sphereGeometry args={[isSelected ? 0.085 : 0.055, 10, 10]} />
               <meshBasicMaterial
                 color={accentColor}
                 opacity={isSelected ? 0.9 : 0.62}

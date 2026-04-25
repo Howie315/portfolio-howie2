@@ -7,27 +7,27 @@ type CameraPreset = {
 
 export const cameraPresets: Record<SceneSectionId | "hub", CameraPreset> = {
   about: {
-    lookAt: [0, 1.25, 0.45],
-    position: [0.75, 2.2, 4.6],
+    lookAt: [0, 0.86, 1.35],
+    position: [0.42, 1.82, 3.55],
   },
   contact: {
-    lookAt: [0, 1.72, -4.92],
-    position: [0, 2.45, -1.2],
+    lookAt: [2.35, 1.72, -4.65],
+    position: [0.62, 2.56, -1.08],
   },
   experience: {
-    lookAt: [-3.15, 1.78, -2.35],
-    position: [-0.9, 2.5, 0.55],
+    lookAt: [1.9, 0.95, 0.43],
+    position: [2.68, 1.88, 3.05],
   },
   hub: {
-    lookAt: [0, 1.5, -1.55],
-    position: [0, 2.95, 9.1],
+    lookAt: [0, 1.28, -1.08],
+    position: [0, 3.04, 8.55],
   },
   projects: {
-    lookAt: [-2.35, 1.84, -0.18],
-    position: [-0.42, 2.5, 4.05],
+    lookAt: [-0.72, 1.48, 0.38],
+    position: [-1.28, 2.16, 3.45],
   },
   skills: {
-    lookAt: [2.86, 1.55, -0.16],
-    position: [1.02, 2.32, 4.32],
+    lookAt: [1.08, 0.82, 0.86],
+    position: [1.86, 1.72, 3.24],
   },
 };

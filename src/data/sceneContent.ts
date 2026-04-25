@@ -45,9 +45,9 @@ export const sceneSections: ReadonlyArray<SceneSection> = [
   {
     accent: "#d2b1ff",
     description:
-      "A focused view of the technologies, frontend specialties, and platform experience behind the work shown throughout the portfolio.",
+      "A notebook on the workspace that opens the technologies, frontend specialties, and platform experience behind the work.",
     id: "skills",
-    kicker: "Archive",
+    kicker: "Notebook",
     summary:
       "Core strengths across React, TypeScript, frontend architecture, and product-facing platform work.",
     title: "Skills",
@@ -55,9 +55,9 @@ export const sceneSections: ReadonlyArray<SceneSection> = [
   {
     accent: "#ff8db3",
     description:
-      "A suspended wall panel for the work history behind the craft, from Sizzle to Synchrony Financial.",
+      "A stack of archive books for the work history behind the craft, from Sizzle to Synchrony Financial.",
     id: "experience",
-    kicker: "Wall Panel",
+    kicker: "Archive",
     summary:
       "Recent roles focused on frontend architecture, interaction systems, and product execution.",
     title: "Experience",
