@@ -27,9 +27,6 @@ const PortfolioScenePage = (): React.JSX.Element => {
   const { isReady, isTouch, sceneMode, viewportKind } =
     useSceneExperienceProfile();
   const isMobileViewport = viewportKind === "mobile";
-  const showBottomNarrative = !isMobileViewport || sceneMode !== "fallback";
-  const showMobileDock = isMobileViewport && sceneMode !== "fallback";
-  const showDesktopStatus = viewportKind === "desktop";
   const isMobileFallback = isMobileViewport && sceneMode === "fallback";
   const isAwaitingSceneDecision = !isReady;
   const cameraMode: CameraMode =
@@ -44,6 +41,10 @@ const PortfolioScenePage = (): React.JSX.Element => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [viewState, setViewState] = useState<ViewState>("hub");
+  const showBottomNarrative =
+    (!isMobileViewport || sceneMode !== "fallback") && !isMobileNavOpen;
+  const showCompactDock = viewportKind !== "desktop" && sceneMode !== "fallback";
+  const showDesktopStatus = viewportKind === "desktop";
   const returnTimeoutRef = useRef<number | null>(null);
   const touchOrbitOffsetRef = useRef<[number, number]>([0, 0]);
   const touchZoomOffsetRef = useRef(0);
@@ -379,15 +380,15 @@ const PortfolioScenePage = (): React.JSX.Element => {
       )}
 
       <div
-        className={`pointer-events-none z-20 flex justify-center px-4 pt-4 sm:px-6 sm:pt-6 ${
+        className={`pointer-events-none z-20 flex justify-center px-3 pt-3 sm:px-6 sm:pt-6 ${
           isMobileFallback ? "sticky top-0" : "absolute inset-x-0 top-0"
         }`}
       >
         <div
-          className={`scene-shell-panel pointer-events-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 sm:px-6 sm:py-4 ${
+          className={`scene-shell-panel pointer-events-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-3.5 sm:px-5 sm:py-4 ${
             isMobileFallback
-              ? "rounded-[1.15rem] px-4 py-3.5"
-              : "rounded-[1.35rem] md:flex-row md:items-start md:justify-between md:rounded-full"
+              ? "rounded-[1.1rem]"
+              : "rounded-[1.25rem] lg:flex-row lg:items-center lg:justify-between lg:gap-5 lg:rounded-full lg:py-3 lg:pl-5 lg:pr-3"
           }`}
           style={
             visualSceneSection
@@ -397,29 +398,33 @@ const PortfolioScenePage = (): React.JSX.Element => {
               : undefined
           }
         >
-          <div className="min-w-0">
-            <div className="mb-3 flex items-center gap-3">
+          <div className="min-w-0 lg:flex lg:items-center lg:gap-4">
+            <div className="flex min-w-0 items-center gap-3">
               <span
                 aria-hidden="true"
-                className="h-2.5 w-2.5 rounded-full shadow-[0_0_24px_currentColor]"
-                style={{
-                  backgroundColor: visualSceneSection?.accent ?? "#d7d3ee",
-                }}
-              />
-              <span className="text-[0.63rem] uppercase tracking-[0.34em] text-[rgba(202,199,222,0.62)]">
-                {visualSceneSection
-                  ? `${visualSceneSection.kicker} chamber focus`
-                  : "Main chamber online"}
+                className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.05]"
+              >
+                <span
+                  className="h-2.5 w-2.5 rounded-full shadow-[0_0_24px_currentColor]"
+                  style={{
+                    backgroundColor: visualSceneSection?.accent ?? "#d7d3ee",
+                    color: visualSceneSection?.accent ?? "#d7d3ee",
+                  }}
+                />
               </span>
+              <div className="min-w-0">
+                <p className="font-display text-[0.95rem] font-semibold tracking-[0.18em] uppercase text-white sm:text-base">
+                  Howie Nguyen
+                </p>
+                <p className="mt-0.5 truncate text-[0.58rem] uppercase tracking-[0.22em] text-[rgba(199,196,223,0.6)] sm:text-[0.66rem]">
+                  {visualSceneSection
+                    ? `${visualSceneSection.kicker} focus`
+                    : "Interactive portfolio chamber"}
+                </p>
+              </div>
             </div>
-            <p className="font-display text-sm font-semibold tracking-[0.26em] uppercase text-white sm:text-base">
-              Howie Nguyen
-            </p>
-            <p className="mt-1 text-[0.65rem] uppercase tracking-[0.28em] text-[rgba(199,196,223,0.58)] sm:text-[0.72rem]">
-              Interactive portfolio chamber
-            </p>
             {viewportKind !== "desktop" ? (
-              <p className="mt-3 max-w-xl text-[0.92rem] leading-6 text-[rgba(214,216,226,0.74)]">
+              <p className="mt-3 max-w-xl text-[0.86rem] leading-6 text-[rgba(214,216,226,0.74)] sm:text-[0.92rem]">
                 {isAwaitingSceneDecision
                   ? "Preparing the chamber for your device."
                   : sceneMode === "fallback"
@@ -431,18 +436,23 @@ const PortfolioScenePage = (): React.JSX.Element => {
             ) : null}
           </div>
 
-          <div className="hidden flex-wrap items-center justify-end gap-2 md:flex">
+          <div className="hidden items-center justify-end gap-1.5 rounded-full border border-white/8 bg-black/20 p-1 lg:flex">
             {sceneSections.map((section) => (
               <button
-                className={`rounded-full border px-3 py-2 text-[0.68rem] font-medium tracking-[0.22em] uppercase transition ${
+                className={`group flex items-center gap-2 rounded-full border px-3 py-2 text-[0.66rem] font-medium tracking-[0.2em] uppercase transition ${
                   activeSection === section.id || hoveredSection === section.id
-                    ? "border-[rgba(255,170,204,0.38)] bg-[rgba(255,255,255,0.09)] text-white"
-                    : "border-white/10 bg-[rgba(255,255,255,0.03)] text-[rgba(214,216,226,0.72)] hover:border-white/20 hover:text-white"
+                    ? "border-white/[0.14] bg-white/[0.11] text-white shadow-[0_10px_28px_rgba(0,0,0,0.26)]"
+                    : "border-transparent bg-transparent text-[rgba(214,216,226,0.68)] hover:bg-white/[0.06] hover:text-white"
                 }`}
                 key={section.id}
                 onClick={() => handleOpenSection(section.id)}
                 type="button"
               >
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 rounded-full opacity-70 transition group-hover:opacity-100"
+                  style={{ backgroundColor: section.accent }}
+                />
                 {section.title}
               </button>
             ))}
@@ -451,11 +461,13 @@ const PortfolioScenePage = (): React.JSX.Element => {
       </div>
 
       {showBottomNarrative ? (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-4 pb-22 sm:px-6 sm:pb-6">
-          <div className="mx-auto flex max-w-6xl flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-4">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-3 pb-28 sm:px-6 lg:pb-6">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
             <div
-              className={`scene-shell-panel pointer-events-auto rounded-[1.4rem] px-4 py-4 sm:px-5 ${
-                isMobileViewport ? "max-w-[18.5rem] px-3 py-3" : "max-w-2xl"
+              className={`scene-shell-panel pointer-events-auto rounded-[1.2rem] px-4 py-3.5 sm:px-5 ${
+                isMobileViewport
+                  ? "max-w-[19.75rem] px-3.5 py-3"
+                  : "max-w-2xl lg:rounded-[1.35rem]"
               }`}
               style={
                 visualSceneSection
@@ -465,28 +477,43 @@ const PortfolioScenePage = (): React.JSX.Element => {
                   : undefined
               }
             >
-              <div className="mb-3 flex items-center gap-3">
+              <div className="mb-2.5 flex items-center gap-3">
                 <span
                   aria-hidden="true"
-                  className="h-px flex-1 bg-[linear-gradient(90deg,rgba(255,255,255,0.05),rgba(255,255,255,0.2),transparent)]"
+                  className="h-1.5 w-1.5 rounded-full shadow-[0_0_18px_currentColor]"
+                  style={{
+                    backgroundColor: visualSceneSection?.accent ?? "#ffaacd",
+                    color: visualSceneSection?.accent ?? "#ffaacd",
+                  }}
                 />
-                <span className="text-[0.6rem] uppercase tracking-[0.32em] text-[rgba(202,199,222,0.56)]">
+                <span className="text-[0.58rem] uppercase tracking-[0.28em] text-[rgba(202,199,222,0.58)]">
                   {activeSceneSection
                     ? "Section unveiled"
                     : hoveredSceneSection
                       ? "Object resonance"
                       : "Navigation hub"}
                 </span>
+                <span
+                  aria-hidden="true"
+                  className="h-px flex-1 bg-[linear-gradient(90deg,rgba(255,255,255,0.18),transparent)]"
+                />
               </div>
-              <p className="text-[0.68rem] uppercase tracking-[0.34em] text-[rgba(255,170,204,0.82)]">
-                {activeSceneSection?.kicker ??
-                  hoveredSceneSection?.kicker ??
-                  "Hub"}
-              </p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-[0.7rem] uppercase tracking-[0.3em] text-[rgba(255,170,204,0.82)]">
+                  {activeSceneSection?.kicker ??
+                    hoveredSceneSection?.kicker ??
+                    "Hub"}
+                </p>
+                <p className="truncate font-display text-sm font-medium text-white/[0.92]">
+                  {activeSceneSection?.title ??
+                    hoveredSceneSection?.title ??
+                    "Scene Overview"}
+                </p>
+              </div>
               <p
                 className={`mt-2 text-[rgba(218,220,231,0.8)] sm:text-base ${
                   isMobileViewport
-                    ? "text-[0.82rem] leading-6"
+                    ? "line-clamp-2 text-[0.8rem] leading-5"
                     : "text-sm leading-7"
                 }`}
               >
@@ -501,12 +528,18 @@ const PortfolioScenePage = (): React.JSX.Element => {
             </div>
 
             {showDesktopStatus ? (
-              <div className="scene-shell-panel pointer-events-auto hidden rounded-full px-5 py-3 text-[0.7rem] uppercase tracking-[0.3em] text-[rgba(199,196,223,0.64)] md:block">
-                {isTransitioning
-                  ? "Realigning focus"
-                  : activeSection
-                    ? "Press Esc to return"
-                    : "Click objects to explore"}
+              <div className="scene-shell-panel pointer-events-auto hidden items-center gap-3 rounded-full px-4 py-3 text-[0.68rem] uppercase tracking-[0.28em] text-[rgba(199,196,223,0.68)] lg:flex">
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full bg-[rgba(255,170,204,0.86)] shadow-[0_0_18px_rgba(255,170,204,0.58)]"
+                />
+                <span>
+                  {isTransitioning
+                    ? "Realigning focus"
+                    : activeSection
+                      ? "Press Esc to return"
+                      : "Click objects to explore"}
+                </span>
               </div>
             ) : null}
           </div>
@@ -519,8 +552,8 @@ const PortfolioScenePage = (): React.JSX.Element => {
         viewportKind={viewportKind}
       />
 
-      {showMobileDock ? (
-        <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 px-4 md:hidden">
+      {showCompactDock ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 px-3 lg:hidden">
           {isMobileNavOpen ? (
             <button
               aria-label="Close section navigation"
@@ -530,10 +563,10 @@ const PortfolioScenePage = (): React.JSX.Element => {
             />
           ) : null}
 
-          <div className="mx-auto flex w-full max-w-[19rem] flex-col items-end gap-2">
+          <div className="mx-auto flex w-full max-w-[21rem] flex-col items-end gap-2">
             {isMobileNavOpen ? (
-              <div className="scene-shell-panel pointer-events-auto w-full rounded-[1.2rem] p-2.5 shadow-[0_24px_64px_rgba(0,0,0,0.42)]">
-                <div className="mb-2.5 flex items-center justify-between gap-3">
+              <div className="scene-shell-panel pointer-events-auto w-full rounded-[1.15rem] p-2.5 shadow-[0_24px_64px_rgba(0,0,0,0.42)]">
+                <div className="mb-2.5 flex items-center justify-between gap-3 px-1">
                   <div>
                     <p className="text-[0.58rem] uppercase tracking-[0.3em] text-[rgba(199,196,223,0.58)]">
                       Quick navigation
@@ -543,7 +576,7 @@ const PortfolioScenePage = (): React.JSX.Element => {
                     </p>
                   </div>
                   <button
-                    className="touch-manipulation rounded-full border border-white/10 bg-white/6 px-2.5 py-1.5 text-[0.54rem] uppercase tracking-[0.24em] text-[rgba(220,223,232,0.82)]"
+                    className="touch-manipulation rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1.5 text-[0.54rem] uppercase tracking-[0.24em] text-[rgba(220,223,232,0.82)]"
                     onClick={() => setIsMobileNavOpen(false)}
                     type="button"
                   >
@@ -593,16 +626,25 @@ const PortfolioScenePage = (): React.JSX.Element => {
             ) : null}
 
             <div className="scene-shell-panel pointer-events-auto flex w-full items-center justify-between gap-2 rounded-[1rem] px-2.5 py-2 shadow-[0_20px_48px_rgba(0,0,0,0.36)]">
-              <div className="min-w-0 flex-1">
-                <p className="text-[0.52rem] uppercase tracking-[0.28em] text-[rgba(199,196,223,0.56)]">
-                  {activeSceneSection ? "Focused" : "Suggested"}
-                </p>
-                <p className="mt-0.5 truncate text-[0.82rem] leading-5 text-white">
-                  {activeSceneSection?.title ?? "Tap the desk to start"}
-                </p>
+              <div className="flex min-w-0 flex-1 items-center gap-2.5">
+                <span
+                  aria-hidden="true"
+                  className="h-8 w-1 rounded-full"
+                  style={{
+                    backgroundColor: activeSceneSection?.accent ?? "#ff4a8a",
+                  }}
+                />
+                <div className="min-w-0">
+                  <p className="text-[0.52rem] uppercase tracking-[0.26em] text-[rgba(199,196,223,0.56)]">
+                    {activeSceneSection ? "Focused" : "Suggested"}
+                  </p>
+                  <p className="mt-0.5 truncate text-[0.84rem] leading-5 text-white">
+                    {activeSceneSection?.title ?? "Tap the desk to start"}
+                  </p>
+                </div>
               </div>
               <button
-                className="touch-manipulation shrink-0 rounded-full border border-white/10 bg-white/7 px-3 py-2 text-[0.54rem] font-medium uppercase tracking-[0.22em] text-white"
+                className="touch-manipulation shrink-0 rounded-full border border-white/10 bg-white/[0.08] px-3.5 py-2.5 text-[0.54rem] font-medium uppercase tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                 onClick={() => setIsMobileNavOpen((current) => !current)}
                 type="button"
               >
