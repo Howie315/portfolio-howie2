@@ -45,11 +45,11 @@ export const sceneSections: ReadonlyArray<SceneSection> = [
   {
     accent: "#d2b1ff",
     description:
-      "A notebook on the workspace that opens the technologies, frontend specialties, and platform experience behind the work.",
+      "A dark supernatural-inspired notebook that opens the personal codex behind the tools, craft, and systems in the work.",
     id: "skills",
     kicker: "Notebook",
     summary:
-      "Core strengths across React, TypeScript, frontend architecture, and product-facing platform work.",
+      "A private codex of core strengths across React, TypeScript, frontend architecture, and product-facing platform work.",
     title: "Skills",
   },
   {

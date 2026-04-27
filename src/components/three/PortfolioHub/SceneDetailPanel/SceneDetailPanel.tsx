@@ -155,6 +155,7 @@ const ExperienceArchiveContent = (): React.JSX.Element => (
   <div className="space-y-4">
     <div className="scene-detail-card relative overflow-hidden rounded-[1.35rem] p-5 sm:p-6">
       <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(180deg,rgba(255,255,255,0.045)_0,rgba(255,255,255,0.045)_1px,transparent_1px,transparent_8px)] opacity-45" />
+      <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(124,255,212,0.46),transparent)]" />
       <div className="pointer-events-none absolute -right-10 top-4 h-44 w-44 rounded-full bg-[rgba(109,203,255,0.18)] blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-36 w-56 bg-[radial-gradient(circle_at_20%_60%,rgba(255,141,179,0.18),transparent_58%)]" />
       <div className="relative">
@@ -170,14 +171,23 @@ const ExperienceArchiveContent = (): React.JSX.Element => (
           Insert a career cartridge. Load the level. Read the save data.
         </h3>
         <div className="mt-5 grid gap-2 sm:grid-cols-2">
-          {["SYNC-24", "SIZZLE-23"].map((label) => (
+          {["SYNC-24", "SIZZLE-23"].map((label, index) => (
             <div
-              className="rounded-2xl border border-white/10 bg-black/20 px-3 py-3"
+              className="rounded-2xl border border-white/10 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
               key={label}
             >
               <p className="text-[0.58rem] uppercase tracking-[0.26em] text-[rgba(109,203,255,0.72)]">
                 {label}
               </p>
+              <div
+                className="mt-2 h-1 rounded-full"
+                style={{
+                  backgroundColor:
+                    index === 0
+                      ? "rgba(109,203,255,0.42)"
+                      : "rgba(255,141,179,0.42)",
+                }}
+              />
             </div>
           ))}
         </div>
@@ -191,9 +201,10 @@ const ExperienceArchiveContent = (): React.JSX.Element => (
           key={`${entry.title}-${entry.duration}`}
         >
           <div className="pointer-events-none absolute right-4 top-4 h-16 w-16 rounded-full bg-[rgba(109,203,255,0.08)] blur-2xl" />
-          <div className="relative mb-4 flex h-28 items-center justify-center rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(13,12,18,0.95),rgba(29,21,36,0.9))]">
+          <div className="relative mb-4 flex h-32 items-center justify-center rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(13,12,18,0.95),rgba(29,21,36,0.9))]">
+            <div className="absolute inset-x-8 bottom-5 h-3 rounded-full bg-black/28" />
             <div
-              className="h-20 w-32 rounded-lg border border-white/10 bg-[#2a2530] shadow-[0_18px_38px_rgba(0,0,0,0.32)]"
+              className="relative h-24 w-36 rounded-lg border border-white/10 bg-[#2a2530] shadow-[0_18px_38px_rgba(0,0,0,0.32)]"
               style={{
                 boxShadow:
                   index === 0
@@ -201,8 +212,9 @@ const ExperienceArchiveContent = (): React.JSX.Element => (
                     : "0 0 34px rgba(255,141,179,0.18)",
               }}
             >
+              <div className="absolute inset-x-4 top-2 h-3 rounded bg-black/24" />
               <div
-                className="mx-auto mt-3 h-9 w-24 rounded border border-white/10"
+                className="mx-auto mt-6 h-10 w-26 rounded border border-white/10"
                 style={{
                   backgroundColor:
                     index === 0
@@ -245,6 +257,69 @@ const ExperienceArchiveContent = (): React.JSX.Element => (
             ))}
           </div>
         </article>
+      ))}
+    </div>
+  </div>
+);
+
+const NotebookCodexContent = (): React.JSX.Element => (
+  <div className="space-y-4">
+    <div className="scene-detail-card relative overflow-hidden rounded-[1.35rem] p-5 sm:p-6">
+      <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(210,177,255,0.48),transparent)]" />
+      <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-[rgba(210,177,255,0.18)] blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-52 bg-[radial-gradient(circle_at_20%_80%,rgba(255,141,179,0.14),transparent_58%)]" />
+      <div className="relative">
+        <p className="text-[0.62rem] uppercase tracking-[0.34em] text-[rgba(210,177,255,0.78)]">
+          Private codex
+        </p>
+        <h3 className="mt-3 font-display text-2xl font-semibold text-white sm:text-3xl">
+          Notes on craft, tools, and the systems I keep returning to.
+        </h3>
+        <div className="mt-5 grid gap-2 sm:grid-cols-3">
+          {["Frameworks", "Interface", "Systems"].map((label) => (
+            <div
+              className="rounded-2xl border border-white/10 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+              key={label}
+            >
+              <p className="text-[0.58rem] uppercase tracking-[0.26em] text-[rgba(255,170,204,0.72)]">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div className="grid gap-4">
+      {sceneSectionCopy.skills.groups.map((group, index) => (
+        <section
+          className="scene-detail-card relative overflow-hidden rounded-[1.35rem] p-4 sm:p-5"
+          key={group.label}
+        >
+          <div className="pointer-events-none absolute bottom-0 right-0 h-28 w-28 rounded-full bg-[rgba(210,177,255,0.08)] blur-2xl" />
+          <div className="relative flex gap-4">
+            <div className="hidden w-12 shrink-0 border-r border-[rgba(210,177,255,0.18)] pt-1 sm:block">
+              <p className="text-[0.58rem] uppercase tracking-[0.22em] text-[rgba(210,177,255,0.58)]">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[0.68rem] uppercase tracking-[0.3em] text-[rgba(210,177,255,0.82)]">
+                {group.label}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                {group.values.map((value) => (
+                  <span
+                    className="scene-detail-chip text-[0.72rem]! tracking-[0.12em]! normal-case"
+                    key={value}
+                  >
+                    {value}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       ))}
     </div>
   </div>
@@ -372,30 +447,7 @@ export const SceneDetailPanel = ({
 
           {activeSection === "projects" ? <ProjectMonitorContent /> : null}
 
-          {activeSection === "skills" ? (
-            <div className="grid gap-4">
-              {sceneSectionCopy.skills.groups.map((group) => (
-                <section
-                  className="scene-detail-card rounded-[1.6rem] p-4 sm:p-5"
-                  key={group.label}
-                >
-                  <p className="text-[0.68rem] uppercase tracking-[0.3em] text-[rgba(255,170,204,0.82)]">
-                    {group.label}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2.5">
-                    {group.values.map((value) => (
-                      <span
-                        className="scene-detail-chip text-[0.72rem]! tracking-[0.12em]! normal-case"
-                        key={value}
-                      >
-                        {value}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </div>
-          ) : null}
+          {activeSection === "skills" ? <NotebookCodexContent /> : null}
 
           {activeSection === "experience" ? <ExperienceArchiveContent /> : null}
 

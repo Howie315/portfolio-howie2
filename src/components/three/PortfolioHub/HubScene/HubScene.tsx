@@ -779,63 +779,207 @@ const MysticNotebook = ({
 }: {
   isActive: boolean;
 }): React.JSX.Element => {
-  const sigilRef = useRef<Group | null>(null);
+  const rootRef = useRef<Group | null>(null);
+  const coverRef = useRef<Group | null>(null);
+  const emblemRef = useRef<Group | null>(null);
+  const ribbonRef = useRef<Mesh | null>(null);
+  const auraRef = useRef<Mesh | null>(null);
+  const openProgressRef = useRef(0);
 
   useFrame((state, delta) => {
-    if (!sigilRef.current) {
-      return;
+    const time = state.clock.elapsedTime;
+    openProgressRef.current +=
+      ((isActive ? 1 : 0) - openProgressRef.current) *
+      (1 - Math.exp(-delta * 5.6));
+    const openProgress = openProgressRef.current;
+
+    if (rootRef.current) {
+      rootRef.current.position.y =
+        Math.sin(time * 0.62) * (0.006 + openProgress * 0.014);
+      rootRef.current.rotation.x =
+        -0.085 + Math.sin(time * 0.55) * (0.004 + openProgress * 0.006);
     }
 
-    sigilRef.current.rotation.y =
-      Math.sin(state.clock.elapsedTime * 0.9) * 0.06;
-    sigilRef.current.rotation.z += delta * (isActive ? 0.34 : 0.1);
+    if (coverRef.current) {
+      coverRef.current.rotation.z =
+        -openProgress * 0.13 + Math.sin(time * 0.9) * 0.004;
+      coverRef.current.rotation.x = -openProgress * 0.035;
+      coverRef.current.position.y = openProgress * 0.038;
+      coverRef.current.position.x = -openProgress * 0.018;
+    }
+
+    if (emblemRef.current) {
+      emblemRef.current.rotation.y += delta * (0.08 + openProgress * 0.18);
+      emblemRef.current.scale.setScalar(
+        1 + Math.sin(time * 2.2) * (0.012 + openProgress * 0.035),
+      );
+    }
+
+    if (ribbonRef.current) {
+      ribbonRef.current.position.z =
+        0.46 + openProgress * 0.028 + Math.sin(time * 1.3) * 0.004;
+    }
+
+    if (auraRef.current) {
+      auraRef.current.rotation.z += delta * (0.04 + openProgress * 0.16);
+      auraRef.current.scale.setScalar(
+        1 + Math.sin(time * 1.35) * (0.014 + openProgress * 0.045),
+      );
+    }
   });
 
   return (
-    <group rotation={[-0.08, -0.28, 0.05]}>
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[1.02, 0.09, 0.74]} />
-        <meshStandardMaterial
-          color="#110d16"
-          emissive="#7e4cff"
-          emissiveIntensity={isActive ? 0.24 : 0.1}
-          metalness={0.18}
-          roughness={0.5}
+    <group
+      ref={rootRef}
+      rotation={[-0.085, -0.34, 0.025]}
+      scale={[1.42, 1.42, 1.42]}
+    >
+      <mesh position={[0.02, -0.07, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.66, 0.87, 88]} />
+        <meshBasicMaterial
+          blending={AdditiveBlending}
+          color="#d2b1ff"
+          opacity={isActive ? 0.18 : 0.035}
+          transparent
         />
       </mesh>
-      <mesh position={[0, 0.055, 0]}>
-        <boxGeometry args={[0.91, 0.012, 0.61]} />
-        <meshBasicMaterial color="#1d1428" transparent opacity={0.76} />
+      <mesh position={[0.03, -0.046, 0.02]}>
+        <boxGeometry args={[1.36, 0.024, 0.98]} />
+        <meshBasicMaterial color="#030205" opacity={0.52} transparent />
       </mesh>
-      <mesh position={[-0.33, 0.071, 0]}>
-        <boxGeometry args={[0.035, 0.02, 0.66]} />
-        <meshBasicMaterial color="#d2b1ff" transparent opacity={0.52} />
+
+      <mesh castShadow receiveShadow position={[0.045, -0.015, 0.018]}>
+        <boxGeometry args={[1.14, 0.11, 0.86]} />
+        <meshStandardMaterial
+          color="#ece2d7"
+          emissive="#b49bce"
+          emissiveIntensity={isActive ? 0.08 : 0.025}
+          metalness={0.04}
+          roughness={0.72}
+        />
       </mesh>
-      <group position={[0.08, 0.083, 0]} ref={sigilRef}>
-        <mesh>
-          <ringGeometry args={[0.15, 0.18, 5]} />
-          <meshBasicMaterial
-            blending={AdditiveBlending}
-            color="#d2b1ff"
-            opacity={isActive ? 0.72 : 0.38}
-            transparent
-          />
-        </mesh>
-        <mesh rotation={[0, 0, Math.PI / 4]}>
-          <ringGeometry args={[0.24, 0.255, 4]} />
-          <meshBasicMaterial
-            color="#ff8db3"
-            opacity={isActive ? 0.5 : 0.24}
-            transparent
-          />
-        </mesh>
-      </group>
-      {[-0.18, 0.02, 0.22].map((z, index) => (
-        <mesh key={`notebook-mark-${z}`} position={[0.28, 0.084, z]}>
-          <boxGeometry args={[0.18 - index * 0.03, 0.01, 0.018]} />
-          <meshBasicMaterial color="#efe2ff" transparent opacity={0.24} />
+
+      {[0.36, 0.28, 0.2, 0.12, 0.04, -0.04, -0.12, -0.2, -0.28, -0.36].map(
+        (z) => (
+          <mesh key={`journal-page-edge-${z}`} position={[0.595, 0.044, z]}>
+            <boxGeometry args={[0.035, 0.01, 0.032]} />
+            <meshBasicMaterial color="#d8cec4" opacity={0.82} transparent />
+          </mesh>
+        ),
+      )}
+      {[-0.42, -0.28, -0.14, 0, 0.14, 0.28, 0.42, 0.52].map((x) => (
+        <mesh key={`journal-bottom-edge-${x}`} position={[x, 0.035, 0.462]}>
+          <boxGeometry args={[0.068, 0.008, 0.026]} />
+          <meshBasicMaterial color="#ddd2c8" opacity={0.58} transparent />
         </mesh>
       ))}
+
+      <group ref={coverRef}>
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[1.22, 0.108, 0.9]} />
+          <meshStandardMaterial
+            color="#030305"
+            emissive="#12051b"
+            emissiveIntensity={isActive ? 0.28 : 0.07}
+            metalness={0.18}
+            roughness={0.66}
+          />
+        </mesh>
+        <mesh position={[0.025, 0.06, 0]}>
+          <boxGeometry args={[1.02, 0.016, 0.72]} />
+          <meshStandardMaterial
+            color="#09080d"
+            emissive="#21112c"
+            emissiveIntensity={isActive ? 0.13 : 0.035}
+            metalness={0.14}
+            roughness={0.7}
+          />
+        </mesh>
+        <mesh position={[-0.53, 0.083, 0]}>
+          <boxGeometry args={[0.08, 0.035, 0.8]} />
+          <meshStandardMaterial
+            color="#17121b"
+            emissive="#d2b1ff"
+            emissiveIntensity={isActive ? 0.2 : 0.045}
+            metalness={0.3}
+            roughness={0.46}
+          />
+        </mesh>
+
+        <mesh position={[0.5, 0.084, 0.46]} ref={ribbonRef}>
+          <boxGeometry args={[0.045, 0.016, 0.28]} />
+          <meshBasicMaterial
+            color="#ff4a8a"
+            opacity={isActive ? 0.74 : 0.42}
+            transparent
+          />
+        </mesh>
+
+        <group position={[0.08, 0.091, 0.02]} ref={emblemRef}>
+          <mesh rotation={[-Math.PI / 2, 0, Math.PI / 4]}>
+            <ringGeometry args={[0.25, 0.285, 4]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color="#d2b1ff"
+              opacity={isActive ? 0.88 : 0.46}
+              transparent
+            />
+          </mesh>
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.11, 0.132, 48]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color="#ff8db3"
+              opacity={isActive ? 0.62 : 0.24}
+              transparent
+            />
+          </mesh>
+          <mesh position={[0, 0.004, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <circleGeometry args={[0.035, 32]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color="#f1edf5"
+              opacity={isActive ? 0.56 : 0.2}
+              transparent
+            />
+          </mesh>
+        </group>
+
+        {[-0.265, -0.205, -0.145, -0.085].map((z, index) => (
+          <mesh key={`journal-title-a-${z}`} position={[0.08, 0.094, z]}>
+            <boxGeometry args={[0.44 - index * 0.045, 0.012, 0.018]} />
+            <meshBasicMaterial
+              color="#f1edf5"
+              opacity={isActive ? 0.76 : 0.54}
+              transparent
+            />
+          </mesh>
+        ))}
+        {[0.225, 0.285].map((z, index) => (
+          <mesh key={`journal-subtitle-${z}`} position={[0.08, 0.094, z]}>
+            <boxGeometry args={[0.34 - index * 0.08, 0.01, 0.016]} />
+            <meshBasicMaterial
+              color="#d2b1ff"
+              opacity={isActive ? 0.46 : 0.22}
+              transparent
+            />
+          </mesh>
+        ))}
+      </group>
+
+      <mesh
+        position={[0.08, 0.118, 0.02]}
+        rotation={[Math.PI / 2, 0, 0]}
+        ref={auraRef}
+      >
+        <ringGeometry args={[0.48, 0.505, 72]} />
+        <meshBasicMaterial
+          blending={AdditiveBlending}
+          color="#d2b1ff"
+          opacity={isActive ? 0.22 : 0.045}
+          transparent
+        />
+      </mesh>
     </group>
   );
 };
@@ -848,13 +992,23 @@ const ArchiveExperienceSystem = ({
   isLiteMode: boolean;
 }): React.JSX.Element => {
   const cartridgeRackRef = useRef<Group | null>(null);
+  const consoleBodyRef = useRef<Group | null>(null);
   const consoleLidRef = useRef<Mesh | null>(null);
+  const insertBayRef = useRef<Group | null>(null);
   const bootScreenRef = useRef<Mesh | null>(null);
   const powerLightRef = useRef<Mesh | null>(null);
   const selectedCartRef = useRef<Group | null>(null);
+  const loaderRef = useRef<Mesh | null>(null);
 
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
+
+    if (consoleBodyRef.current) {
+      consoleBodyRef.current.position.y =
+        Math.sin(time * 0.72) * (isActive ? 0.018 : 0.006);
+      consoleBodyRef.current.rotation.x =
+        Math.sin(time * 0.44) * (isActive ? 0.014 : 0.004);
+    }
 
     if (cartridgeRackRef.current) {
       cartridgeRackRef.current.children.forEach((cartridge, index) => {
@@ -870,7 +1024,15 @@ const ArchiveExperienceSystem = ({
 
     if (consoleLidRef.current) {
       consoleLidRef.current.position.z =
-        -0.12 + (isActive ? -0.04 : 0) + Math.sin(time * 1.4) * 0.006;
+        -0.15 + (isActive ? -0.07 : 0) + Math.sin(time * 1.4) * 0.006;
+      consoleLidRef.current.rotation.x =
+        -0.04 + (isActive ? -0.08 : 0) + Math.sin(time * 0.85) * 0.01;
+    }
+
+    if (insertBayRef.current) {
+      insertBayRef.current.scale.z +=
+        ((isActive ? 1.12 : 1) - insertBayRef.current.scale.z) *
+        (1 - Math.exp(-delta * 4.2));
     }
 
     if (bootScreenRef.current) {
@@ -886,83 +1048,136 @@ const ArchiveExperienceSystem = ({
 
     if (selectedCartRef.current) {
       selectedCartRef.current.position.z +=
-        ((isActive ? -0.08 : 0.02) - selectedCartRef.current.position.z) *
+        ((isActive ? -0.16 : 0.02) - selectedCartRef.current.position.z) *
         (1 - Math.exp(-delta * 5));
+      selectedCartRef.current.position.y +=
+        ((isActive
+          ? 0.46
+          : Number(selectedCartRef.current.userData.baseY ?? 0)) -
+          selectedCartRef.current.position.y) *
+        (1 - Math.exp(-delta * 4.6));
       selectedCartRef.current.rotation.x =
-        -0.18 + Math.sin(time * 1.1) * (isActive ? 0.025 : 0.008);
+        -0.24 + Math.sin(time * 1.1) * (isActive ? 0.025 : 0.008);
+    }
+
+    if (loaderRef.current) {
+      loaderRef.current.position.x =
+        -0.42 + ((time * (isActive ? 0.58 : 0.16)) % 0.84);
+      loaderRef.current.scale.x = 0.82 + Math.sin(time * 2.6) * 0.1;
     }
   });
 
   return (
     <group rotation={[0, -0.18, 0]}>
-      <mesh castShadow receiveShadow position={[0, 0.08, -0.02]}>
-        <boxGeometry args={[1.48, 0.18, 0.82]} />
-        <meshStandardMaterial
-          color="#191820"
-          emissive="#2b1728"
-          emissiveIntensity={isActive ? 0.22 : 0.08}
-          metalness={0.28}
-          roughness={0.3}
-        />
-      </mesh>
-      <mesh castShadow position={[0, 0.2, -0.16]} ref={consoleLidRef}>
-        <boxGeometry args={[1.22, 0.055, 0.24]} />
-        <meshStandardMaterial
-          color="#2f2b35"
-          emissive="#6dcbff"
-          emissiveIntensity={isActive ? 0.12 : 0.04}
-          metalness={0.18}
-          roughness={0.26}
-        />
-      </mesh>
-      <mesh position={[0, 0.245, -0.29]}>
-        <boxGeometry args={[0.62, 0.022, 0.06]} />
-        <meshBasicMaterial color="#08060d" transparent opacity={0.72} />
-      </mesh>
-      <group position={[-0.55, 0.24, -0.05]}>
-        <mesh>
-          <boxGeometry args={[0.12, 0.026, 0.12]} />
+      <group ref={consoleBodyRef}>
+        <mesh castShadow receiveShadow position={[0, -0.01, -0.02]}>
+          <boxGeometry args={[1.72, 0.12, 0.94]} />
           <meshStandardMaterial
-            color="#1c1820"
+            color="#101018"
+            emissive="#0c0710"
+            emissiveIntensity={0.08}
+            metalness={0.26}
+            roughness={0.42}
+          />
+        </mesh>
+        <mesh castShadow receiveShadow position={[0, 0.08, -0.02]}>
+          <boxGeometry args={[1.56, 0.19, 0.82]} />
+          <meshStandardMaterial
+            color="#1e1b24"
+            emissive="#2b1728"
+            emissiveIntensity={isActive ? 0.22 : 0.08}
+            metalness={0.32}
+            roughness={0.28}
+          />
+        </mesh>
+        <mesh position={[0, 0.195, 0.25]}>
+          <boxGeometry args={[1.4, 0.034, 0.22]} />
+          <meshStandardMaterial
+            color="#302a35"
             emissive="#ff8db3"
-            emissiveIntensity={isActive ? 0.24 : 0.08}
-            metalness={0.2}
-            roughness={0.32}
+            emissiveIntensity={isActive ? 0.08 : 0.025}
+            metalness={0.22}
+            roughness={0.3}
           />
         </mesh>
-        <mesh position={[0.17, 0, 0]}>
-          <boxGeometry args={[0.12, 0.026, 0.12]} />
-          <meshStandardMaterial
-            color="#1c1820"
-            emissive="#6dcbff"
-            emissiveIntensity={isActive ? 0.22 : 0.06}
-            metalness={0.2}
-            roughness={0.32}
+        <group ref={insertBayRef}>
+          <mesh castShadow position={[0, 0.22, -0.16]} ref={consoleLidRef}>
+            <boxGeometry args={[1.28, 0.06, 0.28]} />
+            <meshStandardMaterial
+              color="#35303b"
+              emissive="#6dcbff"
+              emissiveIntensity={isActive ? 0.16 : 0.04}
+              metalness={0.22}
+              roughness={0.24}
+            />
+          </mesh>
+          <mesh position={[0, 0.265, -0.34]}>
+            <boxGeometry args={[0.76, 0.024, 0.072]} />
+            <meshBasicMaterial color="#08060d" transparent opacity={0.82} />
+          </mesh>
+          <mesh position={[0, 0.285, -0.34]}>
+            <boxGeometry args={[0.56, 0.012, 0.02]} />
+            <meshBasicMaterial
+              blending={AdditiveBlending}
+              color="#7cffd4"
+              opacity={isActive ? 0.34 : 0.09}
+              transparent
+            />
+          </mesh>
+        </group>
+        <group position={[-0.58, 0.245, -0.02]}>
+          {[-0.08, 0.1].map((x, index) => (
+            <mesh key={`archive-button-${x}`} position={[x, 0, 0]}>
+              <boxGeometry args={[0.13, 0.03, 0.13]} />
+              <meshStandardMaterial
+                color="#1c1820"
+                emissive={index === 0 ? "#ff8db3" : "#6dcbff"}
+                emissiveIntensity={isActive ? 0.24 : 0.07}
+                metalness={0.2}
+                roughness={0.32}
+              />
+            </mesh>
+          ))}
+        </group>
+        <mesh position={[0.6, 0.248, -0.02]} ref={powerLightRef}>
+          <sphereGeometry args={[0.045, 14, 14]} />
+          <meshBasicMaterial
+            blending={AdditiveBlending}
+            color={isActive ? "#7cffd4" : "#ff8db3"}
+            opacity={isActive ? 0.9 : 0.36}
+            transparent
           />
         </mesh>
+        {[0.3, 0.38, 0.46, 0.54].map((x) => (
+          <mesh key={`archive-vent-${x}`} position={[x, 0.226, 0.25]}>
+            <boxGeometry args={[0.035, 0.012, 0.16]} />
+            <meshBasicMaterial color="#07060b" transparent opacity={0.58} />
+          </mesh>
+        ))}
       </group>
-      <mesh position={[0.57, 0.245, -0.04]} ref={powerLightRef}>
-        <sphereGeometry args={[0.045, 14, 14]} />
-        <meshBasicMaterial
-          blending={AdditiveBlending}
-          color={isActive ? "#7cffd4" : "#ff8db3"}
-          opacity={isActive ? 0.9 : 0.36}
-          transparent
-        />
-      </mesh>
 
-      <group position={[0, 0.42, -0.34]}>
+      <group position={[0, 0.5, -0.41]}>
         <mesh castShadow receiveShadow>
-          <boxGeometry args={[1.22, 0.42, 0.05]} />
+          <boxGeometry args={[1.32, 0.5, 0.06]} />
           <meshStandardMaterial
-            color="#090812"
+            color="#080711"
             emissive="#6dcbff"
-            emissiveIntensity={isActive ? 0.12 : 0.04}
-            metalness={0.18}
-            roughness={0.24}
+            emissiveIntensity={isActive ? 0.14 : 0.04}
+            metalness={0.2}
+            roughness={0.22}
           />
         </mesh>
-        <mesh position={[0, 0.04, 0.028]} ref={bootScreenRef}>
+        <mesh position={[0, 0, 0.035]}>
+          <boxGeometry args={[1.12, 0.34, 0.016]} />
+          <meshStandardMaterial
+            color="#101623"
+            emissive="#7cffd4"
+            emissiveIntensity={isActive ? 0.22 : 0.06}
+            metalness={0.12}
+            roughness={0.36}
+          />
+        </mesh>
+        <mesh position={[0, -0.12, 0.05]} ref={bootScreenRef}>
           <boxGeometry args={[0.9, 0.034, 0.014]} />
           <meshBasicMaterial
             color="#7cffd4"
@@ -970,7 +1185,15 @@ const ArchiveExperienceSystem = ({
             transparent
           />
         </mesh>
-        {[-0.12, 0.04, 0.2].map((y, index) => (
+        <mesh position={[-0.42, 0.15, 0.052]} ref={loaderRef}>
+          <boxGeometry args={[0.18, 0.018, 0.012]} />
+          <meshBasicMaterial
+            color="#ff8db3"
+            opacity={isActive ? 0.42 : 0.08}
+            transparent
+          />
+        </mesh>
+        {[-0.04, 0.08, 0.2].map((y, index) => (
           <mesh key={`archive-boot-line-${y}`} position={[0, y, 0.032]}>
             <boxGeometry args={[0.72 - index * 0.16, 0.018, 0.012]} />
             <meshBasicMaterial
@@ -994,23 +1217,39 @@ const ArchiveExperienceSystem = ({
               baseY: cartridge.position[1],
             }}
           >
-            <mesh castShadow receiveShadow>
-              <boxGeometry args={[0.42, 0.62, 0.095]} />
+            <mesh position={[0, -0.34, -0.005]}>
+              <boxGeometry args={[0.32, 0.08, 0.105]} />
               <meshStandardMaterial
-                color="#2a2530"
+                color="#18151f"
                 emissive={cartridge.accent}
-                emissiveIntensity={isActive ? 0.2 : 0.07}
-                metalness={0.12}
-                roughness={0.42}
+                emissiveIntensity={isActive ? 0.1 : 0.035}
+                metalness={0.14}
+                roughness={0.4}
               />
             </mesh>
-            <mesh position={[0, 0.08, 0.052]}>
-              <boxGeometry args={[0.32, 0.28, 0.015]} />
-              <meshBasicMaterial
-                color={cartridge.accent}
-                opacity={isActive ? 0.5 : 0.28}
-                transparent
+            <mesh castShadow receiveShadow>
+              <boxGeometry args={[0.44, 0.66, 0.105]} />
+              <meshStandardMaterial
+                color="#2c2731"
+                emissive={cartridge.accent}
+                emissiveIntensity={isActive ? 0.22 : 0.07}
+                metalness={0.16}
+                roughness={0.38}
               />
+            </mesh>
+            <mesh position={[0, 0.12, 0.058]}>
+              <boxGeometry args={[0.34, 0.3, 0.018]} />
+              <meshStandardMaterial
+                color={cartridge.accent}
+                emissive={cartridge.accent}
+                emissiveIntensity={isActive ? 0.32 : 0.12}
+                metalness={0.08}
+                roughness={0.36}
+              />
+            </mesh>
+            <mesh position={[0, 0.12, 0.07]}>
+              <boxGeometry args={[0.24, 0.11, 0.012]} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.12} />
             </mesh>
             <mesh position={[0, -0.18, 0.054]}>
               <boxGeometry args={[0.26, 0.035, 0.012]} />
@@ -1029,7 +1268,7 @@ const ArchiveExperienceSystem = ({
       </group>
       <group position={[0, 0.16, 0.37]}>
         <mesh receiveShadow>
-          <boxGeometry args={[1.34, 0.08, 0.18]} />
+          <boxGeometry args={[1.44, 0.09, 0.2]} />
           <meshStandardMaterial
             color="#15131a"
             emissive="#ff8db3"
@@ -1172,11 +1411,11 @@ const DeskWorkspace = ({
         hitAreaScale={
           isTouchDevice
             ? [
-                1.7 * mobileHitScale,
-                1.1 * mobileHitScale,
-                1.35 * mobileHitScale,
+                1.78 * mobileHitScale,
+                1.28 * mobileHitScale,
+                1.42 * mobileHitScale,
               ]
-            : [1.55, 0.95, 1.2]
+            : [1.58, 1.08, 1.26]
         }
         id="skills"
         isTouchDevice={isTouchDevice}
@@ -1184,7 +1423,7 @@ const DeskWorkspace = ({
         label="Occult Notebook / Skills"
         onHover={onHoverSection}
         onSelect={onSelectSection}
-        position={[1.08, 0.39, 0.02]}
+        position={[-1.58, 0.43, -0.02]}
       >
         <MysticNotebook isActive={isNotebookAwake} />
       </InteractiveHubObject>
@@ -1207,7 +1446,7 @@ const DeskWorkspace = ({
         label="Archive / Experience"
         onHover={onHoverSection}
         onSelect={onSelectSection}
-        position={[1.82, 0.48, -0.46]}
+        position={[1.78, 0.24, -0.44]}
       >
         <ArchiveExperienceSystem
           isActive={isArchiveAwake}

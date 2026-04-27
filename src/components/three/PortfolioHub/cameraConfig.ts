@@ -15,8 +15,8 @@ export const cameraPresets: Record<SceneSectionId | "hub", CameraPreset> = {
     position: [0.62, 2.56, -1.08],
   },
   experience: {
-    lookAt: [1.9, 0.95, 0.43],
-    position: [2.68, 1.88, 3.05],
+    lookAt: [1.78, 0.72, 0.42],
+    position: [2.58, 1.66, 3.06],
   },
   hub: {
     lookAt: [0, 1.28, -1.08],
@@ -27,7 +27,7 @@ export const cameraPresets: Record<SceneSectionId | "hub", CameraPreset> = {
     position: [-1.05, 2.16, 3.45],
   },
   skills: {
-    lookAt: [1.08, 0.82, 0.86],
-    position: [1.86, 1.72, 3.24],
+    lookAt: [-1.58, 0.82, 0.86],
+    position: [-2.08, 1.68, 3.2],
   },
 };
